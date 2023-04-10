@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "Share Act",
+    "slug": "Share Act",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
