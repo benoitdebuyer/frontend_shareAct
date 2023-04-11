@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Modal, Image,  StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, Image,  StyleSheet, Dimensions,  Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPlace, importPlaces } from '../reducers/user';
 import MapView, { Marker } from 'react-native-maps';
@@ -58,23 +58,17 @@ export default function MapScreen() {
 
   return (
     <View style={styles.container}>
-       <Image
-        source={require('../assets/filter.png')}
-        style={styles.icon}
-      /> 
+      <View style={styles.images}>
+        <Image
+          source={require('../assets/filter.png')}
+          style={styles.icon}
+        /> 
+          <Image source ={require('../assets/cerf.jpg')}
+                style={styles.profil}
+        />
+      </View>        
       
-        <Image source ={require('../assets/cerf.jpg')}
-              style={styles.profil}/>
-
-          
-     
-      {/* <Svg width="100" height="100">
-      <Circle cx="50" cy="50" r="40" fill="red" />
-    </Svg> */}
-      
-      
-      {currentPosition ? (
-        
+      {currentPosition ? (  
       <MapView 
        mapType="standard"
         showsUserLocation={true}
@@ -106,35 +100,49 @@ export default function MapScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
+  },
+  images: {
+    position:'absolute',
+   // flex:1,
+    flexDirection: 'row',
+    justifyContent: "space-between",
+    width: Dimensions.get("window").width,
+
     
     
+    zIndex: 1,
+    paddingTop: 70,
+
   },
   icon: {
-    position: 'absolute',
-    top: 90,
-    left: 30,
+    //position: 'absolute',
+    
     width : 60,
     height: 60,
-    zIndex: 1,
+    //zIndex: 1,
+    marginTop:30,
+    
+    marginLeft:30,
   },
   profil: {
-    position: 'absolute',
+    //position: 'absolute',
     width: 100,
     height: 100,
     borderRadius: 50,
     backgroundColor: '#f00', // Changez la couleur de fond selon vos besoins
-    top: 70,
-    left: "75%",
-    zIndex: 1,
+    //zIndex: 1,
     borderWidth:2,
     borderColor: '#474CCC',
     borderWidth : 4,
     borderRadius: 50,
+    marginRight:30,
 
   },
   map: {
     
     flex: 1,
+    
    
 
   },
