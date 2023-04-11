@@ -19,6 +19,16 @@ export default function MapScreen(navigation) {
   const [modalVisible, setModalVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
 
+  const handleMyLocationPress = () => {
+    if (currentPosition) {
+      mapRef.animateToRegion({
+        ...currentPosition,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+    }
+  };
+
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -31,9 +41,6 @@ export default function MapScreen(navigation) {
           });
       }
     })();
-
-    
-
     // fetch(`${BACKEND_ADDRESS}/places/${user.nickname}`)
     //   .then((response) => response.json())
     //   .then((data) => {
@@ -76,9 +83,10 @@ export default function MapScreen(navigation) {
       
       {currentPosition ? (  
       <MapView 
+       ref={map => (mapRef = map)}
        mapType="standard"
         showsUserLocation={true}
-        showsMyLocationButton={true}
+        showsMyLocationButton={false}
         rotateEnabled={true}
         
         initialRegion={{
@@ -98,6 +106,16 @@ export default function MapScreen(navigation) {
                <Text style={styles.loadText}>Loading...</Text>
              </View>
       )} 
+      <TouchableOpacity
+          style={styles.myLocationButton}
+          onPress={handleMyLocationPress}>
+          {/* <Text style={styles.myLocationButtonText}>My Location</Text> */}
+          <Image 
+               source={require('../assets/localisation.jpg')}
+               style={styles.localisation_icon}
+              
+            /> 
+        </TouchableOpacity>
     
       
     </View>
@@ -150,12 +168,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left:'4%',
     top:'12%',
-    
     width : 60,
     height: 60,
-    
-    
-    
     marginLeft:30,
     zIndex:1,
   },
@@ -227,4 +241,36 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 15,
   },
+
+  localisation_icon: {
+    
+    width: 40,
+    height: 40,
+    
+    borderRadius: 50,
+    
+    
+    
+
+    borderWidth : 4,
+    
+   
+  },
+  myLocationButton: {
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+    borderColor: '#474CCC',
+    backgroundColor:'white',
+    borderRadius:10,
+    width: 50,
+    height: 50,
+    
+    position: 'absolute',
+    bottom:'12%',
+    right:'4%',
+    zIndex: 1,
+
+  }
+
 });
