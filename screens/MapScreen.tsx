@@ -6,7 +6,7 @@ import { addPlace, importPlaces } from '../reducers/user';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
-const BACKEND_ADDRESS = 'http://BACKEND_IP:3000';
+const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
 export default function MapScreen() {
   const dispatch = useDispatch();
@@ -84,13 +84,14 @@ export default function MapScreen() {
         </View>
       </Modal>
 
+      {currentPosition ? (
       <MapView onLongPress={(e) => handleLongPress(e)}
        mapType="standard"
         showsUserLocation={true}
         showsMyLocationButton={true}
         initialRegion={{
-            latitude: 48.866667,
-            longitude: 2.333333,
+            latitude: currentPosition.latitude,
+            longitude: currentPosition.longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.021,
           }}
@@ -98,6 +99,9 @@ export default function MapScreen() {
         {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="#474CCC" />}
         {markers}
       </MapView>
+      ) : (
+        <Text>Loading...</Text>
+      )}
     </View>
   );
 }
