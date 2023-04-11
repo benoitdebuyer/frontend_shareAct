@@ -49,11 +49,12 @@ export default function MapScreen() {
   }, []);
 
 
+ 
 
 
-  // const markers = user.places.map((data, i) => {
-  //   return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.name} />;
-  // });
+  const markers = user.places.map((data, i) => {
+    return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.name} />;
+  });
 
   return (
     <View style={styles.container}>
@@ -90,7 +91,7 @@ export default function MapScreen() {
           
          
         {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="#474CCC" />}
-        {/* {markers} */}
+        {markers}
       </MapView>
        ) : (
         <Text>Loading...</Text>

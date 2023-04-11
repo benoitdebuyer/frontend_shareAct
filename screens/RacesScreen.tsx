@@ -69,17 +69,17 @@ const handleSubmit = () => {
       });
   };
 
-  // const places = user.places.map((data, i) => {
-  //   return (
-  //     <View key={i} style={styles.card}>
-  //       <View>
-  //         <Text style={styles.name}>{data.name}</Text>
-  //         <Text>LAT : {Number(data.latitude).toFixed(3)} LON : {Number(data.longitude).toFixed(3)}</Text>
-  //       </View>
-  //       <FontAwesome name='trash-o' onPress={() => handleDelete(data.name)} size={25} color='#ec6e5b' />
-  //     </View>
-  //   );
-  // });
+  const places = user.places.map((data, i) => {
+    return (
+      <View key={i} style={styles.card}>
+        <View>
+          <Text style={styles.name}>{data.name}</Text>
+          <Text>LAT : {Number(data.latitude).toFixed(3)} LON : {Number(data.longitude).toFixed(3)}</Text>
+        </View>
+        <FontAwesome name='trash-o' onPress={() => handleDelete(data.name)} size={25} color='#ec6e5b' />
+      </View>
+    );
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -93,7 +93,7 @@ const handleSubmit = () => {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollView}>
-        {/* {places} */}
+        {places}
       </ScrollView>
     </SafeAreaView>
   );
