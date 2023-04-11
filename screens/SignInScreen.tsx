@@ -57,6 +57,7 @@ export default function HomeScreen({ navigation }) {
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       {/* <Image style={styles.image} source={require('../assets/home-image.jpg')} /> */}
       <Text style={styles.title}>Connexion</Text>
+      <Image style={styles.image} source={require('../assets/shareact-white.png')} />
 
 
       <TextInput placeholder="Email" onChangeText={(value) => setEmail(value)} value={email} style={styles.input} />
@@ -91,37 +92,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  image: {
-    width: '100%',
-    height: '50%',
-  },
   title: {
     width: '80%',
     fontSize: 38,
     fontWeight: '600',
     color: '#474CCC',
+    textAlign: 'center',
+  },
+  image: {
+    width: '70%',
+    height: '40%',
+    marginTop:5,
   },
   input: {
     width: '80%',
-    marginTop: 25,
     borderBottomColor: '#474CCC',
     borderBottomWidth: 1,
     fontSize: 18,
-  },
-  button: {
-    alignItems: 'center',
-    paddingTop: 8,
-    width: '70%',
-    marginTop: 30,
-    backgroundColor: '#474CCC',
-    borderRadius: 50,
-    marginBottom: 20,
-  },
-  textButton: {
-    color: '#ffffff',
-    height: 30,
-    fontWeight: '600',
-    fontSize: 16,
+    paddingBottom: 5,
   },
   error: {
     marginTop: 10,
@@ -133,14 +121,32 @@ const styles = StyleSheet.create({
     borderBottomColor: '#474CCC',
     borderBottomWidth: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   inputPassword: {
     flex: 1,
     fontSize: 18,
     marginLeft: 0,
+    marginTop: 25,
+    paddingBottom: 5,
   },
   iconButton: {
     marginRight: 10,
+    paddingBottom: 5,
+  },
+  button: {
+    alignItems: 'center',
+    paddingTop: 8,
+    width: '70%',
+    marginTop: 50,
+    backgroundColor: '#474CCC',
+    borderRadius: 50,
+    marginBottom: 20,
+  },
+  textButton: {
+    color: '#ffffff',
+    height: 30,
+    fontWeight: '600',
+    fontSize: 16,
   },
 });
