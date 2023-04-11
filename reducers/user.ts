@@ -2,16 +2,27 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type UserState = {
     value: {
-      email: string | null;
       token: string | null,
-      places: (string | number)[];
-      photos: string[];
+      firstname: string | null,
+      username: string | null,
+      email: string | null;
+      image: string | null;
+      age: number | null,
+      gender: string | null,
+      userplaces: (string | number |  {} )[];
     };
   };
 
 
 const initialState: UserState = {
-  value: { email: null, token: null, places: [], photos: [] },
+  value: { token: null,
+    firstname: null,
+    username: null,
+    email: null,
+    image: null,
+    age: null,
+    gender: null,
+    userplaces:[]},
 };
 
 export const userSlice = createSlice({
@@ -22,22 +33,22 @@ export const userSlice = createSlice({
       state.value.email = action.payload;
     },
     addPlace: (state, action: PayloadAction<string>) => {
-      state.value.places.push(action.payload);
+      state.value.userplaces.push(action.payload);
     },
-    removePlace: (state, action: PayloadAction<string>) => {
-      state.value.places = state.value.places.filter(e => e.places !== action.payload);
+    removePlace: (state, action: PayloadAction<{}>) => {
+      state.value.userplaces = state.value.userplaces.filter(e => e.userplaces !== action.payload);
     },
-    importPlaces: (state, action) => {
-      state.value.places = action.payload;
+    importUserPlaces: (state, action:PayloadAction<{}>) => {
+      state.value.userplaces.push(action.payload);
     },
-    addPhoto: (state, action: PayloadAction<string>) => {
-        state.value.photos.push(action.payload);
+    addImage: (state, action: PayloadAction<string>) => {
+      state.value.image  = action.payload;
       },
-      removePhoto: (state, action: PayloadAction<string>) => {
-        state.value.photos = state.value.photos.filter((data) => data !== action.payload);
+    updateImage: (state, action: PayloadAction<string>) => {
+      state.value.image  = action.payload;
       },
   },
 });
 
-export const { updateEmail, addPlace, removePlace, importPlaces, addPhoto, removePhoto } = userSlice.actions;
+export const { updateEmail, addPlace, removePlace, importUserPlaces, addImage, updateImage } = userSlice.actions;
 export default userSlice.reducer;
