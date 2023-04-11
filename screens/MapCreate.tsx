@@ -1,16 +1,15 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Modal, Image,  StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPlace, importPlaces } from '../reducers/user';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
 export default function MapScreen() {
-
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
@@ -18,13 +17,6 @@ export default function MapScreen() {
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
-
-  const onMapReady = () => {
-    if (currentPosition) {
-      const padding = { left: 20, top: 20, right: 20, bottom: 20 };
-      this.mapView.setMapPadding(padding);
-    }
-  };
 
   useEffect(() => {
     (async () => {
@@ -39,8 +31,6 @@ export default function MapScreen() {
       }
     })();
 
-    
-
     fetch(`${BACKEND_ADDRESS}/places/${user.nickname}`)
       .then((response) => response.json())
       .then((data) => {
@@ -48,9 +38,32 @@ export default function MapScreen() {
       });
   }, []);
 
+  const handleLongPress = (e) => {
+    setTempCoordinates(e.nativeEvent.coordinate);
+    setModalVisible(true);
+  };
 
- 
+  const handleNewPlace = () => {
+    // Send new place to backend to register it in database
+    fetch(`${BACKEND_ADDRESS}/places`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nickname: user.nickname, name: newPlace, latitude: tempCoordinates.latitude, longitude: tempCoordinates.longitude }),
+    }).then((response) => response.json())
+      .then((data) => {
+        // Dispatch in Redux store if the new place have been registered in database
+        if (data.result) {
+          dispatch(addPlace({ name: newPlace, latitude: tempCoordinates.latitude, longitude: tempCoordinates.longitude }));
+          setModalVisible(false);
+          setNewPlace('');
+        }
+      });
+  };
 
+  const handleClose = () => {
+    setModalVisible(false);
+    setNewPlace('');
+  };
 
   const markers = user.places.map((data, i) => {
     return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.name} />;
@@ -58,29 +71,25 @@ export default function MapScreen() {
 
   return (
     <View style={styles.container}>
-       <Image
-        source={require('../assets/filter.png')}
-        style={styles.icon}
-      /> 
-      
-        <Image source ={require('../assets/cerf.jpg')}
-              style={styles.profil}/>
+      <Modal visible={modalVisible} animationType="fade" transparent>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TextInput placeholder="New place" onChangeText={(value) => {console.log(value);setNewPlace(value)}} value={newPlace} style={styles.input} />
+            <TouchableOpacity onPress={() => handleNewPlace()} style={styles.button} activeOpacity={0.8}>
+              <Text style={styles.textButton}>Ajouter</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleClose()} style={styles.button} activeOpacity={0.8}>
+              <Text style={styles.textButton}>Fermer</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
-          
-     
-      {/* <Svg width="100" height="100">
-      <Circle cx="50" cy="50" r="40" fill="red" />
-    </Svg> */}
-      
-      
       {currentPosition ? (
-        
-      <MapView 
+      <MapView onLongPress={(e) => handleLongPress(e)}
        mapType="standard"
         showsUserLocation={true}
         showsMyLocationButton={true}
-        rotateEnabled={true}
-        
         initialRegion={{
             latitude: currentPosition.latitude,
             longitude: currentPosition.longitude,
@@ -88,17 +97,12 @@ export default function MapScreen() {
             longitudeDelta: 0.021,
           }}
         style={styles.map}>
-          
-         
         {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="#474CCC" />}
         {markers}
       </MapView>
-       ) : (
+      ) : (
         <Text>Loading...</Text>
-        
-      )} 
-    
-      
+      )}
     </View>
   );
 }
@@ -106,37 +110,9 @@ export default function MapScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
-    
-  },
-  icon: {
-    position: 'absolute',
-    top: 90,
-    left: 30,
-    width : 60,
-    height: 60,
-    zIndex: 1,
-  },
-  profil: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#f00', // Changez la couleur de fond selon vos besoins
-    top: 70,
-    left: "75%",
-    zIndex: 1,
-    borderWidth:2,
-    borderColor: '#474CCC',
-    borderWidth : 4,
-    borderRadius: 50,
-
   },
   map: {
-    
     flex: 1,
-   
-
   },
   centeredView: {
     flex: 1,
