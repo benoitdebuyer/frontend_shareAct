@@ -1,14 +1,17 @@
 
 
 import React from "react";
-import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, StyleSheet, Text, Dimensions, TextInput, TouchableOpacity, View } from 'react-native';
 
 
-export default function MapScreen() {  return (
+export default function CreateRace() {  
+    
+    
+    return (
     <View style={styles.container}>
-    <Text>
-        Hello CreateRace
-    </Text>
+        <Text >
+            HelloCreate
+        </Text>
     </View>
   );
 }
@@ -17,6 +20,8 @@ export default function MapScreen() {  return (
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      width: Dimensions.get("window").width,
+    height:Dimensions.get("window").height,
     },
 
 })

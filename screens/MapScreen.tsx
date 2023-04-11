@@ -9,7 +9,7 @@ import * as Location from 'expo-location';
 
 const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
-export default function MapScreen() {
+export default function MapScreen(navigation) {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
@@ -18,13 +18,6 @@ export default function MapScreen() {
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
-
-  const onMapReady = () => {
-    if (currentPosition) {
-      const padding = { left: 20, top: 20, right: 20, bottom: 20 };
-      this.mapView.setMapPadding(padding);
-    }
-  };
 
   useEffect(() => {
     (async () => {
@@ -41,12 +34,16 @@ export default function MapScreen() {
 
     
 
-    fetch(`${BACKEND_ADDRESS}/places/${user.nickname}`)
-      .then((response) => response.json())
-      .then((data) => {
-        data.result && dispatch(importPlaces(data.places));
-      });
+    // fetch(`${BACKEND_ADDRESS}/places/${user.nickname}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     data.result && dispatch(importPlaces(data.places));
+    //   });
   }, []);
+
+  const handleSubmit = () => {
+    navigation.navigate('CreateRace');
+  }
 
 
 
@@ -72,7 +69,7 @@ export default function MapScreen() {
           
         </View>  
         <TouchableOpacity  style={styles.button} activeOpacity={0.8}>
-                <Text style={styles.textButton}>Créer une course</Text>
+                <Text style={styles.textButton} onPress={() => handleSubmit()}>Créer une course</Text>
         </TouchableOpacity>  
 
       </View>    
@@ -97,7 +94,9 @@ export default function MapScreen() {
         {/* {markers} */}
       </MapView>
        ) : (
-        <Text>Loading...</Text>
+            <View style={styles.load}>
+        <Text style={styles.loadText}>Loading...</Text>
+      </View>
         
       )} 
     
@@ -109,6 +108,9 @@ export default function MapScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection:'row',
+    justifyContent:"center",
+    
 
   },
   buttons:{
@@ -132,6 +134,7 @@ const styles = StyleSheet.create({
     paddingTop: 70,
 
   },
+  
   button: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -171,6 +174,23 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginRight:30,
 
+  },
+
+  load:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    
+    
+   
+    borderWidth:2,
+    borderColor: '#474CCC',
+
+
+  },
+  loadText: {
+    fontSize: 24,
+    fontWeight: 'bold',
   },
   map: {
     
