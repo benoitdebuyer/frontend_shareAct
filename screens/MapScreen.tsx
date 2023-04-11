@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Modal, Image,  StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, Image,  StyleSheet, Dimensions,  Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPlace, importPlaces } from '../reducers/user';
 import MapView, { Marker } from 'react-native-maps';
@@ -9,7 +9,7 @@ import * as Location from 'expo-location';
 
 const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
-export default function MapScreen() {
+export default function MapScreen(navigation) {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
@@ -18,13 +18,6 @@ export default function MapScreen() {
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
-
-  const onMapReady = () => {
-    if (currentPosition) {
-      const padding = { left: 20, top: 20, right: 20, bottom: 20 };
-      this.mapView.setMapPadding(padding);
-    }
-  };
 
   useEffect(() => {
     (async () => {
@@ -41,12 +34,16 @@ export default function MapScreen() {
 
     
 
-    fetch(`${BACKEND_ADDRESS}/places/${user.nickname}`)
-      .then((response) => response.json())
-      .then((data) => {
-        data.result && dispatch(importPlaces(data.places));
-      });
+    // fetch(`${BACKEND_ADDRESS}/places/${user.nickname}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     data.result && dispatch(importPlaces(data.places));
+    //   });
   }, []);
+
+  const handleSubmit = () => {
+    navigation.navigate('CreateRace');
+  }
 
 
 
@@ -58,23 +55,26 @@ export default function MapScreen() {
 
   return (
     <View style={styles.container}>
-       <Image
-        source={require('../assets/filter.png')}
-        style={styles.icon}
-      /> 
-      
-        <Image source ={require('../assets/cerf.jpg')}
-              style={styles.profil}/>
+      <View style={styles.buttons}>
 
-          
      
-      {/* <Svg width="100" height="100">
-      <Circle cx="50" cy="50" r="40" fill="red" />
-    </Svg> */}
+        <View style={styles.images}>
+          <Image
+            source={require('../assets/filter.png')}
+            style={styles.icon}
+          /> 
+            <Image source ={require('../assets/cerf.jpg')}
+                  style={styles.profil}
+          />
+          
+        </View>  
+        <TouchableOpacity  style={styles.button} activeOpacity={0.8}>
+                <Text style={styles.textButton} onPress={() => handleSubmit()}>Créer une course</Text>
+        </TouchableOpacity>  
+
+      </View>    
       
-      
-      {currentPosition ? (
-        
+      {currentPosition ? (  
       <MapView 
        mapType="standard"
         showsUserLocation={true}
@@ -94,8 +94,9 @@ export default function MapScreen() {
         {/* {markers} */}
       </MapView>
        ) : (
-        <Text>Loading...</Text>
-        
+            <View style={styles.load}>
+               <Text style={styles.loadText}>Loading...</Text>
+             </View>
       )} 
     
       
@@ -106,38 +107,83 @@ export default function MapScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  buttons:{
+    position:'absolute',
+    zIndex: 1,
+    flexDirection:'column',
+    alignItems:'center',
+    justifyContent:"space-between",
+   
     
+  },
+  images: {
+    width: Dimensions.get("window").width,
+
+    flexDirection: 'row',
+    justifyContent: "space-between",
+   
+    paddingTop: 70,
+
+  },
+  
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    paddingTop: 8,
+    backgroundColor: '#474CCC',
+    borderRadius: 30,
+    height:50,
+    width: Dimensions.get("window").width/2,
+    //marginBottom:90,
+    
+
     
   },
   icon: {
-    position: 'absolute',
-    top: 90,
-    left: 30,
+    //position: 'absolute',
+    
     width : 60,
     height: 60,
-    zIndex: 1,
+    //zIndex: 1,
+    marginTop:30,
+    
+    marginLeft:30,
   },
   profil: {
-    position: 'absolute',
+    //position: 'absolute',
     width: 100,
     height: 100,
     borderRadius: 50,
     backgroundColor: '#f00', // Changez la couleur de fond selon vos besoins
-    top: 70,
-    left: "75%",
-    zIndex: 1,
+    //zIndex: 1,
     borderWidth:2,
     borderColor: '#474CCC',
     borderWidth : 4,
     borderRadius: 50,
+    marginRight:30,
 
+  },
+
+  load:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    
+    
+  },
+
+  loadText: {
+    fontSize: 24,
+    fontWeight: 'bold',
   },
   map: {
     
     flex: 1,
-   
-
+  
   },
+  
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -163,14 +209,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     fontSize: 16,
   },
-  button: {
-    width: 150,
-    alignItems: 'center',
-    marginTop: 20,
-    paddingTop: 8,
-    backgroundColor: '#474CCC',
-    borderRadius: 10,
-  },
+ 
+ 
   textButton: {
     color: '#ffffff',
     height: 24,
