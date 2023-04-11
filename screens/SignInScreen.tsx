@@ -23,10 +23,10 @@ export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
-  // const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
+  // pour cacher ou afficher le mot de passe
   const [hidePassword, setHidePassword] = useState(true);
 
   const handleSubmit = () => {
@@ -34,13 +34,7 @@ export default function HomeScreen({ navigation }) {
   }
 
 
-
   // const handleSubmit = () => {
-  //   if (!EMAIL_REGEX.test(email)) {
-  //     setEmailError(true);
-  //     return;
-  //   }
-  
   //   fetch(`${BACKEND_ADDRESS}/users/signin`, {
   //     method: "POST",
   //     headers: { "Content-Type": "application/json" },
