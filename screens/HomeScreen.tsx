@@ -47,8 +47,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#474CCC',
     alignItems: 'center',
     justifyContent: 'center',
-    
-
  
   },
   logobox:{
