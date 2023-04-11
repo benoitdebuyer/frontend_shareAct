@@ -95,9 +95,8 @@ export default function MapScreen(navigation) {
       </MapView>
        ) : (
             <View style={styles.load}>
-        <Text style={styles.loadText}>Loading...</Text>
-      </View>
-        
+               <Text style={styles.loadText}>Loading...</Text>
+             </View>
       )} 
     
       
@@ -108,21 +107,14 @@ export default function MapScreen(navigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection:'row',
-    justifyContent:"center",
-    
-
   },
   buttons:{
     position:'absolute',
-    
-    width: Dimensions.get("window").width,
-    height:Dimensions.get("window").height,
-
     zIndex: 1,
     flexDirection:'column',
     alignItems:'center',
     justifyContent:"space-between",
+   
     
   },
   images: {
@@ -143,10 +135,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#474CCC',
     borderRadius: 30,
     height:50,
-   
     width: Dimensions.get("window").width/2,
-    
-    marginBottom:100,
+    //marginBottom:90,
     
 
     
@@ -182,12 +172,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     
     
-   
-    borderWidth:2,
-    borderColor: '#474CCC',
-
-
   },
+
   loadText: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -195,10 +181,9 @@ const styles = StyleSheet.create({
   map: {
     
     flex: 1,
-    
-   
-
+  
   },
+  
   centeredView: {
     flex: 1,
     justifyContent: 'center',
