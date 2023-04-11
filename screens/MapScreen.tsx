@@ -55,24 +55,24 @@ export default function MapScreen(navigation) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttons}>
+      {/* <View style={styles.buttons}> */}
 
      
-        <View style={styles.images}>
-          <Image
-            source={require('../assets/filter.png')}
-            style={styles.icon}
-          /> 
-            <Image source ={require('../assets/cerf.jpg')}
-                  style={styles.profil}
-          />
-          
-        </View>  
-        <TouchableOpacity  style={styles.button} activeOpacity={0.8}>
-                <Text style={styles.textButton} onPress={() => handleSubmit()}>Créer une course</Text>
-        </TouchableOpacity>  
+        {/* //<View style={styles.images}> */}
+            <Image
+              source={require('../assets/filter.png')}
+              style={styles.icon}
+            /> 
+              <Image source ={require('../assets/cerf.jpg')}
+                    style={styles.profil}
+            />
+            
+          {/* </View>   */}
+          <TouchableOpacity  style={styles.button} activeOpacity={0.8}>
+                  <Text style={styles.textButton} onPress={() => handleSubmit()}>Créer une course</Text>
+          </TouchableOpacity>  
 
-      </View>    
+        {/* </View>     */}
       
       {currentPosition ? (  
       <MapView 
@@ -107,9 +107,11 @@ export default function MapScreen(navigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    
   },
   buttons:{
-    position:'absolute',
+    flex:1,
+    //position:'absolute',
     zIndex: 1,
     flexDirection:'column',
     alignItems:'center',
@@ -118,46 +120,54 @@ const styles = StyleSheet.create({
     
   },
   images: {
+    flex:1,
     width: Dimensions.get("window").width,
 
-    flexDirection: 'row',
-    justifyContent: "space-between",
-   
     paddingTop: 70,
 
   },
   
   button: {
+    position:'absolute',
+    bottom: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    //marginTop: 20,
     paddingTop: 8,
     backgroundColor: '#474CCC',
     borderRadius: 30,
     height:50,
     width: Dimensions.get("window").width/2,
     //marginBottom:90,
+    zIndex:1,
+    left:'25%',
+    bottom: '2%',
     
 
     
   },
   icon: {
-    //position: 'absolute',
+    position: 'absolute',
+    left:'4%',
+    top:'12%',
     
     width : 60,
     height: 60,
-    //zIndex: 1,
-    marginTop:30,
+    
+    
     
     marginLeft:30,
+    zIndex:1,
   },
   profil: {
-    //position: 'absolute',
+    position: 'absolute',
     width: 100,
     height: 100,
+    top:'9%',
+    right:'2%',
     borderRadius: 50,
     backgroundColor: '#f00', // Changez la couleur de fond selon vos besoins
-    //zIndex: 1,
+    zIndex: 1,
     borderWidth:2,
     borderColor: '#474CCC',
     borderWidth : 4,
