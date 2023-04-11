@@ -25,7 +25,7 @@ export const userSlice = createSlice({
       state.value.places.push(action.payload);
     },
     removePlace: (state, action: PayloadAction<string>) => {
-      state.value.places = state.value.places.filter(e => e.name !== action.payload);
+      state.value.places = state.value.places.filter(e => e.places !== action.payload);
     },
     importPlaces: (state, action) => {
       state.value.places = action.payload;
