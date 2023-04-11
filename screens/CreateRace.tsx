@@ -10,7 +10,7 @@ export default function CreateRace() {
     return (
     <View style={styles.container}>
         <Text style={styles.text}>
-            HelloCreate
+            Hello CreateRace Screen
         </Text>
     </View>
   );
@@ -22,11 +22,12 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection:"column",
       alignItems:'center',
-      width: Dimensions.get("window").width,
-    height:Dimensions.get("window").height,
+      justifyContent:'center',
+      
     },
     text:{
-      flex: 1,
+    
+      
       fontSize:30,
     }
 
