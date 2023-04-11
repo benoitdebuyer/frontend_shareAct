@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPlace, importPlaces } from '../reducers/user';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { useNavigation } from '@react-navigation/native';
 
 
 const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
-export default function MapScreen(navigation) {
-
+export default function MapScreen() {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
@@ -48,7 +49,7 @@ export default function MapScreen(navigation) {
     //   });
   }, []);
 
-  const handleSubmit = () => {
+  const handle = () => {
     navigation.navigate('CreateRace');
   }
 
@@ -75,8 +76,8 @@ export default function MapScreen(navigation) {
             />
             
           {/* </View>   */}
-          <TouchableOpacity  style={styles.button} activeOpacity={0.8}>
-                  <Text style={styles.textButton} onPress={() => handleSubmit()}>Créer une course</Text>
+          <TouchableOpacity  style={styles.button} onPress={() => handle()} activeOpacity={0.8}>
+                  <Text style={styles.textButton} >Créer une course</Text>
           </TouchableOpacity>  
 
         {/* </View>     */}

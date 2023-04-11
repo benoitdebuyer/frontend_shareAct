@@ -9,7 +9,7 @@ export default function CreateRace() {
     
     return (
     <View style={styles.container}>
-        <Text >
+        <Text style={styles.text}>
             HelloCreate
         </Text>
     </View>
@@ -20,8 +20,14 @@ export default function CreateRace() {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      flexDirection:"column",
+      alignItems:'center',
       width: Dimensions.get("window").width,
     height:Dimensions.get("window").height,
     },
+    text:{
+      flex: 1,
+      fontSize:30,
+    }
 
 })
