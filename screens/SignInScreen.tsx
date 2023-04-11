@@ -29,28 +29,33 @@ export default function HomeScreen({ navigation }) {
   const [emailError, setEmailError] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
 
-
   const handleSubmit = () => {
-    if (!EMAIL_REGEX.test(email)) {
-      setEmailError(true);
-      return;
-    }
+    navigation.navigate("TabNavigator", { screen: "Map" });
+  }
+
+
+
+  // const handleSubmit = () => {
+  //   if (!EMAIL_REGEX.test(email)) {
+  //     setEmailError(true);
+  //     return;
+  //   }
   
-    fetch(`${BACKEND_ADDRESS}/users/signin`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (!data.result) { 
-          setEmailError(true); 
-        } else { 
-          dispatch(updateEmail(email));
-          navigation.navigate("TabNavigator", { screen: "Map" });
-        }
-      })
-  };
+  //   fetch(`${BACKEND_ADDRESS}/users/signin`, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ email, password }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       if (!data.result) { 
+  //         setEmailError(true); 
+  //       } else { 
+  //         dispatch(updateEmail(email));
+  //         navigation.navigate("TabNavigator", { screen: "Map" });
+  //       }
+  //     })
+  // };
   
 
 
@@ -139,7 +144,7 @@ const styles = StyleSheet.create({
   inputPassword: {
     flex: 1,
     fontSize: 18,
-    marginLeft: 10,
+    marginLeft: 0,
   },
   iconButton: {
     marginRight: 10,
