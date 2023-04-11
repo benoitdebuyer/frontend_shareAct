@@ -58,15 +58,24 @@ export default function MapScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.images}>
-        <Image
-          source={require('../assets/filter.png')}
-          style={styles.icon}
-        /> 
-          <Image source ={require('../assets/cerf.jpg')}
-                style={styles.profil}
-        />
-      </View>        
+      <View style={styles.buttons}>
+
+     
+        <View style={styles.images}>
+          <Image
+            source={require('../assets/filter.png')}
+            style={styles.icon}
+          /> 
+            <Image source ={require('../assets/cerf.jpg')}
+                  style={styles.profil}
+          />
+          
+        </View>  
+        <TouchableOpacity  style={styles.button} activeOpacity={0.8}>
+                <Text style={styles.textButton}>Créer une course</Text>
+        </TouchableOpacity>  
+
+      </View>    
       
       {currentPosition ? (  
       <MapView 
@@ -102,18 +111,42 @@ const styles = StyleSheet.create({
     flex: 1,
 
   },
-  images: {
+  buttons:{
     position:'absolute',
-   // flex:1,
-    flexDirection: 'row',
-    justifyContent: "space-between",
+    
+    width: Dimensions.get("window").width,
+    height:Dimensions.get("window").height,
+
+    zIndex: 1,
+    flexDirection:'column',
+    alignItems:'center',
+    justifyContent:"space-between",
+    
+  },
+  images: {
     width: Dimensions.get("window").width,
 
-    
-    
-    zIndex: 1,
+    flexDirection: 'row',
+    justifyContent: "space-between",
+   
     paddingTop: 70,
 
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    paddingTop: 8,
+    backgroundColor: '#474CCC',
+    borderRadius: 30,
+    height:50,
+   
+    width: Dimensions.get("window").width/2,
+    
+    marginBottom:100,
+    
+
+    
   },
   icon: {
     //position: 'absolute',
@@ -171,14 +204,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     fontSize: 16,
   },
-  button: {
-    width: 150,
-    alignItems: 'center',
-    marginTop: 20,
-    paddingTop: 8,
-    backgroundColor: '#474CCC',
-    borderRadius: 10,
-  },
+ 
+ 
   textButton: {
     color: '#ffffff',
     height: 24,
