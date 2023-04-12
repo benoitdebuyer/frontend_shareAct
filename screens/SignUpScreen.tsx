@@ -36,32 +36,122 @@ export default function HomeScreen({ navigation }) {
 
   const handleSubmit = () => {
 
+
     if (!EMAIL_REGEX.test(email)) {
-        setConnectionError(true);
-          return;
-        }
+      setConnectionError(true);
+        return;
+      }
 
-   
-    if ( mdp == mdp2 && firstname && username && email && dateOfBirth && gender){
+ 
+  if ( mdp == mdp2 && firstname && username && email && dateOfBirth && gender){
 
-      const calculateAge = (dob) => {
-        const diff = Date.now() - dob.getTime();
-        const ageDate = new Date(diff);
-        return Math.abs(ageDate.getUTCFullYear() - 1970);
-      };
-      const age = calculateAge(dateOfBirth)
-      
-      dispatch(updateAge(age));
-      navigation.navigate('TabNavigator', { screen: 'Map' })
+    const calculateAge = (dob) => {
+      const diff = Date.now() - dob.getTime();
+      const ageDate = new Date(diff);
+      return Math.abs(ageDate.getUTCFullYear() - 1970);
+    };
+    const age = calculateAge(dateOfBirth)
+    
+    dispatch(updateAge(age));
+    navigation.navigate('TabNavigator', { screen: 'Map' })
 
-    }else{
-      setConnectionError(!connectionError)
-    }
-  };
-  const handleCalendarClose = () => {
-    console.log(dateOfBirth)
-    setShowCalendar(false);
-  };
+  }else{
+    setConnectionError(!connectionError)
+  }
+};
+
+
+
+
+const handleCalendarClose = () => {
+  console.log(dateOfBirth)
+  setShowCalendar(false);
+};
+
+
+
+
+
+let calendar = ''
+if (!showCalendar){
+
+  calendar = `
+<View style={styles.inputContainercalandar}>
+        <TouchableOpacity 
+          onPress={() => setShowCalendar(!showCalendar)}
+          activeOpacity={0.8}
+          style={styles.inputcalandar}
+        >
+        <Text style={styles.inputcalandar}>Date de naissance</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          onPress={() => setShowCalendar(!showCalendar)}
+          activeOpacity={0.8}
+          
+        >
+          <FontAwesome5 name="calendar-alt" size={20} color="#474CCC" />
+          {showCalendar && <DatePicker
+            style={{ width: 200 }}
+            value={dateOfBirth}
+            date={dateOfBirth}
+            mode="date"
+            placeholder="Date de naissance"
+            format="YYYY-MM-DD"
+            minDate="1900-01-01"
+            maxDate="2023-04-11"
+            confirmBtnText="Confirmer"
+            cancelBtnText="Annuler"
+            customStyles={{
+              dateIcon: {
+                position: 'absolute',
+                left: 0,
+                top: 4,
+                marginLeft: 0,
+              },
+              dateInput: {
+                marginLeft: 36,
+              },
+            }}
+            onDateChange={(date) => {
+              setDateOfBirth(new Date(date));
+            }}
+            onChange={() => handleCalendarClose()}
+            onCancel={() => handleCalendarClose()}
+          />}
+          </TouchableOpacity>
+</View>`
+}else {
+   calendar = `
+           <DatePicker
+             style={{ width: 200 }}
+             value={dateOfBirth}
+             date={dateOfBirth}
+             mode="date"
+             placeholder="Date de naissance"
+             format="YYYY-MM-DD"
+             minDate="1900-01-01"
+             maxDate="2023-04-11"
+             confirmBtnText="Confirmer"
+             cancelBtnText="Annuler"
+             customStyles={{
+               dateIcon: {
+                 position: 'absolute',
+                 left: 0,
+                 top: 4,
+                 marginLeft: 0,
+               },
+               dateInput: {
+                 marginLeft: 36,
+               },
+             }}
+             onDateChange={(date) => {
+               setDateOfBirth(new Date(date));
+             }}
+             onChange={() => handleCalendarClose()}
+             onCancel={() => handleCalendarClose()}
+           /> `
+
+}
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -92,7 +182,7 @@ export default function HomeScreen({ navigation }) {
 
 
 
-    <View style={styles.inputContainercalandar}>
+    {<View style={styles.inputContainercalandar}>
             <TouchableOpacity 
               onPress={() => setShowCalendar(!showCalendar)}
               activeOpacity={0.8}
@@ -134,9 +224,8 @@ export default function HomeScreen({ navigation }) {
                 onChange={() => handleCalendarClose()}
                 onCancel={() => handleCalendarClose()}
               />}
-
               </TouchableOpacity>
-    </View>
+    </View>}
 
       {/* <TextInput placeholder="gender" onChangeText={(value) => setGender(value)} value={gender} style={styles.input} /> */}
 
@@ -203,6 +292,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent:'space-around',
+    alignItems: 'center'
+  },
+  inputContainercalandar2:{
+    width: '80%',
+    marginTop: 25,
+    borderBottomColor: '#474CCC',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent:'center',
     alignItems: 'center'
   },
   inputContainer:{
