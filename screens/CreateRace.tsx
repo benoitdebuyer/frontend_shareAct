@@ -8,8 +8,8 @@ import { useSelector } from 'react-redux';
 
 
 
-//const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
-const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
+const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+//const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
 export default function CreateRace() {
   const user = useSelector((state) => state.user.value);
@@ -45,6 +45,8 @@ export default function CreateRace() {
   };
 
   const handleCreate = () => {
+
+    console.log(description, coord.latitude, Date(),coord.longitude,duration, distance )
     fetch(`${BACKEND_ADDRESS}/races`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -52,6 +54,7 @@ export default function CreateRace() {
             author:'64352b27c1b35d60488ebb77',
             admin:'64352b27c1b35d60488ebb77',
             participants:'64352b27c1b35d60488ebb77',
+            maxParticipants:10,
             description: description,
             type:'course à pied',
             date: Date(),
@@ -60,21 +63,15 @@ export default function CreateRace() {
             longitude:coord.longitude,
             duration: duration,
             distance:distance,
-            level:'niveaur',
+            level:'Débutant',
             dateCreation : Date(),
-           
-
-
-
-          
-          
           }),
         })
           .then((response) => response.json())
           .then((data) => {
             if (data){
               console.log(data)
-              console.log(user._id)
+             // console.log(user._id)
               console.log("mongo !")
               navigation.navigate("TabNavigator", { screen: "Map" });
             }
