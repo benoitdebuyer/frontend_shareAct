@@ -40,7 +40,7 @@ export default function MapScreen() {
       if (status === 'granted') {
         Location.watchPositionAsync({ distanceInterval: 10 },
           (location) => {
-            console.log(location)
+            
             setCurrentPosition(location.coords);
           });
       }

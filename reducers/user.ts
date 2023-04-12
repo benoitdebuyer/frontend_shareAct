@@ -7,7 +7,7 @@ export interface UserState {
     username: string | null;
     email: string | null;
     image: string | null;
-    age: string | null;
+    age: number | null;
     gender: string | null;
     userplaces: string[];
     datebirth: Date | null;
@@ -32,8 +32,15 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<{ token: string }>) => {
+    login: (state, action) => {
       state.value.token = action.payload.token;
+      state.value.firstname = action.payload;
+      state.value.username = action.payload;
+      state.value.email = action.payload;
+     // state.value.image = action.payload;
+      state.value.age = action.payload;
+      state.value.gender = action.payload;
+      state.value.datebirth = action.payload;
     },
     logout: (state) => {
       state.value.token = null;
@@ -49,6 +56,9 @@ export const userSlice = createSlice({
     updateFirstname: (state, action: PayloadAction<string>) => {
       state.value.firstname = action.payload;
     },
+    updateToken: (state, action) => {
+      state.value.token = action.payload;
+    },
     updateUsername: (state, action: PayloadAction<string>) => {
       state.value.username = action.payload;
     },
@@ -58,7 +68,7 @@ export const userSlice = createSlice({
     updateImage: (state, action: PayloadAction<string>) => {
       state.value.image = action.payload;
     },
-    updateAge: (state, action: PayloadAction<string>) => {
+    updateAge: (state, action) => {
       state.value.age = action.payload;
     },
     updateGender: (state, action: PayloadAction<string>) => {
@@ -93,6 +103,7 @@ export const {
   removePlace,
   importUserPlaces,
   updateDatebirth,
+  updateToken,
 } = userSlice.actions;
 
 export default userSlice.reducer;
