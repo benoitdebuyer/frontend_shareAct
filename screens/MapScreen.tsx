@@ -42,7 +42,7 @@ export default function MapScreen() {
       if (status === 'granted') {
         Location.watchPositionAsync({ distanceInterval: 10 },
           (location) => {
-            console.log(location)
+            
             setCurrentPosition(location.coords);
             
           });
@@ -112,7 +112,7 @@ export default function MapScreen() {
         style={styles.map}>
           
          
-        {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="red" />}
+        {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="#474CCC" />}
         {allRaces} 
       </MapView>
        ) : (
