@@ -152,6 +152,8 @@ const seleteddate = date
   console.log("Selected date:", date);
   hideDatePicker();
 };
+console.log(" age hors de la fonction",age)
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Text style={styles.title}>Inscription</Text>
