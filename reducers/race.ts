@@ -1,20 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type UserState = {
+export type RaceState = {
     value: {
       email: string | null;
       token: string | null,
       places: (string | number)[];
       photos: string[];
+
+      
     };
   };
 
 
-const initialState: UserState = {
+const initialState: RaceState = {
   value: { email: null, token: null, places: [], photos: [] },
 };
 
-export const userSlice = createSlice({
+export const raceSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -22,5 +24,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { } = userSlice.actions;
-export default userSlice.reducer;
+export const { } = raceSlice.actions;
+export default raceSlice.reducer;
