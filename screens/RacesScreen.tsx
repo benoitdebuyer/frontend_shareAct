@@ -83,12 +83,12 @@ const handleSubmit = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Mes courses</Text>
-
-      <View style={styles.inputContainer}>
-        <TextInput placeholder="New city" onChangeText={(value) => setCity(value)} value={city} style={styles.input} />
+      <View style={styles.menuContainer}>
         <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Ajouter</Text>
+          <Text style={styles.textButton}>En cours</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Terminés</Text>
         </TouchableOpacity>
       </View>
 
@@ -104,12 +104,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f2f2f2',
     alignItems: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginTop: 30,
-    marginBottom: 20,
   },
   scrollView: {
     alignItems: 'center',
@@ -128,25 +122,17 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
   },
-  inputContainer: {
+  menuContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '80%',
-    backgroundColor: '#ffffff',
     padding: 20,
     marginTop: 20,
     borderRadius: 10,
   },
-  input: {
-    width: '65%',
-    marginTop: 6,
-    borderBottomColor: '#474CCC',
-    borderBottomWidth: 1,
-    fontSize: 16,
-  },
   button: {
-    width: '30%',
+    width: '40%',
     alignItems: 'center',
     paddingTop: 8,
     backgroundColor: '#474CCC',
@@ -154,8 +140,8 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: '#ffffff',
-    height: 24,
+    height: 30,
     fontWeight: '600',
-    fontSize: 15,
+    fontSize: 16,
   },
 });
