@@ -87,7 +87,7 @@ export default function CreateRace() {
       <View style={styles.containerInput}>
         <TextInput
           style={styles.textInput}
-          placeholder="Description de la course"
+          placeholder="Description de votre course :"
           multiline={true}
           maxLength={300}
           value={description}
@@ -123,22 +123,24 @@ export default function CreateRace() {
             value={distance}
             onChangeText={handleDistanceChange}
           />
-          <Text style={styles.inputText}>mètres</Text>
+          <Text style={styles.inputText}>km</Text>
         </View>
       </View>
 
 
       <View style={styles.pickerContainer}>
         <Text style={styles.pickerLabel}>Niveau :</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={selectedValue}
-          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-        >
-          <Picker.Item label="Débutant" value="débutant" />
-          <Picker.Item label="Normal" value="normal" />
-          <Picker.Item label="Confirmé" value="confirmé" />
-        </Picker>
+       
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedValue}
+            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+          >
+            <Picker.Item label="Débutant" value="débutant" />
+            <Picker.Item label="Normal" value="normal" />
+            <Picker.Item label="Confirmé" value="confirmé" />
+          </Picker>
+       
       </View>
 
       <View style={styles.inputView}>
@@ -180,14 +182,17 @@ const styles = StyleSheet.create({
   },
   // Description
   textInput: {
+    justifyContent:'center',
+    alignContent:'center',
     marginTop: 20,
+    paddingTop:0,
     minWidth: '80%',
     maxWidth: '80%',
     height: 100,
     borderWidth: 1,
     borderColor: '#474CCC',
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 60,
     fontSize: 16,
     borderRadius: 15,
   },
@@ -223,7 +228,7 @@ const styles = StyleSheet.create({
   inputText: {
     marginLeft: 10,
     fontSize: 16,
-    // color: "#474CCC",
+    // color: ,
     paddingBottom: 6,
   },
   pickerContainer: {
@@ -235,12 +240,16 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 10,
     color: "#474CCC",
+    
   },
   picker: {
     flex: 1,
+  
     maxWidth: '60%',
     marginHorizontal: 10,
+   
   },
+
   button: {
     width: '70%',
     alignItems: 'center',
