@@ -13,6 +13,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { updateEmail } from '../reducers/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { autoBatchEnhancer } from "@reduxjs/toolkit";
 
 // Grabbed from emailregex.com
 const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -135,9 +136,9 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   button: {
+    width: '70%',
     alignItems: 'center',
     paddingTop: 8,
-    width: '70%',
     marginTop: 50,
     backgroundColor: '#474CCC',
     borderRadius: 50,

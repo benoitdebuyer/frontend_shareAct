@@ -8,6 +8,7 @@ import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
 
 
+
 const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
 export default function MapScreen() {
@@ -49,8 +50,8 @@ export default function MapScreen() {
     //   });
   }, []);
 
-  const handle = () => {
-    navigation.navigate('CreateRace');
+  const handleCreateRace = () => {
+    navigation.navigate('MapCreate');
   }
 
 
@@ -64,19 +65,18 @@ export default function MapScreen() {
   return (
     <View style={styles.container}>
       {/* <View style={styles.buttons}> */}
-
      
         {/* //<View style={styles.images}> */}
             <Image
               source={require('../assets/filter.png')}
               style={styles.icon}
             /> 
-              <Image source ={require('../assets/cerf.jpg')}
+              <Image source ={require('../assets/user.png')}
                     style={styles.profil}
             />
             
           {/* </View>   */}
-          <TouchableOpacity  style={styles.button} onPress={() => handle()} activeOpacity={0.8}>
+          <TouchableOpacity  style={styles.button} onPress={() => handleCreateRace()} activeOpacity={0.8}>
                   <Text style={styles.textButton} >Créer une course</Text>
           </TouchableOpacity>  
 
@@ -114,8 +114,8 @@ export default function MapScreen() {
           <Image 
                source={require('../assets/localisation.jpg')}
                style={styles.localisation_icon}
-              
             /> 
+            
         </TouchableOpacity>
     
       
@@ -141,43 +141,43 @@ const styles = StyleSheet.create({
   images: {
     flex:1,
     width: Dimensions.get("window").width,
-
     paddingTop: 70,
 
   },
   
   button: {
     position:'absolute',
-    bottom: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-    //marginTop: 20,
-    paddingTop: 8,
-    backgroundColor: '#474CCC',
-    borderRadius: 30,
-    height:50,
     width: Dimensions.get("window").width/2,
+    alignItems: 'center',
+    paddingTop: 10,
+    justifyContent: 'center',
+    backgroundColor: '#474CCC',
+    borderRadius: 50,
+    // width: '70%',
     //marginBottom:90,
     zIndex:1,
     left:'25%',
     bottom: '2%',
-    
-
-    
+  },
+  textButton: {
+    color: '#ffffff',
+    height: 30,
+    fontWeight: '600',
+    fontSize: 15,
   },
   icon: {
     position: 'absolute',
     left:'4%',
     top:'12%',
-    width : 60,
-    height: 60,
+    width : 50,
+    height: 50,
     marginLeft:30,
     zIndex:1,
   },
   profil: {
     position: 'absolute',
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
     top:'9%',
     right:'2%',
     borderRadius: 50,
@@ -195,8 +195,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    
-    
   },
 
   loadText: {
@@ -204,9 +202,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   map: {
-    
     flex: 1,
-  
   },
   
   centeredView: {
@@ -234,28 +230,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     fontSize: 16,
   },
- 
- 
-  textButton: {
-    color: '#ffffff',
-    height: 24,
-    fontWeight: '600',
-    fontSize: 15,
-  },
-
   localisation_icon: {
-    
     width: 40,
     height: 40,
-    
     borderRadius: 50,
-    
-    
-    
-
-    borderWidth : 4,
-    
-   
+    // borderWidth : 4,
   },
   myLocationButton: {
     flex:1,
@@ -266,12 +245,10 @@ const styles = StyleSheet.create({
     borderRadius:10,
     width: 50,
     height: 50,
-    
     position: 'absolute',
     bottom:'12%',
     right:'4%',
     zIndex: 1,
-
   }
 
 });

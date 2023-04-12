@@ -83,7 +83,7 @@ const handleSubmit = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>{user.nickname}'s places</Text>
+      <Text style={styles.title}>Mes courses</Text>
 
       <View style={styles.inputContainer}>
         <TextInput placeholder="New city" onChangeText={(value) => setCity(value)} value={city} style={styles.input} />
