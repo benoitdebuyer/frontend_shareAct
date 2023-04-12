@@ -4,10 +4,10 @@
     "slug": "Share Act",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Shareact.png",
+    "icon": "./assets/shareact3.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/Shareact.png",
+      "image": "./assets/shareact-white.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

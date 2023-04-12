@@ -1,15 +1,17 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPlace, importPlaces } from '../reducers/user';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
 export default function MapScreen() {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
@@ -38,68 +40,114 @@ export default function MapScreen() {
       });
   }, []);
 
+  const handleMyLocationPress = () => {
+    if (currentPosition) {
+      mapRef.animateToRegion({
+        ...currentPosition,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+    }
+  };
+
+  const handleBackPage = () => {
+    navigation.navigate("TabNavigator", { screen: "Map" });
+  }
+
+
   const handleLongPress = (e) => {
     setTempCoordinates(e.nativeEvent.coordinate);
     setModalVisible(true);
   };
 
-  const handleNewPlace = () => {
-    // Send new place to backend to register it in database
-    fetch(`${BACKEND_ADDRESS}/places`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nickname: user.nickname, name: newPlace, latitude: tempCoordinates.latitude, longitude: tempCoordinates.longitude }),
-    }).then((response) => response.json())
-      .then((data) => {
-        // Dispatch in Redux store if the new place have been registered in database
-        if (data.result) {
-          dispatch(addPlace({ name: newPlace, latitude: tempCoordinates.latitude, longitude: tempCoordinates.longitude }));
-          setModalVisible(false);
-          setNewPlace('');
-        }
-      });
-  };
+  // const handleConfirm = () => {
+  //   // Send new place to backend to register it in database
+  //   fetch(`${BACKEND_ADDRESS}/places`, {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ nickname: user.nickname, name: newPlace, latitude: tempCoordinates.latitude, longitude: tempCoordinates.longitude }),
+  //   }).then((response) => response.json())
+  //     .then((data) => {
+  //       // Dispatch in Redux store if the new place have been registered in database
+  //       if (data.result) {
+  //         dispatch(addPlace({ name: newPlace, latitude: tempCoordinates.latitude, longitude: tempCoordinates.longitude }));
+  //         setModalVisible(false);
+  //         setNewPlace('');
+  //       }
+  //     });
+  // };
 
+  const handleConfirm = () => {
+    navigation.navigate('CreateRace');
+    setModalVisible(false);
+  }
   const handleClose = () => {
     setModalVisible(false);
     setNewPlace('');
   };
 
-  const markers = user.places.map((data, i) => {
-    return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.name} />;
-  });
+  // const markers = user.places.map((data, i) => {
+  //   return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.name} />;
+  // });
 
   return (
     <View style={styles.container}>
       <Modal visible={modalVisible} animationType="fade" transparent>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TextInput placeholder="New place" onChangeText={(value) => {console.log(value);setNewPlace(value)}} value={newPlace} style={styles.input} />
-            <TouchableOpacity onPress={() => handleNewPlace()} style={styles.button} activeOpacity={0.8}>
-              <Text style={styles.textButton}>Ajouter</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleClose()} style={styles.button} activeOpacity={0.8}>
-              <Text style={styles.textButton}>Fermer</Text>
-            </TouchableOpacity>
+            <Text style={styles.textAddress}>Lieu de départ</Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={() => handleConfirm()} style={styles.button} activeOpacity={0.8}>
+                <Text style={styles.textButton}>Confirmer</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleClose()} style={styles.button} activeOpacity={0.8}>
+                <Text style={styles.textButton}>Annuler</Text>
+              </TouchableOpacity>
+            </View>
+
           </View>
         </View>
       </Modal>
 
+      <View style={styles.information}>
+        <Text style={styles.textInformation}>Appuie longuement sur la carte {"\n"} pour sélectionner ton lieu de départ </Text>
+      </View>
+
+
+      {/* Bouton retour arrière */}
+      <TouchableOpacity
+        style={styles.backPage}
+        onPress={handleBackPage}>
+        <FontAwesome5  name="angle-left" size={50} color="#474CCC" />
+      </TouchableOpacity>
+
+    
+      <TouchableOpacity
+        style={styles.myLocationButton}
+        onPress={handleMyLocationPress}>
+        <Image
+          source={require('../assets/localisation.jpg')}
+          style={styles.localisation_icon}
+        />
+      </TouchableOpacity>
+
+
+
       {currentPosition ? (
-      <MapView onLongPress={(e) => handleLongPress(e)}
-       mapType="standard"
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        initialRegion={{
+        <MapView onLongPress={(e) => handleLongPress(e)}
+          mapType="standard"
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          initialRegion={{
             latitude: currentPosition.latitude,
             longitude: currentPosition.longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.021,
           }}
-        style={styles.map}>
-        {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="#474CCC" />}
-        {markers}
-      </MapView>
+          style={styles.map}>
+          {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="#474CCC" />}
+          {/* {markers} */}
+        </MapView>
       ) : (
         <Text>Loading...</Text>
       )}
@@ -133,24 +181,78 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  input: {
+  textAddress: {
     width: 150,
-    borderBottomColor: '#474CCC',
-    borderBottomWidth: 1,
-    fontSize: 16,
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   button: {
-    width: 150,
+    width: '40%',
     alignItems: 'center',
     marginTop: 20,
+    marginHorizontal: 5,
     paddingTop: 8,
     backgroundColor: '#474CCC',
-    borderRadius: 10,
+    borderRadius: 50,
   },
   textButton: {
     color: '#ffffff',
-    height: 24,
+    height: 30,
     fontWeight: '600',
-    fontSize: 15,
+    fontSize: 16,
+    paddingHorizontal: 15,
+  },
+  information: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: 70,
+    zIndex: 1,
+    bottom: '10%',
+  },
+  textInformation: {
+    color: '#ffffff',
+    fontSize: 18,
+    padding: 5,
+    textAlign: 'center',
+  },
+  localisation_icon: {
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    // borderWidth : 4,
+  },
+  myLocationButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#474CCC',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    width: 50,
+    height: 50,
+    position: 'absolute',
+    top: '12%',
+    right: '4%',
+    zIndex: 1,
+  },
+  backPage: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#474CCC',
+    borderRadius: 10,
+    width: 50,
+    height: 50,
+    position: 'absolute',
+    top: '12%',
+    left: '4%',
+    zIndex: 1,
   },
 });

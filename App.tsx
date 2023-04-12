@@ -6,6 +6,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
+import MapCreate from './screens/MapCreate';
 import RacesScreen from './screens/RacesScreen';
 import SignUpScreen from './screens/SignUpScreen'
 import SignInScreen from './screens/SignInScreen'
@@ -59,6 +60,7 @@ export default function App() {
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="CreateRace" component={CreateRace} />
+          <Stack.Screen name="MapCreate" component={MapCreate} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
