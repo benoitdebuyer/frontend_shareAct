@@ -130,6 +130,7 @@ export default function MapScreen() {
 
       {currentPosition ? (
         <MapView onLongPress={(e) => handleLongPress(e)}
+        ref={map => (mapRef = map)}
           mapType="standard"
           showsUserLocation={true}
           showsMyLocationButton={true}

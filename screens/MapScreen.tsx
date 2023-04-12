@@ -109,7 +109,7 @@ export default function MapScreen() {
         style={styles.map}>
           
          
-        {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="red" />}
+        {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="#474CCC" />}
         {allRaces} 
       </MapView>
        ) : (
