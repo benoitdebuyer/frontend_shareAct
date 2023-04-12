@@ -3,8 +3,19 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+
+
+
+//const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
 export default function CreateRace() {
+  const user = useSelector((state) => state.user.value);
+  const route = useRoute();
+  const { coord } = route.params;
+
   const navigation = useNavigation();
   const [description, setDescription] = useState('');
   const [duration, setDuration] = useState('');
@@ -34,7 +45,41 @@ export default function CreateRace() {
   };
 
   const handleCreate = () => {
-    navigation.navigate("TabNavigator", { screen: "Map" });
+    fetch(`${BACKEND_ADDRESS}/races`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            author:'64352b27c1b35d60488ebb77',
+            admin:'64352b27c1b35d60488ebb77',
+            participants:'64352b27c1b35d60488ebb77',
+            description: description,
+            type:'course à pied',
+            date: Date(),
+            address: 'mon adresse de rdv',
+            latitude:coord.latitude,
+            longitude:coord.longitude,
+            duration: duration,
+            distance:distance,
+            level:'niveaur',
+            dateCreation : Date(),
+           
+
+
+
+          
+          
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data){
+              console.log(data)
+              console.log(user._id)
+              console.log("mongo !")
+              navigation.navigate("TabNavigator", { screen: "Map" });
+            }
+          })
+   
   }
 
 

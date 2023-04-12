@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect, useState } from 'react';
 import { Modal, Image,  StyleSheet, Dimensions,  Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPlace, importPlaces } from '../reducers/user';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
@@ -10,11 +9,14 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+//const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
+
+
 
 export default function MapScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value);
+ 
 
   const [currentPosition, setCurrentPosition] = useState(null);
   const [tempCoordinates, setTempCoordinates] = useState(null);
@@ -42,6 +44,7 @@ export default function MapScreen() {
           (location) => {
             console.log(location)
             setCurrentPosition(location.coords);
+            
           });
       }
     })();
@@ -49,7 +52,7 @@ export default function MapScreen() {
       .then((response) => response.json())
       .then((data) => {
        data.result && setRaces(data.races);
-        console.log(data.races)
+        console.log("mes data", data.races)
       });
 
 

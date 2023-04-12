@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+//const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
 export default function MapScreen() {
   const navigation = useNavigation();
@@ -42,12 +43,14 @@ export default function MapScreen() {
 
   const handleMyLocationPress = () => {
     console.log("hello")
+    console.log(currentPosition)
     if (currentPosition) {
       mapRef.animateToRegion({
         ...currentPosition,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       });
+      
 
     }
   };
@@ -59,6 +62,7 @@ export default function MapScreen() {
 
   const handleLongPress = (e) => {
     setTempCoordinates(e.nativeEvent.coordinate);
+    
     setModalVisible(true);
   };
 
@@ -80,8 +84,9 @@ export default function MapScreen() {
   // };
 
   const handleConfirm = () => {
-    navigation.navigate('CreateRace');
+    navigation.navigate('CreateRace', { coord : tempCoordinates });
     setModalVisible(false);
+    console.log(tempCoordinates)
   }
   const handleClose = () => {
     setModalVisible(false);
@@ -132,7 +137,7 @@ export default function MapScreen() {
         <MapView onLongPress={(e) => handleLongPress(e)}
           mapType="standard"
           showsUserLocation={true}
-          showsMyLocationButton={true}
+          showsMyLocationButton={false}
           initialRegion={{
             latitude: currentPosition.latitude,
             longitude: currentPosition.longitude,
