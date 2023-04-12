@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
+const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 export default function MapScreen() {
   const navigation = useNavigation();
@@ -43,11 +43,12 @@ export default function MapScreen() {
           });
       }
     })();
-    // fetch(`${BACKEND_ADDRESS}/places/${user.nickname}`)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     data.result && dispatch(importPlaces(data.places));
-    //   });
+    fetch(`${BACKEND_ADDRESS}/races/allRaces`)
+      .then((response) => response.json())
+      .then((data) => {
+       // data.result && dispatch(importPlaces(data.places));
+        console.log(data)
+      });
   }, []);
 
   const handleCreateRace = () => {

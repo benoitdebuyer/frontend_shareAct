@@ -8,7 +8,7 @@ import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
+const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 export default function MapScreen() {
   const navigation = useNavigation();
@@ -33,7 +33,7 @@ export default function MapScreen() {
       }
     })();
 
-    fetch(`${BACKEND_ADDRESS}/places/${user.nickname}`)
+    fetch(`${BACKEND_ADDRESS}/races/${user.nickname}`)
       .then((response) => response.json())
       .then((data) => {
         data.result && dispatch(importPlaces(data.places));
@@ -41,12 +41,14 @@ export default function MapScreen() {
   }, []);
 
   const handleMyLocationPress = () => {
+    console.log("hello")
     if (currentPosition) {
       mapRef.animateToRegion({
         ...currentPosition,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       });
+
     }
   };
 
@@ -122,14 +124,7 @@ export default function MapScreen() {
       </TouchableOpacity>
 
     
-      <TouchableOpacity
-        style={styles.myLocationButton}
-        onPress={handleMyLocationPress}>
-        <Image
-          source={require('../assets/localisation.jpg')}
-          style={styles.localisation_icon}
-        />
-      </TouchableOpacity>
+     
 
 
 
@@ -151,6 +146,14 @@ export default function MapScreen() {
       ) : (
         <Text>Loading...</Text>
       )}
+       <TouchableOpacity
+        style={styles.myLocationButton}
+        onPress={handleMyLocationPress}>
+        <Image
+          source={require('../assets/localisation.jpg')}
+          style={styles.localisation_icon}
+        />
+      </TouchableOpacity>
     </View>
   );
 }
