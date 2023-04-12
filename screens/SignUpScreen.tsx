@@ -9,15 +9,20 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  UserState,
+  Modal,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { updateFirstname,updateUsername,updateEmail,updateImage,updateAge,updateGender, } from '../reducers/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateFirstname,updateUsername,updateEmail,updateImage,updateAge,updateGender,updateDatebirth } from '../reducers/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
+  const user = useSelector((state: { user: UserState }) => state.user.value);
 
   const [firstname, setFirstname] = useState(null);
   const [username, setUsername] = useState(null);
@@ -26,141 +31,138 @@ export default function HomeScreen({ navigation }) {
   const [mdp2, setMdp2] = useState(null);
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [gender,setGender] = useState(null);
+  const [age, setAge] =useState(null);
   
 
   const [connectionError,setConnectionError] = useState(null);
   const [showPassword, setShowPassword] = useState(true);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const handleSubmit = () => {
-
-
+    console.log(user)
     if (!EMAIL_REGEX.test(email)) {
       setConnectionError(true);
         return;
       }
-
- 
-  if ( mdp == mdp2 && firstname && username && email && dateOfBirth && gender){
-
-    const calculateAge = (dob) => {
-      const diff = Date.now() - dob.getTime();
-      const ageDate = new Date(diff);
-      return Math.abs(ageDate.getUTCFullYear() - 1970);
-    };
-    const age = calculateAge(dateOfBirth)
-    
-    dispatch(updateAge(age));
+  if ( mdp == mdp2 && firstname && username && email && gender && age){
+    dispatch(updateFirstname(firstname))
+    dispatch(updateUsername(username))
+    dispatch(updateEmail(email))
+    dispatch(updateDatebirth(dateOfBirth.toISOString()))
+    dispatch(updateAge(age))
+    dispatch(updateGender(gender))
+   
     navigation.navigate('TabNavigator', { screen: 'Map' })
 
   }else{
     setConnectionError(!connectionError)
   }
-};
-
-
-
-
-const handleCalendarClose = () => {
-  console.log(dateOfBirth)
-  setShowCalendar(false);
-};
-
-
-
-
-
-let calendar = ''
-if (!showCalendar){
-
-  calendar = `
-<View style={styles.inputContainercalandar}>
-        <TouchableOpacity 
-          onPress={() => setShowCalendar(!showCalendar)}
-          activeOpacity={0.8}
-          style={styles.inputcalandar}
-        >
-        <Text style={styles.inputcalandar}>Date de naissance</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          onPress={() => setShowCalendar(!showCalendar)}
-          activeOpacity={0.8}
-          
-        >
-          <FontAwesome5 name="calendar-alt" size={20} color="#474CCC" />
-          {showCalendar && <DatePicker
-            style={{ width: 200 }}
-            value={dateOfBirth}
-            date={dateOfBirth}
-            mode="date"
-            placeholder="Date de naissance"
-            format="YYYY-MM-DD"
-            minDate="1900-01-01"
-            maxDate="2023-04-11"
-            confirmBtnText="Confirmer"
-            cancelBtnText="Annuler"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 36,
-              },
-            }}
-            onDateChange={(date) => {
-              setDateOfBirth(new Date(date));
-            }}
-            onChange={() => handleCalendarClose()}
-            onCancel={() => handleCalendarClose()}
-          />}
-          </TouchableOpacity>
-</View>`
-}else {
-   calendar = `
-           <DatePicker
-             style={{ width: 200 }}
-             value={dateOfBirth}
-             date={dateOfBirth}
-             mode="date"
-             placeholder="Date de naissance"
-             format="YYYY-MM-DD"
-             minDate="1900-01-01"
-             maxDate="2023-04-11"
-             confirmBtnText="Confirmer"
-             cancelBtnText="Annuler"
-             customStyles={{
-               dateIcon: {
-                 position: 'absolute',
-                 left: 0,
-                 top: 4,
-                 marginLeft: 0,
-               },
-               dateInput: {
-                 marginLeft: 36,
-               },
-             }}
-             onDateChange={(date) => {
-               setDateOfBirth(new Date(date));
-             }}
-             onChange={() => handleCalendarClose()}
-             onCancel={() => handleCalendarClose()}
-           /> `
-
 }
 
+// const handleCalendarClose = (dob) => {
+//   console.log(dateOfBirth)
+//   console.log(user.age)
+//   setShowCalendar(false) 
+//     const calculateAge = (dob) => {
+//       const diff = Date.now() - dob.getTime();
+//       const ageDate = new Date(diff);
+//       return Math.abs(ageDate.getUTCFullYear() - 1970);
+//     };
+//     const age = calculateAge(dateOfBirth);
+//     setAge(age);
+//     dispatch(updateAge(age));
+// };
+
+
+// let calandar = <View style={styles.inputContainercalandar}>
+// <TouchableOpacity 
+//   onPress={() => setShowCalendar(!showCalendar)}
+//   activeOpacity={0.8}
+//   style={styles.inputcalandar}
+// >
+// <Text style={styles.inputcalandar}>{age ? `vous avez ${age} ans ` : 'Quel age avez vous.'}</Text>
+// </TouchableOpacity>
+// <TouchableOpacity 
+//   onPress={() => setShowCalendar(!showCalendar)}
+//   activeOpacity={0.8}
+  
+// >
+//   <FontAwesome5 name="calendar-alt" size={20} color="#474CCC" />
+//   {showCalendar && <DatePicker
+//     style={{ width: 200 }}
+//     value={new Date()}
+//     date={dateOfBirth}
+//     mode="date"
+//     placeholder="Date de naissance"
+//     format="YYYY-MM-DD"
+//     minDate="1900-01-01"
+//     maxDate="2023-04-11"
+//     confirmBtnText="Confirmer"
+//     cancelBtnText="Annuler"
+//     customStyles={{
+//       dateIcon: {
+//         position: 'absolute',
+//         left: 0,
+//         top: 4,
+//         marginLeft: 0,
+//       },
+//       dateInput: {
+//         marginLeft: 36,
+//       },}}
+//     onDateChange={(date) => {
+//       setDateOfBirth(new Date(date));}}
+//     onConfirm={(e) => handleCalendarClose(e)}
+//     onCancel={() => setShowCalendar(false)}
+  
+//   />}
+//   </TouchableOpacity>
+// </View>
+
+
+// teste poru plus tard calandar bouton
+
+// <View style={styles.inputContainercalandar}>
+
+// <TouchableOpacity onPress={() => setGender('Femme')} style={[styles.genderButton, gender === 'Femme' && styles.genderButtonSelected]}>
+//   <Text style={styles.genderButtonText}>Femme</Text>
+// </TouchableOpacity>
+
+// </View>
+
+// save de texteinput age 
+//<TextInput placeholder="Age:" onChangeText={(value) => setAge(value)} value={age} keyboardType="numeric" style={styles.input} />
+const showDatePicker = () => {
+  setDatePickerVisibility(true);
+};
+const hideDatePicker = () => {
+  setDatePickerVisibility(false);
+};
+const handleConfirm = (date) => {
+const seleteddate = date
+     const calculateAge = (date) => {
+      const diff = Date.now() - date.getTime();
+      const ageDate = new Date(diff);
+      return Math.abs(ageDate.getUTCFullYear() - 1970);
+     };
+    const age = calculateAge(seleteddate);
+    console.log("Selected age:", age);
+  console.log("Selected date:", date);
+  hideDatePicker();
+};
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      {/* <Image style={styles.image} source={require('../assets/home-image.jpg')} /> */}
       <Text style={styles.title}>Inscription</Text>
 
       <TextInput placeholder="Prénom:" onChangeText={(value) => setFirstname(value)} value={firstname} style={styles.input} />
       <TextInput placeholder="Pseudo:" onChangeText={(value) => setUsername(value)} value={username} style={styles.input} />
-      <TextInput placeholder="Email:" onChangeText={(value) => setEmail(value)} value={email} style={styles.input} />
+      
+      
+     
+     
+     <TextInput placeholder="Email:" onChangeText={(value) => setEmail(value)} keyboardType="email-address" value={email} style={styles.input} />
 
   <View style={styles.inputContainer}>
   <TextInput placeholder="Password" onChangeText={(value) => setMdp(value)} value={mdp} style={styles.inputPassword} secureTextEntry={showPassword}/>
@@ -182,53 +184,6 @@ if (!showCalendar){
 
 
 
-    {<View style={styles.inputContainercalandar}>
-            <TouchableOpacity 
-              onPress={() => setShowCalendar(!showCalendar)}
-              activeOpacity={0.8}
-              style={styles.inputcalandar}
-            >
-            <Text style={styles.inputcalandar}>Date de naissance</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              onPress={() => setShowCalendar(!showCalendar)}
-              activeOpacity={0.8}
-              
-            >
-              <FontAwesome5 name="calendar-alt" size={20} color="#474CCC" />
-              {showCalendar && <DatePicker
-                style={{ width: 200 }}
-                value={dateOfBirth}
-                date={dateOfBirth}
-                mode="date"
-                placeholder="Date de naissance"
-                format="YYYY-MM-DD"
-                minDate="1900-01-01"
-                maxDate="2023-04-11"
-                confirmBtnText="Confirmer"
-                cancelBtnText="Annuler"
-                customStyles={{
-                  dateIcon: {
-                    position: 'absolute',
-                    left: 0,
-                    top: 4,
-                    marginLeft: 0,
-                  },
-                  dateInput: {
-                    marginLeft: 36,
-                  },
-                }}
-                onDateChange={(date) => {
-                  setDateOfBirth(new Date(date));
-                }}
-                onChange={() => handleCalendarClose()}
-                onCancel={() => handleCalendarClose()}
-              />}
-              </TouchableOpacity>
-    </View>}
-
-      {/* <TextInput placeholder="gender" onChangeText={(value) => setGender(value)} value={gender} style={styles.input} /> */}
-
 
       <View style={styles.genderContainer}>
       <TouchableOpacity onPress={() => setGender('Homme')} style={[styles.genderButton, gender === 'Homme' && styles.genderButtonSelected]}>
@@ -244,7 +199,25 @@ if (!showCalendar){
 
 
 
+      <View style={styles.containercalandarm}>
+      <TouchableOpacity onPress={showDatePicker} style={styles.buttoncalandarm}>
+        <Text style={styles.buttonTextcalandarm}>Date de naissance via le calendrier</Text>
+      </TouchableOpacity>
 
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={isDatePickerVisible}
+        onRequestClose={hideDatePicker}
+      >
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        />
+      </Modal>
+    </View>
 
       {connectionError && <Text style={styles.error}>Un champ est vide ou les mots de passe ne sont pas identiques.</Text>}
 
@@ -274,7 +247,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '80%',
-    marginTop: 25,
+    marginTop: 30,
     borderBottomColor: '#474CCC',
     borderBottomWidth: 1,
     fontSize: 18,
@@ -287,9 +260,8 @@ const styles = StyleSheet.create({
   },
   inputContainercalandar:{
     width: '80%',
-    marginTop: 25,
+    marginTop: 30,
     borderBottomColor: '#474CCC',
-    borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent:'space-around',
     alignItems: 'center'
@@ -305,7 +277,7 @@ const styles = StyleSheet.create({
   },
   inputContainer:{
     width: '80%',
-    marginTop: 25,
+    marginTop: 30,
     borderBottomColor: '#474CCC',
     borderBottomWidth: 1,
     flexDirection: 'row',
@@ -332,9 +304,9 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: '#ffffff',
-    height: 30,
+    height: 50,
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: 18,
   },
   error: {
     marginTop: 10,
@@ -364,4 +336,29 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#474CCC',
   },
+
+ 
+    containercalandarm: {
+      height:35,
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'row',
+      marginTop: 25,
+      width: '90%',
+    },
+    buttoncalandarm: {
+      width: '80%',
+      height:40,
+      backgroundColor: '#474CCC',
+      padding: 10,
+      borderRadius: 25,
+
+    },
+    buttonTextcalandarm: {
+      color: 'white',
+      fontWeight: 'bold',
+      fontSize: 16,
+    },
+  
+
 });

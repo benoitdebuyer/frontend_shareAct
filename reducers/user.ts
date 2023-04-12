@@ -7,9 +7,10 @@ export interface UserState {
     username: string | null;
     email: string | null;
     image: string | null;
-    age: number | null;
+    age: string | null;
     gender: string | null;
     userplaces: string[];
+    datebirth: Date | null;
   };
 }
 
@@ -23,6 +24,7 @@ const initialState: UserState = {
     age: null,
     gender: null,
     userplaces: [],
+    datebirth: null,
   },
 };
 
@@ -42,6 +44,7 @@ export const userSlice = createSlice({
       state.value.age = null;
       state.value.gender = null;
       state.value.userplaces = [];
+      state.value.datebirth = null;
     },
     updateFirstname: (state, action: PayloadAction<string>) => {
       state.value.firstname = action.payload;
@@ -55,11 +58,14 @@ export const userSlice = createSlice({
     updateImage: (state, action: PayloadAction<string>) => {
       state.value.image = action.payload;
     },
-    updateAge: (state, action: PayloadAction<number>) => {
+    updateAge: (state, action: PayloadAction<string>) => {
       state.value.age = action.payload;
     },
     updateGender: (state, action: PayloadAction<string>) => {
       state.value.gender = action.payload;
+    },
+    updateDatebirth: (state, action) => {
+      state.value.datebirth = action.payload;
     },
 
     addPlace: (state, action: PayloadAction<string>) => {
@@ -86,6 +92,7 @@ export const {
   addPlace,
   removePlace,
   importUserPlaces,
+  updateDatebirth,
 } = userSlice.actions;
 
 export default userSlice.reducer;
