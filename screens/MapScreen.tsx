@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPlace, importPlaces } from '../reducers/user';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { useNavigation } from '@react-navigation/native';
 
 
 const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
-export default function MapScreen(navigation) {
-
+export default function MapScreen() {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
@@ -18,6 +19,16 @@ export default function MapScreen(navigation) {
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
+
+  const handleMyLocationPress = () => {
+    if (currentPosition) {
+      mapRef.animateToRegion({
+        ...currentPosition,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -31,9 +42,6 @@ export default function MapScreen(navigation) {
           });
       }
     })();
-
-    
-
     // fetch(`${BACKEND_ADDRESS}/places/${user.nickname}`)
     //   .then((response) => response.json())
     //   .then((data) => {
@@ -41,7 +49,7 @@ export default function MapScreen(navigation) {
     //   });
   }, []);
 
-  const handleSubmit = () => {
+  const handle = () => {
     navigation.navigate('CreateRace');
   }
 
@@ -55,30 +63,31 @@ export default function MapScreen(navigation) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttons}>
+      {/* <View style={styles.buttons}> */}
 
      
-        <View style={styles.images}>
-          <Image
-            source={require('../assets/filter.png')}
-            style={styles.icon}
-          /> 
-            <Image source ={require('../assets/cerf.jpg')}
-                  style={styles.profil}
-          />
-          
-        </View>  
-        <TouchableOpacity  style={styles.button} activeOpacity={0.8}>
-                <Text style={styles.textButton} onPress={() => handleSubmit()}>Créer une course</Text>
-        </TouchableOpacity>  
+        {/* //<View style={styles.images}> */}
+            <Image
+              source={require('../assets/filter.png')}
+              style={styles.icon}
+            /> 
+              <Image source ={require('../assets/cerf.jpg')}
+                    style={styles.profil}
+            />
+            
+          {/* </View>   */}
+          <TouchableOpacity  style={styles.button} onPress={() => handle()} activeOpacity={0.8}>
+                  <Text style={styles.textButton} >Créer une course</Text>
+          </TouchableOpacity>  
 
-      </View>    
+        {/* </View>     */}
       
       {currentPosition ? (  
       <MapView 
+       ref={map => (mapRef = map)}
        mapType="standard"
         showsUserLocation={true}
-        showsMyLocationButton={true}
+        showsMyLocationButton={false}
         rotateEnabled={true}
         
         initialRegion={{
@@ -98,6 +107,16 @@ export default function MapScreen(navigation) {
                <Text style={styles.loadText}>Loading...</Text>
              </View>
       )} 
+      <TouchableOpacity
+          style={styles.myLocationButton}
+          onPress={handleMyLocationPress}>
+          {/* <Text style={styles.myLocationButtonText}>My Location</Text> */}
+          <Image 
+               source={require('../assets/localisation.jpg')}
+               style={styles.localisation_icon}
+              
+            /> 
+        </TouchableOpacity>
     
       
     </View>
@@ -107,9 +126,11 @@ export default function MapScreen(navigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    
   },
   buttons:{
-    position:'absolute',
+    flex:1,
+    //position:'absolute',
     zIndex: 1,
     flexDirection:'column',
     alignItems:'center',
@@ -118,46 +139,50 @@ const styles = StyleSheet.create({
     
   },
   images: {
+    flex:1,
     width: Dimensions.get("window").width,
 
-    flexDirection: 'row',
-    justifyContent: "space-between",
-   
     paddingTop: 70,
 
   },
   
   button: {
+    position:'absolute',
+    bottom: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    //marginTop: 20,
     paddingTop: 8,
     backgroundColor: '#474CCC',
     borderRadius: 30,
     height:50,
     width: Dimensions.get("window").width/2,
     //marginBottom:90,
+    zIndex:1,
+    left:'25%',
+    bottom: '2%',
     
 
     
   },
   icon: {
-    //position: 'absolute',
-    
+    position: 'absolute',
+    left:'4%',
+    top:'12%',
     width : 60,
     height: 60,
-    //zIndex: 1,
-    marginTop:30,
-    
     marginLeft:30,
+    zIndex:1,
   },
   profil: {
-    //position: 'absolute',
+    position: 'absolute',
     width: 100,
     height: 100,
+    top:'9%',
+    right:'2%',
     borderRadius: 50,
     backgroundColor: '#f00', // Changez la couleur de fond selon vos besoins
-    //zIndex: 1,
+    zIndex: 1,
     borderWidth:2,
     borderColor: '#474CCC',
     borderWidth : 4,
@@ -217,4 +242,36 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 15,
   },
+
+  localisation_icon: {
+    
+    width: 40,
+    height: 40,
+    
+    borderRadius: 50,
+    
+    
+    
+
+    borderWidth : 4,
+    
+   
+  },
+  myLocationButton: {
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+    borderColor: '#474CCC',
+    backgroundColor:'white',
+    borderRadius:10,
+    width: 50,
+    height: 50,
+    
+    position: 'absolute',
+    bottom:'12%',
+    right:'4%',
+    zIndex: 1,
+
+  }
+
 });
