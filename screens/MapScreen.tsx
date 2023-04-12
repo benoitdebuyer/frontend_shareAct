@@ -20,6 +20,8 @@ export default function MapScreen() {
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
+  const [races, setRaces] = useState([]);
+
 
   const handleMyLocationPress = () => {
     if (currentPosition) {
@@ -46,9 +48,13 @@ export default function MapScreen() {
     fetch(`${BACKEND_ADDRESS}/races/allRaces`)
       .then((response) => response.json())
       .then((data) => {
-       // data.result && dispatch(importPlaces(data.places));
-        console.log(data)
+       data.result && setRaces(data.races);
+        console.log(data.races)
       });
+
+
+
+      
   }, []);
 
   const handleCreateRace = () => {
@@ -56,12 +62,15 @@ export default function MapScreen() {
   }
 
 
+  const allRaces = races.map((data, i) => {
+   
+      return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.address} pinColor="#474CCC" />
+    
+   
+  });
 
 
-
-  // const markers = user.places.map((data, i) => {
-  //   return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.name} />;
-  // });
+  
 
   return (
     <View style={styles.container}>
@@ -100,8 +109,8 @@ export default function MapScreen() {
         style={styles.map}>
           
          
-        {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="#474CCC" />}
-        {/* {markers} */}
+        {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="red" />}
+        {allRaces} 
       </MapView>
        ) : (
             <View style={styles.load}>
