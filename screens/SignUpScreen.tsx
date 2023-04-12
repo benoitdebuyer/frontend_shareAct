@@ -13,7 +13,7 @@ import {
   Modal,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFirstname,updateUsername,updateEmail,updateImage,updateAge,updateGender,updateDatebirth } from '../reducers/user';
+import { updateFirstname,updateToken,updateUsername,updateEmail,updateImage,updateAge,updateGender,updateDatebirth } from '../reducers/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -36,25 +36,39 @@ export default function HomeScreen({ navigation }) {
 
   const [connectionError,setConnectionError] = useState(null);
   const [showPassword, setShowPassword] = useState(true);
-  const [showCalendar, setShowCalendar] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [ageaddinput, setageaddinput] = useState(false);
 
   const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  
 
   const handleSubmit = () => {
     console.log(user)
+    console.log(`state firstane ${firstname}  username ${username} age ${age} pdw ${mdp} pd2 ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
     if (!EMAIL_REGEX.test(email)) {
       setConnectionError(true);
         return;
       }
   if ( mdp == mdp2 && firstname && username && email && gender && age){
-    dispatch(updateFirstname(firstname))
-    dispatch(updateUsername(username))
-    dispatch(updateEmail(email))
-    dispatch(updateDatebirth(dateOfBirth.toISOString()))
-    dispatch(updateAge(age))
-    dispatch(updateGender(gender))
-   
+
+      fetch('https://shareact-backend.vercel.app/users/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstname, username, email, password:mdp, age:dateOfBirth.toISOString(), gender }),
+      }).then(response => response.json())
+        .then(data => {
+          console.log(data)
+          data.result && dispatch(updateToken({ token: data.token, }));
+
+          
+          dispatch(updateFirstname(firstname))
+          dispatch(updateUsername(username))
+          dispatch(updateEmail(email))
+          dispatch(updateDatebirth(dateOfBirth.toISOString()))
+          dispatch(updateAge(age))
+          dispatch(updateGender(gender))
+        });
+  
     navigation.navigate('TabNavigator', { screen: 'Map' })
 
   }else{
@@ -140,6 +154,7 @@ const showDatePicker = () => {
 const hideDatePicker = () => {
   setDatePickerVisibility(false);
 };
+
 const handleConfirm = (date) => {
 const seleteddate = date
      const calculateAge = (date) => {
@@ -147,12 +162,13 @@ const seleteddate = date
       const ageDate = new Date(diff);
       return Math.abs(ageDate.getUTCFullYear() - 1970);
      };
-    const age = calculateAge(seleteddate);
-    console.log("Selected age:", age);
-  console.log("Selected date:", date);
+    const ageadd = calculateAge(seleteddate);
+    dispatch(updateAge(ageadd))
+  setDateOfBirth(date)
+  setAge(ageadd)
+  setageaddinput(true)
   hideDatePicker();
 };
-console.log(" age hors de la fonction",age)
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -203,7 +219,7 @@ console.log(" age hors de la fonction",age)
 
       <View style={styles.containercalandarm}>
       <TouchableOpacity onPress={showDatePicker} style={styles.buttoncalandarm}>
-        <Text style={styles.buttonTextcalandarm}>Date de naissance via le calendrier</Text>
+      {ageaddinput ? <Text style={styles.buttonTextcalandarm}>vous avez {user.age} ans</Text>:<Text style={styles.buttonTextcalandarm}>Date de naissance via le calendrier</Text>}
       </TouchableOpacity>
 
       <Modal
