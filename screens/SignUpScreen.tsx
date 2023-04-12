@@ -60,7 +60,7 @@ export default function HomeScreen({ navigation }) {
           console.log(data)
           data.result && dispatch(updateToken({ token: data.token, }));
 
-          
+
           dispatch(updateFirstname(firstname))
           dispatch(updateUsername(username))
           dispatch(updateEmail(email))
