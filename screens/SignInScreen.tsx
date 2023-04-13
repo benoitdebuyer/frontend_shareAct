@@ -18,7 +18,7 @@ import { autoBatchEnhancer } from "@reduxjs/toolkit";
 // Grabbed from emailregex.com
 const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const BACKEND_ADDRESS = 'http://192.168.43.235:3000';
+const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();

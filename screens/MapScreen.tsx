@@ -2,25 +2,20 @@ import React from "react";
 import { useEffect, useState } from 'react';
 import { Modal, Image,  StyleSheet, Dimensions,  Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPlace, importPlaces } from '../reducers/user';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
-
-
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 export default function MapScreen() {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value);
-
   const [currentPosition, setCurrentPosition] = useState(null);
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
   const [races, setRaces] = useState([]);
+  const [markers, setMarkers] = useState([]);
 
 
   const handleMyLocationPress = () => {
@@ -32,16 +27,13 @@ export default function MapScreen() {
       });
     }
   };
-
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
-
       if (status === 'granted') {
         Location.watchPositionAsync({ distanceInterval: 10 },
-          (location) => {
-            
-            setCurrentPosition(location.coords);
+          (location) => {           
+            setCurrentPosition(location.coords);        
           });
       }
     })();
@@ -49,49 +41,32 @@ export default function MapScreen() {
       .then((response) => response.json())
       .then((data) => {
        data.result && setRaces(data.races);
-        console.log(data.races)
-      });
-
-
-
       
-  }, []);
+      });
+  }, [currentPosition]);
 
   const handleCreateRace = () => {
     navigation.navigate('MapCreate');
   }
-
-
   const allRaces = races.map((data, i) => {
-   
-      return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.address} pinColor="#474CCC" />
-    
-   
-  });
-
-
-  
+    return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.address} pinColor="blue" />;
+  }); 
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.buttons}> */}
-     
-        {/* //<View style={styles.images}> */}
-            <Image
-              source={require('../assets/filter.png')}
-              style={styles.icon}
-            /> 
-              <Image source ={require('../assets/user.png')}
-                    style={styles.profil}
-            />
-            
-          {/* </View>   */}
-          <TouchableOpacity  style={styles.button} onPress={() => handleCreateRace()} activeOpacity={0.8}>
-                  <Text style={styles.textButton} >Créer une course</Text>
-          </TouchableOpacity>  
+    
+      <Image
+        source={require('../assets/filter.png')}
+        style={styles.icon}
+      /> 
+        <Image source ={require('../assets/user.png')}
+              style={styles.profil}
+      />
+    
+      <TouchableOpacity  style={styles.button} onPress={() => handleCreateRace()} activeOpacity={0.8}>
+              <Text style={styles.textButton} >Créer une course</Text>
+      </TouchableOpacity>  
 
-        {/* </View>     */}
-      
       {currentPosition ? (  
       <MapView 
        ref={map => (mapRef = map)}
@@ -124,29 +99,22 @@ export default function MapScreen() {
           <Image 
                source={require('../assets/localisation.jpg')}
                style={styles.localisation_icon}
-            /> 
-            
-        </TouchableOpacity>
-    
-      
+            />       
+      </TouchableOpacity> 
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    
+    flex: 1,  
   },
   buttons:{
     flex:1,
-    //position:'absolute',
     zIndex: 1,
     flexDirection:'column',
     alignItems:'center',
-    justifyContent:"space-between",
-   
-    
+    justifyContent:"space-between",    
   },
   images: {
     flex:1,
@@ -154,7 +122,6 @@ const styles = StyleSheet.create({
     paddingTop: 70,
 
   },
-  
   button: {
     position:'absolute',
     width: Dimensions.get("window").width/2,
@@ -163,8 +130,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#474CCC',
     borderRadius: 50,
-    // width: '70%',
-    //marginBottom:90,
     zIndex:1,
     left:'25%',
     bottom: '2%',
@@ -191,14 +156,13 @@ const styles = StyleSheet.create({
     top:'9%',
     right:'2%',
     borderRadius: 50,
-    backgroundColor: '#f00', // Changez la couleur de fond selon vos besoins
+    backgroundColor: '#ffffff',
     zIndex: 1,
     borderWidth:2,
     borderColor: '#474CCC',
     borderWidth : 4,
     borderRadius: 50,
     marginRight:30,
-
   },
 
   load:{
@@ -213,8 +177,7 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
-  },
-  
+  }, 
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -244,7 +207,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 50,
-    // borderWidth : 4,
   },
   myLocationButton: {
     flex:1,
