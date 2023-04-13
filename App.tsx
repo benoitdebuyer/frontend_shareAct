@@ -65,12 +65,9 @@ export default function App() {
           <Stack.Screen name="SnapScreen" component={SnapScreen} />
           <Stack.Screen name="CreateRace" component={CreateRace} />
           <Stack.Screen name="MapCreate" component={MapCreate} />
-<<<<<<< HEAD
           <Stack.Screen name="Racecard" component={Racecardtest} />
-=======
           <Stack.Screen name="MonCompte" component={MonCompte} />
       
->>>>>>> 16137bb04c5dfbe902019a62f6a10420d2111a69
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
