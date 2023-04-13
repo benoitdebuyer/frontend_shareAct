@@ -15,47 +15,51 @@ import { addPlace, removePlace } from '../reducers/user';
 
 const BACKEND_ADDRESS = 'http://BACKEND_IP:3000';
 
-export default function PlacesScreen() {
+export default function PlacesScreen( {navigation}) {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value);
 
   const [city, setCity] = useState('');
 
-const handleSubmit = () => {
-  if (city.length === 0) {
-    return;
+  const gotoracecard = () => {
+    navigation.navigate("Racecard");
   }
 
-  // 1st request: get geographic data from API
-  fetch(`https://api-adresse.data.gouv.fr/search/?q=${city}`)
-    .then((response) => response.json())
-    .then((data) => {
-      // Nothing is done if no city is found by API
-      if (data.features.length === 0) {
-        return;
-      }
+const handleSubmit = () => {
 
-      const firstCity = data.features[0];
-      const newPlace = {
-        name: firstCity.properties.city,
-        latitude: firstCity.geometry.coordinates[1],
-        longitude: firstCity.geometry.coordinates[0],
-      };
+  // if (city.length === 0) {
+  //   return;
+  // }
 
-      // 2nd request : send new place to backend to register it in database
-      fetch(`${BACKEND_ADDRESS}/places`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nickname: user.nickname, name: newPlace.name, latitude: newPlace.latitude, longitude: newPlace.longitude }),
-      }).then((response) => response.json())
-        .then((data) => {
-          // Dispatch in Redux store if the new place have been registered in database
-          if (data.result) {
-            dispatch(addPlace(newPlace));
-            setCity('');
-          }
-        });
-    });
+  // // 1st request: get geographic data from API
+  // fetch(`https://api-adresse.data.gouv.fr/search/?q=${city}`)
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     // Nothing is done if no city is found by API
+  //     if (data.features.length === 0) {
+  //       return;
+  //     }
+
+  //     const firstCity = data.features[0];
+  //     const newPlace = {
+  //       name: firstCity.properties.city,
+  //       latitude: firstCity.geometry.coordinates[1],
+  //       longitude: firstCity.geometry.coordinates[0],
+  //     };
+
+  //     // 2nd request : send new place to backend to register it in database
+  //     fetch(`${BACKEND_ADDRESS}/places`, {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ nickname: user.nickname, name: newPlace.name, latitude: newPlace.latitude, longitude: newPlace.longitude }),
+  //     }).then((response) => response.json())
+  //       .then((data) => {
+  //         // Dispatch in Redux store if the new place have been registered in database
+  //         if (data.result) {
+  //           dispatch(addPlace(newPlace));
+  //           setCity('');
+  //         }
+  //       });
+  //   });
 };
 
   const handleDelete = (placeName) => {
@@ -81,13 +85,17 @@ const handleSubmit = () => {
   //   );
   // });
 
+
+  // de camille , j ai fait un emodif sur la ligne 95 pour revenir avant ma modif recolle le texte de la ligne 87
+  /*<TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>*/
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Chat</Text>
 
       <View style={styles.inputContainer}>
         <TextInput placeholder="Message" onChangeText={(value) => setCity(value)} value={city} style={styles.input} />
-        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+       
+        <TouchableOpacity onPress={gotoracecard} style={styles.button} activeOpacity={0.8}>
           <Text style={styles.textButton}>Envoyer</Text>
         </TouchableOpacity>
       </View>
