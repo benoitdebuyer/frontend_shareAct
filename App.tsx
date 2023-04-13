@@ -12,6 +12,7 @@ import SignUpScreen from './screens/SignUpScreen'
 import SignInScreen from './screens/SignInScreen'
 import ChatScreen from './screens/ChatScreen'
 import CreateRace from './screens/CreateRace'
+import MonCompte from './screens/MonCompte'
 import SnapScreen from './screens/SnapScreen'
 
 import { Provider } from 'react-redux';
@@ -62,6 +63,7 @@ export default function App() {
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="CreateRace" component={CreateRace} />
           <Stack.Screen name="MapCreate" component={MapCreate} />
+          <Stack.Screen name="MonCompte" component={MonCompte} />
       
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
