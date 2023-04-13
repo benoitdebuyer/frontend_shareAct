@@ -11,7 +11,6 @@ import {
   View,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateEmail } from '../reducers/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import { updateFirstname,updateToken,updateUsername,updateEmail,updateImage,updateAge,updateGender,updateDatebirth} from '../reducers/user';
