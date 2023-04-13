@@ -75,10 +75,8 @@ export default function CreateRace() {
               console.log("mongo !")
               navigation.navigate("TabNavigator", { screen: "Map" });
             }
-          })
-   
+          })   
   }
-
 
 
   return (
