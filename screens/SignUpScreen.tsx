@@ -54,7 +54,7 @@ export default function HomeScreen({ navigation }) {
       fetch('https://shareact-backend.vercel.app/users/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstname, username, email, password:mdp, age:dateOfBirth.toISOString(), gender }),
+        body: JSON.stringify({ firstname:firstname, username, email,password:mdp, age:dateOfBirth.toISOString(), gender}),
       }).then(response => response.json())
         .then(data => {
           console.log(data)
@@ -69,7 +69,7 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateGender(gender))
         });
   
-    navigation.navigate('TabNavigator', { screen: 'Map' })
+        navigation.navigate("TabNavigator", { screen: "Map" });
 
   }else{
     setConnectionError(!connectionError)
@@ -230,7 +230,7 @@ const seleteddate = date
       >
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
-          mode="date"
+          mode="datetime"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />

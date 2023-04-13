@@ -12,6 +12,7 @@ import SignUpScreen from './screens/SignUpScreen'
 import SignInScreen from './screens/SignInScreen'
 import ChatScreen from './screens/ChatScreen'
 import CreateRace from './screens/CreateRace'
+import SnapScreen from './screens/SnapScreen'
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -61,6 +62,7 @@ export default function App() {
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="CreateRace" component={CreateRace} />
           <Stack.Screen name="MapCreate" component={MapCreate} />
+      
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
