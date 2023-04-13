@@ -67,7 +67,7 @@ export default function CreateRace() {
     fetch(`${BACKEND_ADDRESS}/races`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: user.token, description: description, date: date, address: "Parc à côté de la mairie", latitude: 48.902635, longitude: 2.252756, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber }),
+      body: JSON.stringify({ token: user.token, description: description, date: date, address: "Place de la mairie", latitude: 48.883732, longitude: 2.230914, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber }),
     }).then((response) => response.json())
       .then((data) => {
         if (data.result) {
