@@ -37,7 +37,7 @@ export default function MapScreen() {
           });
       }
     })();
-    fetch(`${BACKEND_ADDRESS}/races/all/`)
+    fetch(`${BACKEND_ADDRESS}/races/allRaces`)
       .then((response) => response.json())
       .then((data) => {
        data.result && setRaces(data.races);
