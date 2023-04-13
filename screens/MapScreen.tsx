@@ -1,12 +1,15 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Modal, Image,  StyleSheet, Dimensions,  Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, Image,  StyleSheet, Dimensions,  Text, TextInput, TouchableOpacity, View, } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+
 import { useNavigation } from '@react-navigation/native';
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+
+
 
 export default function MapScreen() {
   const navigation = useNavigation();
@@ -17,6 +20,7 @@ export default function MapScreen() {
   const [races, setRaces] = useState([]);
   const [markers, setMarkers] = useState([]);
 
+  const user = useSelector((state: { user: UserState }) => state.user.value);
 
   const handleMyLocationPress = () => {
     if (currentPosition) {
@@ -37,13 +41,13 @@ export default function MapScreen() {
           });
       }
     })();
-    fetch(`${BACKEND_ADDRESS}/races/all`)
+    fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
       .then((response) => response.json())
       .then((data) => {
        data.result && setRaces(data.races);
       
       });
-  }, ['currentPosition']);
+  }, []);
 
   const handleCreateRace = () => {
     navigation.navigate('MapCreate');

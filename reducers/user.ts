@@ -56,7 +56,7 @@ export const userSlice = createSlice({
     updateFirstname: (state, action: PayloadAction<string>) => {
       state.value.firstname = action.payload;
     },
-    updateToken: (state, action) => {
+    updateToken: (state, action: PayloadAction<string>) => {
       state.value.token = action.payload;
     },
     updateUsername: (state, action: PayloadAction<string>) => {
