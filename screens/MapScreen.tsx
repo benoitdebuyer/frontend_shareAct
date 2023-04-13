@@ -43,7 +43,7 @@ export default function MapScreen() {
        data.result && setRaces(data.races);
       
       });
-  }, [currentPosition]);
+  }, ['currentPosition']);
 
   const handleCreateRace = () => {
     navigation.navigate('MapCreate');

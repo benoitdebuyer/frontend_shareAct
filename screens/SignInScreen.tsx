@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateEmail } from '../reducers/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { autoBatchEnhancer } from "@reduxjs/toolkit";
+import { updateFirstname,updateToken,updateUsername,updateEmail,updateImage,updateAge,updateGender,updateDatebirth} from '../reducers/user';
 
 // Grabbed from emailregex.com
 const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -31,6 +32,14 @@ export default function HomeScreen({ navigation }) {
   const [hidePassword, setHidePassword] = useState(true);
 
   const handleSubmit = () => {
+// dispatch pour test
+dispatch(updateToken('U4t1K88SoTEvn5wHM08X5ASxfk4WYniw'))
+dispatch(updateFirstname('Test'))
+dispatch(updateUsername('Test'))
+dispatch(updateEmail('Test@Test.Test'))
+dispatch(updateAge('20'))
+dispatch(updateGender('Autre'))
+
     navigation.navigate("TabNavigator", { screen: "Map" });
   }
 
