@@ -1,10 +1,11 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Modal, Image,  StyleSheet, Dimensions,  Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {  Modal,  Image,  StyleSheet, Dimensions,  Text, Alert, Pressable, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
+//import Modal from 'react-native-modal'
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
@@ -12,10 +13,13 @@ export default function MapScreen() {
   const navigation = useNavigation();
   const [currentPosition, setCurrentPosition] = useState(null);
   const [tempCoordinates, setTempCoordinates] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalProfileVisible, setModalProfileVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
   const [races, setRaces] = useState([]);
   const [markers, setMarkers] = useState([]);
+
+  const user = useSelector((state) => state.user.value);
+
 
 
   const handleMyLocationPress = () => {
@@ -45,6 +49,14 @@ export default function MapScreen() {
       });
   }, ['currentPosition']);
 
+   const onChangeButtonPress= () => {
+   
+    console.log("hello")
+    
+    //navigation.navigate("TabNavigator", { screen: "MonCompte" });
+    navigation.navigate("MonCompte");
+   }
+
   const handleCreateRace = () => {
     navigation.navigate('MapCreate');
   }
@@ -59,9 +71,14 @@ export default function MapScreen() {
         source={require('../assets/filter.png')}
         style={styles.icon}
       /> 
+      <Pressable
+        style={styles.buttonProfileModale}
+        onPress={() => setModalProfileVisible(true)}>
+
         <Image source ={require('../assets/user.png')}
-              style={styles.profil}
+             style={styles.profil}
       />
+      </Pressable>
     
       <TouchableOpacity  style={styles.button} onPress={() => handleCreateRace()} activeOpacity={0.8}>
               <Text style={styles.textButton} >Créer une course</Text>
@@ -101,6 +118,71 @@ export default function MapScreen() {
                style={styles.localisation_icon}
             />       
       </TouchableOpacity> 
+
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        //backdropColor="red"
+        //presentationStyle="OverFullScreen"
+        
+        visible={modalProfileVisible}
+        onRequestClose={() => {
+          //Alert.alert('Modal has been closed.');
+          setModalProfileVisible(!modalProfileVisible);
+
+        }}>
+
+       
+
+       
+          <View style={styles.modalView}>
+            
+            
+
+                      
+            <Image source ={require('../assets/user.png')}
+             style={styles.imgProfileModal}/>
+
+            <View style={styles.infosProfile}>
+
+            <Text style ={styles.textInfos}>
+                  
+                  {user.username}
+                  </Text>
+
+                  <Text style ={styles.textInfos}>
+                
+                  {user.firstname}
+                  </Text>
+
+                <Text style ={styles.textInfos}>
+                  
+                  {user.email}
+                  </Text>
+
+                  <Text style ={styles.textInfos}>
+                 
+                  {user.age}
+                  </Text>
+
+            </View>
+
+            <TouchableOpacity style={styles.buttonProfileModif} onPress={() => onChangeButtonPress()}>
+                <Text style={styles.textStyle}>Changez votre profil</Text>
+
+            </TouchableOpacity> 
+
+            {/* 
+            <Pressable
+              style={[styles.buttonModal, styles.buttonClose]}
+              onPress={onProfilePress}>
+              <Text style={styles.textStyle}>Retour</Text>
+            </Pressable> */}
+          </View>
+     
+        
+      </Modal>
     </View>
   );
 }
@@ -145,24 +227,68 @@ const styles = StyleSheet.create({
     left:'4%',
     top:'12%',
     width : 50,
+    borderWidth:2,
     height: 50,
     marginLeft:30,
     zIndex:1,
   },
   profil: {
-    position: 'absolute',
+    flex:1,
     width: 90,
-    height: 90,
-    top:'9%',
-    right:'2%',
-    borderRadius: 50,
-    backgroundColor: '#ffffff',
-    zIndex: 1,
+    height:90,
+    
+    borderBottomColor:'red',
+    borderColor: '#474CCC',
+    borderWidth : 4,
+    borderRadius:100,
+    
+  },
+  imgProfileModal: {
+    margin : 10,
+    width: 140,
+    height:140,
     borderWidth:2,
     borderColor: '#474CCC',
     borderWidth : 4,
+    borderRadius: 100,
+  },
+  buttonProfileModale:{
+    position: 'absolute',
+    top:'9%',
+    right:'2%',
+    zIndex: 1,
     borderRadius: 50,
     marginRight:30,
+    
+  },
+  buttonProfileModif:{
+      margin : 10,
+      padding: 10,
+      elevation: 2,
+      backgroundColor: '#474CCC',
+      width : Dimensions.get("window").width*1/2,
+      height: Dimensions.get("window").width*1/10,
+      justifyContent: "center",
+      borderRadius: 50,
+      
+  },
+  textInfos:{
+    backgroundColor:'white',
+    margin : 10,
+    padding:14,
+     textAlign: 'center',
+    //fontSize: 25,
+    color:'#474CCC',
+    borderRadius: 50,
+    borderColor:'#474CCC',
+    borderWidth:3,
+    width: Dimensions.get("window").width*2/3,
+    height: Dimensions.get("window").height*0.5/10,
+    fontWeight: 'bold',
+  },
+  infosProfile:{
+    
+   
   },
 
   load:{
@@ -178,14 +304,16 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   }, 
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   modalView: {
+    position:'absolute',
+    top:0,
+    right:0,
+    bottom : 30,
+     width: Dimensions.get("window").width,
+     height: Dimensions.get("window").height,
     backgroundColor: 'white',
-    borderRadius: 20,
+    borderTopLeftRadius:60,
+    borderTopRightRadius:60,
     padding: 30,
     alignItems: 'center',
     shadowColor: '#000',
@@ -221,6 +349,39 @@ const styles = StyleSheet.create({
     bottom:'12%',
     right:'4%',
     zIndex: 1,
-  }
+  },
 
+
+  buttonModal: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: 'red',
+    justifyContent: "center",
+    height: Dimensions.get("window").width*1/10,
+    margin:10,
+    padding: 10,
+    
+
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    //fontSize:25,
+
+
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
 });
+
+
