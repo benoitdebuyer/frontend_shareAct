@@ -9,7 +9,7 @@ export interface UserState {
     image: string | null;
     age: number | null;
     gender: string | null;
-    userplaces: string[];
+    userplaces: [];
     datebirth: Date | null;
   };
 }
