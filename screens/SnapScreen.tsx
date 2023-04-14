@@ -1,23 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Camera, CameraType, FlashMode } from "expo-camera";
-import { useDispatch } from "react-redux";
-import { updateImage } from "../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
+import { updateImage, updateToken } from "../reducers/user";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useIsFocused } from "@react-navigation/native";
 
+
 const BACKEND_ADDRESS = "https://shareact-backend.vercel.app";
 
-export default function SnapScreen(navigation) {
+export default function SnapScreen({navigation}) {
+
   const dispatch = useDispatch();
+
+  const user = useSelector((state: { user: UserState }) => state.user.value);
   const isFocused = useIsFocused();
 
+  const [urlimage, setUrlImage] = useState()
   const [hasPermission, setHasPermission] = useState(false);
   const [type, setType] = useState(CameraType.back);
   const [flashMode, setFlashMode] = useState(FlashMode.off);
 
   let cameraRef: any = useRef(null);
-
+console.log('log arrivé sur snap', user)
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -34,17 +39,37 @@ export default function SnapScreen(navigation) {
       name: "photo.jpg",
       type: "image/jpeg",
     });
-
-    fetch(`${BACKEND_ADDRESS}/upload`, {
+    console.log('log arrivé sur sbeffor SNAP', user)
+    fetch(`${BACKEND_ADDRESS}/users/upload`, {
       method: "POST",
       body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log('data de la save image normalement un url',data)
         data.result && dispatch(updateImage(data.url));
+        setUrlImage(data.image)
+
+
+        if (data.result){
+          console.log('avant envois snap',user)
+      fetch('https://shareact-backend.vercel.app/users/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstname:user.firstname, username:user.username, email:user.email,password:user.password, age:user.datebirth, gender:user.gender,image:user.image}),
+      }).then(response => response.json())
+        .then(data => {
+          console.log('BDD BDD BDD retour singup', data)
+          data.result && dispatch(updateToken({ token: data.token }))
+          
+        });
+  
+        navigation.navigate("TabNavigator", { screen: "Map" });
+      }
       });
-    navigation.navigate("TabNavigator", { screen: "Map" });
+     
   };
+
 
   if (!hasPermission || !isFocused) {
     return <View />;

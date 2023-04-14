@@ -9,7 +9,7 @@ export interface UserState {
     image: string | null;
     age: number | null;
     gender: string | null;
-    userplaces: string[];
+    userplaces: [];
     datebirth: Date | null;
   };
 }
@@ -56,7 +56,7 @@ export const userSlice = createSlice({
     updateFirstname: (state, action: PayloadAction<string>) => {
       state.value.firstname = action.payload;
     },
-    updateToken: (state, action: PayloadAction<string>) => {
+    updateToken: (state, action) => {
       state.value.token = action.payload;
     },
     updateUsername: (state, action: PayloadAction<string>) => {
@@ -78,10 +78,10 @@ export const userSlice = createSlice({
       state.value.datebirth = action.payload;
     },
 
-    addPlace: (state, action: PayloadAction<string>) => {
+    addPlace: (state, action) => {
       state.value.userplaces.push(action.payload);
     },
-    removePlace: (state, action: PayloadAction<string>) => {
+    removePlace: (state, action) => {
       state.value.userplaces = state.value.userplaces.filter((e) => e !== action.payload);
     },
     importUserPlaces: (state, action: PayloadAction<string[]>) => {

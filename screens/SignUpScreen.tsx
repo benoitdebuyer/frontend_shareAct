@@ -20,7 +20,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation} ) {
   const dispatch = useDispatch();
   const user = useSelector((state: { user: UserState }) => state.user.value);
 
@@ -75,6 +75,39 @@ export default function HomeScreen({ navigation }) {
     setConnectionError(!connectionError)
   }
 }
+
+
+// en cas de lien vers snap
+
+///////////////////////////////////////////////////////////////
+
+// const handleSubmit = () => {
+//   console.log(`state firstane ${firstname}  username ${username} age ${age} pdw ${mdp} pd2 ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
+//   if (!EMAIL_REGEX.test(email)) {
+//     setConnectionError(true);
+//       return;
+//     }
+// if ( mdp == mdp2 && firstname && username && email && gender && age){
+
+//   dispatch(updateFirstname(firstname))
+//   dispatch(updateUsername(username))
+//   dispatch(updateEmail(email))
+//   dispatch(updateDatebirth(dateOfBirth.toISOString()))
+//   dispatch(updateAge(age))
+//   dispatch(updateGender(gender))
+//   navigation.navigate("SnapScreen");
+// }else{
+//   setConnectionError(!connectionError)
+// }
+// }
+
+///////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
 
 // const handleCalendarClose = (dob) => {
 //   console.log(dateOfBirth)
@@ -230,7 +263,7 @@ const seleteddate = date
       >
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
-          mode="datetime"
+          mode="date"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />

@@ -14,13 +14,15 @@ import ChatScreen from './screens/ChatScreen'
 import CreateRace from './screens/CreateRace'
 import MonCompte from './screens/MonCompte'
 import SnapScreen from './screens/SnapScreen'
+import Racecardtest from './components/Racecard'
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
+import race from './reducers/race';
 
 const store = configureStore({
-  reducer: { user },
+  reducer: { user, race },
 });
 
 const Stack = createNativeStackNavigator();
@@ -61,8 +63,10 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="SnapScreen" component={SnapScreen} />
           <Stack.Screen name="CreateRace" component={CreateRace} />
           <Stack.Screen name="MapCreate" component={MapCreate} />
+          <Stack.Screen name="Racecard" component={Racecardtest} />
           <Stack.Screen name="MonCompte" component={MonCompte} />
       
           <Stack.Screen name="TabNavigator" component={TabNavigator} />

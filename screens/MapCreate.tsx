@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPlace, importPlaces } from '../reducers/user';
+import { updatenewracelat, updatenewracelon } from '../reducers/race';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
@@ -34,11 +34,11 @@ export default function MapScreen() {
       }
     })();
 
-    fetch(`${BACKEND_ADDRESS}/races/${user.nickname}`)
-      .then((response) => response.json())
-      .then((data) => {
-        data.result && dispatch(importPlaces(data.places));
-      });
+    // fetch(`${BACKEND_ADDRESS}/races/${user.nickname}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     data.result && dispatch(importPlaces(data.places));
+    //   });
   }, []);
 
   const handleMyLocationPress = () => {
@@ -49,7 +49,7 @@ export default function MapScreen() {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       });
-      
+
 
     }
   };
@@ -61,40 +61,26 @@ export default function MapScreen() {
 
   const handleLongPress = (e) => {
     setTempCoordinates(e.nativeEvent.coordinate);
-    
     setModalVisible(true);
   };
 
-  // const handleConfirm = () => {
-  //   // Send new place to backend to register it in database
-  //   fetch(`${BACKEND_ADDRESS}/places`, {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ nickname: user.nickname, name: newPlace, latitude: tempCoordinates.latitude, longitude: tempCoordinates.longitude }),
-  //   }).then((response) => response.json())
-  //     .then((data) => {
-  //       // Dispatch in Redux store if the new place have been registered in database
-  //       if (data.result) {
-  //         dispatch(addPlace({ name: newPlace, latitude: tempCoordinates.latitude, longitude: tempCoordinates.longitude }));
-  //         setModalVisible(false);
-  //         setNewPlace('');
-  //       }
-  //     });
-  // };
+
 
   const handleConfirm = () => {
-    navigation.navigate('CreateRace', { coord : tempCoordinates });
     setModalVisible(false);
-    console.log(tempCoordinates)
+    console.log(tempCoordinates.latitude)
+    dispatch(updatenewracelat(tempCoordinates.latitude));
+    dispatch(updatenewracelon(tempCoordinates.longitude));
+    navigation.navigate('CreateRace', { coord: tempCoordinates });
   }
+
+
   const handleClose = () => {
     setModalVisible(false);
     setNewPlace('');
   };
 
-  // const markers = user.places.map((data, i) => {
-  //   return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.name} />;
-  // });
+
 
   return (
     <View style={styles.container}>
@@ -102,6 +88,8 @@ export default function MapScreen() {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.textAddress}>Lieu de départ</Text>
+            <Text style={styles.textAddress}>Latitude: {tempCoordinates ? tempCoordinates.latitude.toFixed(6) : ''}</Text>
+            <Text style={styles.textAddress}>Longitude: {tempCoordinates ? tempCoordinates.longitude.toFixed(6) : ''}</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={() => handleConfirm()} style={styles.button} activeOpacity={0.8}>
                 <Text style={styles.textButton}>Confirmer</Text>
@@ -124,17 +112,15 @@ export default function MapScreen() {
       <TouchableOpacity
         style={styles.backPage}
         onPress={handleBackPage}>
-        <FontAwesome5  name="angle-left" size={50} color="#474CCC" />
+        <FontAwesome5 name="angle-left" size={50} color="#474CCC" />
       </TouchableOpacity>
 
-    
-     
 
 
 
       {currentPosition ? (
         <MapView onLongPress={(e) => handleLongPress(e)}
-        ref={map => (mapRef = map)}
+          ref={map => (mapRef = map)}
           mapType="standard"
           showsUserLocation={true}
           showsMyLocationButton={false}
@@ -151,7 +137,7 @@ export default function MapScreen() {
       ) : (
         <Text>Loading...</Text>
       )}
-       <TouchableOpacity
+      <TouchableOpacity
         style={styles.myLocationButton}
         onPress={handleMyLocationPress}>
         <Image
