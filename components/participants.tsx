@@ -34,29 +34,29 @@ export default function Participants() {
             <View style={styles.containerParticipants}>
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
 
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
 
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
 
 

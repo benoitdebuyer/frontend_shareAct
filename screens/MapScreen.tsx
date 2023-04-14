@@ -74,13 +74,8 @@ export default function MapScreen() {
   }
   
   const allRaces = races.map((data, i) => {
-    const title = `${data.address}, ${data.date}`;
-    return (
-      <TouchableOpacity key={i} onPress={() => handleMarker()}>
-        <Marker coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={title} pinColor="blue" />
-      </TouchableOpacity>
-    );
-  });
+    return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.address} pinColor="#FF4800" />;
+  }); 
 
   return (
     <View style={styles.container}>

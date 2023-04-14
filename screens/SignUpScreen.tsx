@@ -13,14 +13,14 @@ import {
   Modal,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFirstname,updateToken,updateUsername,updateEmail,updateImage,updateAge,updateGender,updateDatebirth } from '../reducers/user';
+import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
 
-export default function HomeScreen({ navigation} ) {
+export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state: { user: UserState }) => state.user.value);
 
@@ -30,31 +30,31 @@ export default function HomeScreen({ navigation} ) {
   const [mdp, setMdp] = useState(null);
   const [mdp2, setMdp2] = useState(null);
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
-  const [gender,setGender] = useState(null);
-  const [age, setAge] =useState(null);
-  
+  const [gender, setGender] = useState(null);
+  const [age, setAge] = useState(null);
 
-  const [connectionError,setConnectionError] = useState(null);
+
+  const [connectionError, setConnectionError] = useState(null);
   const [showPassword, setShowPassword] = useState(true);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [ageaddinput, setageaddinput] = useState(false);
 
   const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
+
 
   const handleSubmit = () => {
     console.log(user)
     console.log(`state firstane ${firstname}  username ${username} age ${age} pdw ${mdp} pd2 ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
     if (!EMAIL_REGEX.test(email)) {
       setConnectionError(true);
-        return;
-      }
-  if ( mdp == mdp2 && firstname && username && email && gender && age){
+      return;
+    }
+    if (mdp == mdp2 && firstname && username && email && gender && age) {
 
       fetch('https://shareact-backend.vercel.app/users/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstname:firstname, username, email,password:mdp, age:dateOfBirth.toISOString(), gender}),
+        body: JSON.stringify({ firstname: firstname, username, email, password: mdp, age: dateOfBirth.toISOString(), gender }),
       }).then(response => response.json())
         .then(data => {
           console.log(data)
@@ -68,140 +68,140 @@ export default function HomeScreen({ navigation} ) {
           dispatch(updateAge(age))
           dispatch(updateGender(gender))
         });
-  
-        navigation.navigate("TabNavigator", { screen: "Map" });
 
-  }else{
-    setConnectionError(!connectionError)
+      navigation.navigate("TabNavigator", { screen: "Map" });
+
+    } else {
+      setConnectionError(!connectionError)
+    }
   }
-}
 
 
-// en cas de lien vers snap
+  // en cas de lien vers snap
 
-///////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////
 
-// const handleSubmit = () => {
-//   console.log(`state firstane ${firstname}  username ${username} age ${age} pdw ${mdp} pd2 ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
-//   if (!EMAIL_REGEX.test(email)) {
-//     setConnectionError(true);
-//       return;
-//     }
-// if ( mdp == mdp2 && firstname && username && email && gender && age){
+  // const handleSubmit = () => {
+  //   console.log(`state firstane ${firstname}  username ${username} age ${age} pdw ${mdp} pd2 ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
+  //   if (!EMAIL_REGEX.test(email)) {
+  //     setConnectionError(true);
+  //       return;
+  //     }
+  // if ( mdp == mdp2 && firstname && username && email && gender && age){
 
-//   dispatch(updateFirstname(firstname))
-//   dispatch(updateUsername(username))
-//   dispatch(updateEmail(email))
-//   dispatch(updateDatebirth(dateOfBirth.toISOString()))
-//   dispatch(updateAge(age))
-//   dispatch(updateGender(gender))
-//   navigation.navigate("SnapScreen");
-// }else{
-//   setConnectionError(!connectionError)
-// }
-// }
+  //   dispatch(updateFirstname(firstname))
+  //   dispatch(updateUsername(username))
+  //   dispatch(updateEmail(email))
+  //   dispatch(updateDatebirth(dateOfBirth.toISOString()))
+  //   dispatch(updateAge(age))
+  //   dispatch(updateGender(gender))
+  //   navigation.navigate("SnapScreen");
+  // }else{
+  //   setConnectionError(!connectionError)
+  // }
+  // }
 
-///////////////////////////////////////////////////////////////////////
-
-
+  ///////////////////////////////////////////////////////////////////////
 
 
 
 
 
-// const handleCalendarClose = (dob) => {
-//   console.log(dateOfBirth)
-//   console.log(user.age)
-//   setShowCalendar(false) 
-//     const calculateAge = (dob) => {
-//       const diff = Date.now() - dob.getTime();
-//       const ageDate = new Date(diff);
-//       return Math.abs(ageDate.getUTCFullYear() - 1970);
-//     };
-//     const age = calculateAge(dateOfBirth);
-//     setAge(age);
-//     dispatch(updateAge(age));
-// };
 
 
-// let calandar = <View style={styles.inputContainercalandar}>
-// <TouchableOpacity 
-//   onPress={() => setShowCalendar(!showCalendar)}
-//   activeOpacity={0.8}
-//   style={styles.inputcalandar}
-// >
-// <Text style={styles.inputcalandar}>{age ? `vous avez ${age} ans ` : 'Quel age avez vous.'}</Text>
-// </TouchableOpacity>
-// <TouchableOpacity 
-//   onPress={() => setShowCalendar(!showCalendar)}
-//   activeOpacity={0.8}
-  
-// >
-//   <FontAwesome5 name="calendar-alt" size={20} color="#474CCC" />
-//   {showCalendar && <DatePicker
-//     style={{ width: 200 }}
-//     value={new Date()}
-//     date={dateOfBirth}
-//     mode="date"
-//     placeholder="Date de naissance"
-//     format="YYYY-MM-DD"
-//     minDate="1900-01-01"
-//     maxDate="2023-04-11"
-//     confirmBtnText="Confirmer"
-//     cancelBtnText="Annuler"
-//     customStyles={{
-//       dateIcon: {
-//         position: 'absolute',
-//         left: 0,
-//         top: 4,
-//         marginLeft: 0,
-//       },
-//       dateInput: {
-//         marginLeft: 36,
-//       },}}
-//     onDateChange={(date) => {
-//       setDateOfBirth(new Date(date));}}
-//     onConfirm={(e) => handleCalendarClose(e)}
-//     onCancel={() => setShowCalendar(false)}
-  
-//   />}
-//   </TouchableOpacity>
-// </View>
+  // const handleCalendarClose = (dob) => {
+  //   console.log(dateOfBirth)
+  //   console.log(user.age)
+  //   setShowCalendar(false) 
+  //     const calculateAge = (dob) => {
+  //       const diff = Date.now() - dob.getTime();
+  //       const ageDate = new Date(diff);
+  //       return Math.abs(ageDate.getUTCFullYear() - 1970);
+  //     };
+  //     const age = calculateAge(dateOfBirth);
+  //     setAge(age);
+  //     dispatch(updateAge(age));
+  // };
 
 
-// teste poru plus tard calandar bouton
+  // let calandar = <View style={styles.inputContainercalandar}>
+  // <TouchableOpacity 
+  //   onPress={() => setShowCalendar(!showCalendar)}
+  //   activeOpacity={0.8}
+  //   style={styles.inputcalandar}
+  // >
+  // <Text style={styles.inputcalandar}>{age ? `vous avez ${age} ans ` : 'Quel age avez vous.'}</Text>
+  // </TouchableOpacity>
+  // <TouchableOpacity 
+  //   onPress={() => setShowCalendar(!showCalendar)}
+  //   activeOpacity={0.8}
 
-// <View style={styles.inputContainercalandar}>
+  // >
+  //   <FontAwesome5 name="calendar-alt" size={20} color="#474CCC" />
+  //   {showCalendar && <DatePicker
+  //     style={{ width: 200 }}
+  //     value={new Date()}
+  //     date={dateOfBirth}
+  //     mode="date"
+  //     placeholder="Date de naissance"
+  //     format="YYYY-MM-DD"
+  //     minDate="1900-01-01"
+  //     maxDate="2023-04-11"
+  //     confirmBtnText="Confirmer"
+  //     cancelBtnText="Annuler"
+  //     customStyles={{
+  //       dateIcon: {
+  //         position: 'absolute',
+  //         left: 0,
+  //         top: 4,
+  //         marginLeft: 0,
+  //       },
+  //       dateInput: {
+  //         marginLeft: 36,
+  //       },}}
+  //     onDateChange={(date) => {
+  //       setDateOfBirth(new Date(date));}}
+  //     onConfirm={(e) => handleCalendarClose(e)}
+  //     onCancel={() => setShowCalendar(false)}
 
-// <TouchableOpacity onPress={() => setGender('Femme')} style={[styles.genderButton, gender === 'Femme' && styles.genderButtonSelected]}>
-//   <Text style={styles.genderButtonText}>Femme</Text>
-// </TouchableOpacity>
+  //   />}
+  //   </TouchableOpacity>
+  // </View>
 
-// </View>
 
-// save de texteinput age 
-//<TextInput placeholder="Age:" onChangeText={(value) => setAge(value)} value={age} keyboardType="numeric" style={styles.input} />
-const showDatePicker = () => {
-  setDatePickerVisibility(true);
-};
-const hideDatePicker = () => {
-  setDatePickerVisibility(false);
-};
+  // teste poru plus tard calandar bouton
 
-const handleConfirm = (date) => {
-const seleteddate = date
-     const calculateAge = (date) => {
+  // <View style={styles.inputContainercalandar}>
+
+  // <TouchableOpacity onPress={() => setGender('Femme')} style={[styles.genderButton, gender === 'Femme' && styles.genderButtonSelected]}>
+  //   <Text style={styles.genderButtonText}>Femme</Text>
+  // </TouchableOpacity>
+
+  // </View>
+
+  // save de texteinput age 
+  //<TextInput placeholder="Age:" onChangeText={(value) => setAge(value)} value={age} keyboardType="numeric" style={styles.input} />
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    const seleteddate = date
+    const calculateAge = (date) => {
       const diff = Date.now() - date.getTime();
       const ageDate = new Date(diff);
       return Math.abs(ageDate.getUTCFullYear() - 1970);
-     };
+    };
     const ageadd = calculateAge(seleteddate);
     dispatch(updateAge(ageadd))
-  setDateOfBirth(date)
-  setAge(ageadd)
-  setageaddinput(true)
-  hideDatePicker();
-};
+    setDateOfBirth(date)
+    setAge(ageadd)
+    setageaddinput(true)
+    hideDatePicker();
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -209,35 +209,35 @@ const seleteddate = date
 
       <TextInput placeholder="Prénom:" onChangeText={(value) => setFirstname(value)} value={firstname} style={styles.input} />
       <TextInput placeholder="Pseudo:" onChangeText={(value) => setUsername(value)} value={username} style={styles.input} />
-      
-      
-     
-     
-     <TextInput placeholder="Email:" onChangeText={(value) => setEmail(value)} keyboardType="email-address" value={email} style={styles.input} />
 
-  <View style={styles.inputContainer}>
-  <TextInput placeholder="Password" onChangeText={(value) => setMdp(value)} value={mdp} style={styles.inputPassword} secureTextEntry={showPassword}/>
 
-    </View>
 
-    <View style={styles.inputContainer}>
-  <TextInput placeholder="Confirmer le mot de passe" onChangeText={(value) => setMdp2(value)} 
-  value={mdp2} style={styles.inputPassword} secureTextEntry={showPassword}/>
 
-  <TouchableOpacity 
-      onPress={() => setShowPassword(!showPassword)}
-      activeOpacity={0.8}
-      style={styles.iconButton}
-    >
-      <FontAwesome5 name={showPassword ? "eye" : "eye-slash"} size={20} color="#474CCC" />
-    </TouchableOpacity>
-    </View>
+      <TextInput placeholder="Email:" onChangeText={(value) => setEmail(value)} keyboardType="email-address" value={email} style={styles.input} />
+
+      <View style={styles.inputContainer}>
+        <TextInput placeholder="Password" onChangeText={(value) => setMdp(value)} value={mdp} style={styles.inputPassword} secureTextEntry={showPassword} />
+
+      </View>
+
+      <View style={styles.inputContainer}>
+        <TextInput placeholder="Confirmer le mot de passe" onChangeText={(value) => setMdp2(value)}
+          value={mdp2} style={styles.inputPassword} secureTextEntry={showPassword} />
+
+        <TouchableOpacity
+          onPress={() => setShowPassword(!showPassword)}
+          activeOpacity={0.8}
+          style={styles.iconButton}
+        >
+          <FontAwesome5 name={showPassword ? "eye" : "eye-slash"} size={20} color="#474CCC" />
+        </TouchableOpacity>
+      </View>
 
 
 
 
       <View style={styles.genderContainer}>
-      <TouchableOpacity onPress={() => setGender('Homme')} style={[styles.genderButton, gender === 'Homme' && styles.genderButtonSelected]}>
+        <TouchableOpacity onPress={() => setGender('Homme')} style={[styles.genderButton, gender === 'Homme' && styles.genderButtonSelected]}>
           <Text style={styles.genderButtonText}>Homme</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setGender('Femme')} style={[styles.genderButton, gender === 'Femme' && styles.genderButtonSelected]}>
@@ -251,24 +251,24 @@ const seleteddate = date
 
 
       <View style={styles.containercalandarm}>
-      <TouchableOpacity onPress={showDatePicker} style={styles.buttoncalandarm}>
-      {ageaddinput ? <Text style={styles.buttonTextcalandarm}>vous avez {user.age} ans</Text>:<Text style={styles.buttonTextcalandarm}>Date de naissance via le calendrier</Text>}
-      </TouchableOpacity>
+        <TouchableOpacity onPress={showDatePicker} style={styles.buttoncalandarm}>
+          {ageaddinput ? <Text style={styles.buttonTextcalandarm}>Vous avez {user.age} ans</Text> : <Text style={styles.buttonTextcalandarm}>Date de naissance : </Text>}
+        </TouchableOpacity>
 
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={isDatePickerVisible}
-        onRequestClose={hideDatePicker}
-      >
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        />
-      </Modal>
-    </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isDatePickerVisible}
+          onRequestClose={hideDatePicker}
+        >
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
+        </Modal>
+      </View>
 
       {connectionError && <Text style={styles.error}>Un champ est vide ou les mots de passe ne sont pas identiques.</Text>}
 
@@ -307,26 +307,26 @@ const styles = StyleSheet.create({
     width: '80%',
     borderBottomColor: '#474CCC',
     fontSize: 18,
-    color:'grey',
+    color: 'grey',
   },
-  inputContainercalandar:{
+  inputContainercalandar: {
     width: '80%',
     marginTop: 30,
     borderBottomColor: '#474CCC',
     flexDirection: 'row',
-    justifyContent:'space-around',
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
-  inputContainercalandar2:{
+  inputContainercalandar2: {
     width: '80%',
     marginTop: 25,
     borderBottomColor: '#474CCC',
     borderBottomWidth: 1,
     flexDirection: 'row',
-    justifyContent:'center',
+    justifyContent: 'center',
     alignItems: 'center'
   },
-  inputContainer:{
+  inputContainer: {
     width: '80%',
     marginTop: 30,
     borderBottomColor: '#474CCC',
@@ -334,20 +334,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  inputPassword:{
+  inputPassword: {
     flex: 1,
     fontSize: 18,
     marginLeft: 10,
   },
 
-  iconButton:{
+  iconButton: {
     marginRight: 10,
   },
 
   button: {
+    width: '70%',
     alignItems: 'center',
     paddingTop: 8,
-    width: '70%',
     marginTop: 30,
     backgroundColor: '#474CCC',
     borderRadius: 50,
@@ -355,9 +355,9 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: '#ffffff',
-    height: 50,
+    height: 30,
     fontWeight: '600',
-    fontSize: 18,
+    fontSize: 16,
   },
   error: {
     marginTop: 10,
@@ -388,28 +388,32 @@ const styles = StyleSheet.create({
     color: '#474CCC',
   },
 
- 
-    containercalandarm: {
-      height:35,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'row',
-      marginTop: 25,
-      width: '90%',
-    },
-    buttoncalandarm: {
-      width: '80%',
-      height:40,
-      backgroundColor: '#474CCC',
-      padding: 10,
-      borderRadius: 25,
 
-    },
-    buttonTextcalandarm: {
-      color: 'white',
-      fontWeight: 'bold',
-      fontSize: 16,
-    },
-  
+  containercalandarm: {
+    height: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: 25,
+    width: '90%',
+  },
+  buttoncalandarm: {
+    width: '70%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 12,
+    height: 30,
+    backgroundColor: '#fff',
+    borderRadius: 50,
+    borderColor: "#474CCC",
+    borderWidth: 1,
+  },
+  buttonTextcalandarm: {
+    color: 'grey',
+    fontWeight: '600',
+    fontSize: 16,
+    height: 30,
+  },
+
 
 });
