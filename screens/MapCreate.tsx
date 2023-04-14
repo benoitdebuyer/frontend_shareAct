@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { updatenewracelat, updatenewracelon } from '../reducers/race';
+import { updatenewracelat, updatenewracelon, addNewAddress } from '../reducers/race';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +20,23 @@ export default function MapScreen() {
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
+  const [address, setAddress] = useState('');
+
+  useEffect(() => {
+    if (tempCoordinates) {
+      const getCityFromCoordinates = async () => {
+        const apiUrl = `https://api-adresse.data.gouv.fr/reverse/?lon=${tempCoordinates.longitude}&lat=${tempCoordinates.latitude}`;
+
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        const address = data.features[0]?.properties?.label;
+
+        setAddress(address);
+      };
+
+      getCityFromCoordinates();
+    }
+  }, [tempCoordinates]);
 
   useEffect(() => {
     (async () => {
@@ -42,6 +59,7 @@ export default function MapScreen() {
   }, []);
 
   const handleMyLocationPress = () => {
+    // console.log("hello")
     console.log(currentPosition)
     if (currentPosition) {
       mapRef.animateToRegion({
@@ -49,28 +67,27 @@ export default function MapScreen() {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       });
-
-
     }
   };
+
 
   const handleBackPage = () => {
     navigation.navigate("TabNavigator", { screen: "Map" });
   }
 
 
-  const handleLongPress = (e) => {
+ const handleLongPress = (e) => {
     setTempCoordinates(e.nativeEvent.coordinate);
     setModalVisible(true);
   };
 
 
-
   const handleConfirm = () => {
     setModalVisible(false);
-    console.log(tempCoordinates.latitude)
+    // console.log(tempCoordinates.latitude)
     dispatch(updatenewracelat(tempCoordinates.latitude));
     dispatch(updatenewracelon(tempCoordinates.longitude));
+    dispatch(addNewAddress(address));
     navigation.navigate('CreateRace', { coord: tempCoordinates });
   }
 
@@ -81,15 +98,29 @@ export default function MapScreen() {
   };
 
 
+  // const getCityFromCoordinates = () => {
+  //   const apiUrl = `https://api-adresse.data.gouv.fr/reverse/?lon=${tempCoordinates.longitude}&lat=${tempCoordinates.latitude}`;
+
+  //   return fetch(apiUrl)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // Récupère le nom de la ville à partir des données renvoyées par l'API
+  //       const cityName = data.features[0]?.properties?.label;
+
+  //       return cityName;
+  //     })
+  // };
+
+
 
   return (
     <View style={styles.container}>
       <Modal visible={modalVisible} animationType="fade" transparent>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.textAddress}>Lieu de départ</Text>
-            <Text style={styles.textAddress}>Latitude: {tempCoordinates ? tempCoordinates.latitude.toFixed(6) : ''}</Text>
-            <Text style={styles.textAddress}>Longitude: {tempCoordinates ? tempCoordinates.longitude.toFixed(6) : ''}</Text>
+            {/* <Text style={styles.textAddress}>Latitude: {tempCoordinates ? tempCoordinates.latitude.toFixed(6) : ''}</Text> */}
+            {/* <Text style={styles.textAddress}>Longitude: {tempCoordinates ? tempCoordinates.longitude.toFixed(6) : ''}</Text> */}
+            <Text style={styles.textAddress}>Lieu de départ : {address}</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={() => handleConfirm()} style={styles.button} activeOpacity={0.8}>
                 <Text style={styles.textButton}>Confirmer</Text>
