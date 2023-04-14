@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
+import { useFocusEffect } from '@react-navigation/native';
+
 import { useNavigation } from '@react-navigation/native';
 //import Modal from 'react-native-modal'
 
@@ -13,13 +15,17 @@ const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 
 export default function MapScreen() {
+
+
+
   const navigation = useNavigation();
   const [currentPosition, setCurrentPosition] = useState(null);
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const [modalProfileVisible, setModalProfileVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
   const [races, setRaces] = useState([]);
-  const [markers, setMarkers] = useState([]);
+
+ 
 
   const user = useSelector((state: { user: UserState }) => state.user.value);
 
@@ -33,6 +39,7 @@ export default function MapScreen() {
     }
   };
   useEffect(() => {
+    
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === 'granted') {
@@ -48,13 +55,17 @@ export default function MapScreen() {
        data.result && setRaces(data.races);
       
       });
-  }, []);
+  }
+
+  ,[]);
+
+
+
+
+
   const onChangeButtonPress= () => {
-   
-    console.log("hello")
-    
-    //navigation.navigate("TabNavigator", { screen: "MonCompte" });
-    navigation.navigate("MonCompte");
+    navigation.navigate( "MonCompte" );
+    setModalProfileVisible(!modalProfileVisible);
    }
 
   const handleCreateRace = () => {
@@ -71,6 +82,7 @@ export default function MapScreen() {
         source={require('../assets/filter.png')}
         style={styles.icon}
       /> 
+      
       <Pressable
         style={styles.buttonProfileModale}
         onPress={() => setModalProfileVisible(true)}>
@@ -168,9 +180,8 @@ export default function MapScreen() {
 
             </View>
 
-            <TouchableOpacity style={styles.buttonProfileModif} onPress={() => onChangeButtonPress()}>
+            <TouchableOpacity style={styles.buttonProfileModif} onPress={onChangeButtonPress}>
                 <Text style={styles.textStyle}>Changez votre profil</Text>
-
             </TouchableOpacity> 
 
             {/* 
