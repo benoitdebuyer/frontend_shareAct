@@ -16,7 +16,11 @@ export default function MonCompte() {
     const [username, setUsername] = useState(null);
     const [dateOfBirth, setDateOfBirth] = useState(new Date());
     const [age, setAge] =useState(null);
-    const [image, setImg]= useState(null);
+    const [image, setImage]= useState(null);
+    const [showTextInputFirstname, setShowTextInputFirstname] = useState(false);
+    const [showTextInputUsername, setShowTextInputUsername] = useState(false);
+    const [showTextInputEmail, setShowTextInputEmail] = useState(false);
+    const [showTextInputImage, setShowTextInputImage] = useState(false);
 
     const navigation = useNavigation();
 
@@ -27,6 +31,21 @@ export default function MonCompte() {
 
 
   }
+  const handleButtonPressFirstname = () => {
+    setShowTextInputFirstname(true);
+  };
+
+  const handleButtonPressUsername = () => {
+    setShowTextInputUsername(true);
+  };
+
+  const handleButtonPressEmail = () => {
+    setShowTextInputEmail(true);
+  };
+
+  const handleButtonPressImage = () => {
+    setShowTextInputImage(true);
+  };
 
   const handleSendBdd = () => {
     console.log(firstname, username, email, image, user.token)
@@ -60,6 +79,7 @@ export default function MonCompte() {
               }
             })
 
+
   
   }
   return (
@@ -75,14 +95,56 @@ export default function MonCompte() {
             <Text style={styles.textButton} >Changer la photo</Text>
         </TouchableOpacity> 
 
-        <TextInput placeholder={user.firstname} onChangeText={(value) => setFirstname(value)} value={firstname} style={styles.input} />
+        <View style={styles.boolean}>
+            {showTextInputFirstname ? (
+            <TextInput
+              placeholder={user.firstname}
+              onChangeText={(value) => setFirstname(value)}
+              value={firstname}
+              style={styles.input}
+            />
+          ) : (
 
-        <TextInput placeholder={user.username} onChangeText={(value) => setUsername(value)} value={username} style={styles.input} />
-        
-        <TextInput placeholder={user.email} onChangeText={(value) => setEmail(value)} value={email} style={styles.input} />
-        <TextInput placeholder='/img' onChangeText={(value) => setImg(value)} value={image} style={styles.input} />
-       
+            <Text style={styles.textInfos}>{user.firstname}</Text>
+          )}
+          <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressFirstname} activeOpacity={0.8}>
+            <Text style={styles.textButtonChangeOne}>x</Text>
+          </TouchableOpacity>
+      </View>
 
+      <View style={styles.boolean}>
+            {showTextInputUsername ? (
+            <TextInput
+              placeholder={user.username}
+              onChangeText={(value) => setUsername(value)}
+              value={username}
+              style={styles.input}
+            />
+          ) : (
+            <Text style={styles.textInfos}>{user.username}</Text>
+          )}
+          <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressUsername} activeOpacity={0.8}>
+            <Text style={styles.textButtonChangeOne}>x</Text>
+          </TouchableOpacity>
+      </View>
+
+      <View style={styles.boolean}>
+            {showTextInputEmail ? (
+            <TextInput
+              placeholder={user.email}
+              onChangeText={(value) => setEmail(value)}
+              value={email}
+              style={styles.input}
+            />
+          ) : (
+            <Text style={styles.textInfos}>{user.email}</Text>
+          )}
+          <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressEmail} activeOpacity={0.8}>
+            <Text style={styles.textButtonChangeOne}>x</Text>
+          </TouchableOpacity>
+      </View>
+
+    
 
         <TouchableOpacity  style={styles.button} onPress={handleSendBdd} activeOpacity={0.8}>
               <Text style={styles.textButton} >Envoyer les modifications</Text>
@@ -110,6 +172,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  boolean:{
+    display:'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems:'baseline',
+
+  },
   text:{
     fontSize:30,
     color:'#474CCC',
@@ -127,6 +196,28 @@ const styles = StyleSheet.create({
     height:    Dimensions.get("window").height/15,
 
   },
+
+  buttonChangeOne:{
+    
+   width : Dimensions.get("window").width/15,
+   height : Dimensions.get("window").width/15,
+    backgroundColor:'red',
+    borderRadius: 100,
+    
+  
+  }, 
+  textButtonChangeOne:{
+   textAlign:'center',
+   padding: 3,
+  alignItems:'center',
+   
+    color: '#ffffff',
+    fontWeight: 'bold',
+    
+   
+   
+  },
+
   buttonQuit:{
     paddingTop:30,
     margin :15,
@@ -148,6 +239,7 @@ imgProfile:{
     borderRadius: 100,
    
 },
+
  
 textButton:{
    
@@ -162,14 +254,30 @@ textButton:{
 
 },
 input: {
-    width: '70%',
+    width: '50%',
+    textAlign:'center',
+    borderBottomColor: '#474CCC',
+    borderBottomWidth: 1,
+    fontSize: 18,
+    paddingTop: 5,
+    //marginTop: 10,
+
+    
+    
+  },
+  textInfos:{
+    width: '50%',
     textAlign:'center',
     borderBottomColor: '#474CCC',
     borderBottomWidth: 1,
     fontSize: 18,
     paddingBottom: 5,
     margin: 10,
-    
+    height: 30,
+    fontWeight: '600',
+    fontSize: 15,
+
+
   },
   
 })
