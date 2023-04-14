@@ -15,7 +15,7 @@ import CreateRace from './screens/CreateRace'
 import MonCompte from './screens/MonCompte'
 import SnapScreen from './screens/SnapScreen'
 import Racecardtest from './components/Racecard'
-import Participants from './components/
+import Participants from './components/Participants'
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';

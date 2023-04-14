@@ -68,9 +68,19 @@ export default function MapScreen() {
   const handleCreateRace = () => {
     navigation.navigate('MapCreate');
   }
+
+  const handleMarker = () => {
+    navigation.navigate('MapCreate');
+  }
+  
   const allRaces = races.map((data, i) => {
-    return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.address} pinColor="blue" />;
-  }); 
+    const title = `${data.address}, ${data.date}`;
+    return (
+      <TouchableOpacity key={i} onPress={() => handleMarker()}>
+        <Marker coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={title} pinColor="blue" />
+      </TouchableOpacity>
+    );
+  });
 
   return (
     <View style={styles.container}>

@@ -26,46 +26,44 @@ export default function Racecardtest(props) {
     <View style={styles.containerall}>
 
       <View style={styles.containertopusername} >
-          <Text style={styles.topUsername}>{props.username}</Text>
+          <Text style={styles.topUsername}>{props.username}username</Text>
       </View>
 
         <View style={styles.containertop}>
           <View style={styles.containertopleft}>
           <Image style={styles.photo} source={require('../assets/shareact3.png')} />
-          <Text style={styles.topUsername}>{props.username}</Text>
+          <Text style={styles.nameunderpic}>{props.username}username</Text>
           </View>
           <View style={styles.containertopright}>
               <Text style={styles.txtdescription}>{props.description}</Text>
           </View>
         </View>
 
-        <View style={styles.containertxtinfo} >
-      <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>Date :</Text>
-        <Text style={styles.txtinforight}>{props.date}</Text>
-      </View>
-      <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>Lieu :</Text>
-        <Text style={styles.txtinforight}>{props.lieu}</Text>
-      </View>
-      <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>Durée :</Text>
-        <Text style={styles.txtinforight}>{props.durée}</Text>
-      </View>
-      <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>Distance :</Text>
-        <Text style={styles.txtinforight}>{props.distance}</Text>
-      </View>
-      <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>Niveau :</Text>
-        <Text style={styles.txtinforight}>{props.niveau}</Text>
-      </View>
-      <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>Participants :</Text>
-        <Text style={styles.txtinforight}>{props.participants}</Text>
-      </View>
-    </View>
 
+
+<View style={styles.containertxtinfoRL} >
+        <View style={styles.containertxtinfo} >
+            <View style={styles.viewinfo}>
+              <Text style={styles.txtinfoleft}>Date :</Text>
+              <Text style={styles.txtinfoleft}>Lieu :</Text>
+              <Text style={styles.txtinfoleft}>Durée :</Text>
+              <Text style={styles.txtinfoleft}>Distance :</Text>
+              <Text style={styles.txtinfoleft}>Niveau :</Text>
+              <Text style={styles.txtinfoleft}>Participants :</Text>
+          
+            </View>
+            </View>
+
+      <View style={styles.containertxtinfo} >
+
+        <Text style={styles.txtinforight}>{props.date}date</Text>
+        <Text style={styles.txtinforight}>{props.lieu}lieu</Text>
+        <Text style={styles.txtinforight}>{props.durée}durée</Text>
+        <Text style={styles.txtinforight}>{props.distance}distance</Text>
+        <Text style={styles.txtinforight}>{props.niveau}niveau</Text>
+        <Text style={styles.txtinforight}>{props.participants}participants</Text>
+      </View>
+      </View>
 
       <View style={styles.containerbtnbot}>
         <TouchableOpacity onPress={() => handleLeavechat()} style={styles.button} activeOpacity={0.8}>
@@ -93,6 +91,7 @@ export default function Racecardtest(props) {
 const styles = StyleSheet.create({
   containerall: {
     flex: 1,  
+    marginTop: 30,
   },
 
   containertopusername:{
@@ -101,7 +100,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
+  nameunderpic: {
+    width: '80%',
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#474CCC',
+    textAlign: 'center',
+    borderColor: '#474CCC',
+    borderWidth: 1,
+  },
   topUsername: {
     width: '80%',
     fontSize: 38,
@@ -112,7 +119,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   photo: {
-    margin: 10,
+    margin: 5,
     width: 150,
     height: 150,
     borderRadius: 100,
@@ -140,12 +147,14 @@ const styles = StyleSheet.create({
      alignItems: 'center',
   },
   containertopleft:{
+    marginLeft:10,
     borderColor: 'green',
     borderWidth: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },
   containertopright:{
+    margin:10,
     borderColor: 'grey',
     borderWidth: 1,
     borderRadius:20,
@@ -162,12 +171,13 @@ const styles = StyleSheet.create({
     borderColor: 'yellow',
     borderWidth: 1,
   },
- viewinfo:{
+  containertxtinfoRL:{
   flexDirection: 'row',
   borderColor: 'grey',
   borderWidth: 1,
-  alignItems:'center',
-  justifyContent:"space-evenly",
+
+
+  textAlignVertical:'left',
   },
   txtinfoleft:{
     width:100,
@@ -230,3 +240,32 @@ const styles = StyleSheet.create({
 
 
 });
+
+
+{/* <View style={styles.containertxtinfo} >
+<View style={styles.viewinfo}>
+  <Text style={styles.txtinfoleft}>Date :</Text>
+  <Text style={styles.txtinforight}>{props.date}date</Text>
+</View>
+<View style={styles.viewinfo}>
+  <Text style={styles.txtinfoleft}>Lieu :</Text>
+  <Text style={styles.txtinforight}>{props.lieu}lieu</Text>
+</View>
+<View style={styles.viewinfo}>
+  <Text style={styles.txtinfoleft}>Durée :</Text>
+  <Text style={styles.txtinforight}>{props.durée}durée</Text>
+</View>
+<View style={styles.viewinfo}>
+  <Text style={styles.txtinfoleft}>Distance :</Text>
+  <Text style={styles.txtinforight}>{props.distance}distance</Text>
+</View>
+<View style={styles.viewinfo}>
+  <Text style={styles.txtinfoleft}>Niveau :</Text>
+  <Text style={styles.txtinforight}>{props.niveau}niveau</Text>
+</View>
+<View style={styles.viewinfo}>
+  <Text style={styles.txtinfoleft}>Participants :</Text>
+  <Text style={styles.txtinforight}>{props.participants}participants</Text>
+</View>
+</View> */}
+
