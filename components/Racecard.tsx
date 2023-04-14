@@ -20,58 +20,60 @@ import DatePicker from '@react-native-community/datetimepicker';
 
 
 
-export default function Racecardtest() {
+export default function Racecardtest(props) {
   const photosData= "https://static.lacapsule.academy/faceup/picture1.jpg";
   
   return (
     <View style={styles.containerall}>
 
+      <View style={styles.containertopusername} >
+          <Text style={styles.topUsername}>{props.username}</Text>
+      </View>
 
-        <Text style={styles.topUsername}>pseudo</Text>
         <View style={styles.containertop}>
           <View style={styles.containertopleft}>
           <Image style={styles.photo} source={require('../assets/shareact3.png')} />
-          <Text style={styles.topUsername}>pseudo</Text>
+          <Text style={styles.topUsername}>{props.username}</Text>
           </View>
           <View style={styles.containertopright}>
-              <Text style={styles.txtdescription}>paragraphe blabla</Text>
+              <Text style={styles.txtdescription}>{props.description}</Text>
           </View>
         </View>
 
         <View style={styles.containertxtinfo} >
       <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>pseudo</Text>
-        <Text style={styles.txtinforight}>txt pseudo</Text>
+        <Text style={styles.txtinfoleft}>Date :</Text>
+        <Text style={styles.txtinforight}>{props.date}</Text>
       </View>
       <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>pseudo</Text>
-        <Text style={styles.txtinforight}>txt pseudo</Text>
+        <Text style={styles.txtinfoleft}>Lieu :</Text>
+        <Text style={styles.txtinforight}>{props.lieu}</Text>
       </View>
       <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>pseudo</Text>
-        <Text style={styles.txtinforight}>txt pseudo</Text>
+        <Text style={styles.txtinfoleft}>Durée :</Text>
+        <Text style={styles.txtinforight}>{props.durée}</Text>
       </View>
       <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>pseudo</Text>
-        <Text style={styles.txtinforight}>txt pseudo</Text>
+        <Text style={styles.txtinfoleft}>Distance :</Text>
+        <Text style={styles.txtinforight}>{props.distance}</Text>
       </View>
       <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>pseudo</Text>
-        <Text style={styles.txtinforight}>txt pseudo</Text>
+        <Text style={styles.txtinfoleft}>Niveau :</Text>
+        <Text style={styles.txtinforight}>{props.niveau}</Text>
       </View>
       <View style={styles.viewinfo}>
-        <Text style={styles.txtinfoleft}>pseudo</Text>
-        <Text style={styles.txtinforight}>txt pseudo</Text>
+        <Text style={styles.txtinfoleft}>Participants :</Text>
+        <Text style={styles.txtinforight}>{props.participants}</Text>
       </View>
     </View>
 
 
       <View style={styles.containerbtnbot}>
-        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Aller au chat de groupe</Text>
+        <TouchableOpacity onPress={() => handleLeave()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Pour la V2 chat</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Commence dans XXX min !</Text>
+        <TouchableOpacity onPress={() => handleS()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButtontimer}>Commence dans {props.timer} min !</Text>
         </TouchableOpacity>
       </View>
 
@@ -93,6 +95,14 @@ const styles = StyleSheet.create({
   containerall: {
     flex: 1,  
   },
+
+  containertopusername:{
+    borderColor: 'green',
+    borderWidth: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   topUsername: {
     width: '80%',
     fontSize: 38,
@@ -137,8 +147,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   containertopright:{
+    borderColor: 'grey',
+    borderWidth: 1,
+    borderRadius:20,
+    backgroundColor:'#e2e2f3',
   },
   txtdescription:{
+    height:200,
+    width:200,
 
   },
 
@@ -155,7 +171,7 @@ const styles = StyleSheet.create({
   justifyContent:"space-evenly",
   },
   txtinfoleft:{
-    width:60,
+    width:100,
     marginTop: 2,
     color: '#474CCC',
     
@@ -194,4 +210,16 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 18,
   },
+
+textButtontimer: {
+alignItems: 'center',
+justifyContent:'center',
+paddingTop: 8,
+width: '70%',
+
+backgroundColor: '#474CCC',
+borderRadius: 50,
+
+fontSize: 12,
+},
 });
