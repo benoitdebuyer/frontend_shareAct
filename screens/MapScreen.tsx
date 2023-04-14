@@ -99,7 +99,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     const hours = date.getHours();
     const minutes = date.getMinutes();
 
-    return ` Le ${day} ${month} ${year}`;
+    return `Le ${day} ${month} ${year} à ${hours} : ${minutes}`;
   };
   const formatDate2 = (dateString) => {
     const date = new Date(dateString);
@@ -183,43 +183,25 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
         />
       </TouchableOpacity>
 
-      <TouchableWithoutFeedback onPress={() => handleCloseModalmarker()}>
+      
         <Modal
           visible={selectedRace !== null}
           animationType="slide"
           transparent={true}
           onRequestClose={handleCloseModalmarker}
+          
         >
+
           <View onPress={handleCloseModalmarker}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "rgba(0, 0, 0, 0.20)",
-            }
-          }
+            style={styles.centeredViewmarker}
           >
             <View
-              style={{
-                justifyContent: "center",
-                backgroundColor: "white",
-                padding: 20,
-                borderRadius: 10,
-              }}
+              style={styles.modalViewmarker}
             >
               <Text
-                style={{ fontSize: 18, fontWeight: "bold", marginBottom: 8 }}
+                style={{ fontSize: 18, fontWeight: "bold", margin: 8,}}
               >
                 {formatDate(selectedRace?.date)}
-              </Text>
-              <Text
-                style={{ fontSize: 18, fontWeight: "bold", marginBottom: 8 }}
-              >
-                {formatDate2(selectedRace?.date)}
               </Text>
               <View style={{ flexDirection: "row" }}>
                 <Text style={{ marginBottom: 8 }}>
@@ -229,13 +211,28 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
                   Temps : {selectedRace?.duration}
                 </Text>
               </View>
+
+              <View style={styles.viewmodalbtn}>
+
               <TouchableOpacity onPress={() => handleCloseModalgotorace(race)}>
-                <Text style={{ color: "blue" }}>Voir la course</Text>
+                <Text style={styles.modalbtngotorace}>Voir la course</Text>
               </TouchableOpacity>
+
+              <Text style={styles.test}>        </Text>
+
+              <TouchableOpacity onPress={() => handleCloseModalmarker()}>
+              <Text style={styles.modalbtnReturn}>Close</Text>
+            </TouchableOpacity>
+
+            </View>
+
+
             </View>
           </View>
+
+
+
         </Modal>
-      </TouchableWithoutFeedback>
 
       <Modal
         animationType="slide"
@@ -285,6 +282,11 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 }
 
 const styles = StyleSheet.create({
+
+  test:{
+color :'white',
+
+  },
   container: {
     flex: 1,
   },
@@ -463,5 +465,55 @@ const styles = StyleSheet.create({
     bottom: "12%",
     right: "4%",
     zIndex: 1,
+  },
+  centeredViewmarker: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  modalViewmarker: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  viewmodalbtn:{
+    flexDirection: "row",
+    
+    
+  },
+  modalbtngotorace:{
+    padding: 10,
+    color: 'white',
+    borderRadius: 10,
+    backgroundColor: '#474CCC',
+    fontSize: 17,
+    alignItems: 'center',
+    shadowOpacity: 0.9,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalbtnReturn:{
+    padding: 10,
+    color: '#474CCC',
+    borderRadius: 10,
+    borderWidth: 1,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    borderColor: "#474CCC",
+    alignItems: 'center',
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 10,
   },
 });
