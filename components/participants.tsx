@@ -21,7 +21,7 @@ import DatePicker from '@react-native-community/datetimepicker';
 
 
 
-export default function Racecardtest() {
+export default function Participants() {
     const photosData = "https://static.lacapsule.academy/faceup/picture1.jpg";
 
     return (
