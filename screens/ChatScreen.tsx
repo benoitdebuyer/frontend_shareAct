@@ -12,6 +12,7 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPlace, removePlace } from '../reducers/user';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const BACKEND_ADDRESS = 'http://BACKEND_IP:3000';
 
@@ -100,6 +101,9 @@ const handleSubmit = () => {
 
       <View style={styles.inputContainer}>
         <TextInput placeholder="Message" onChangeText={(value) => setCity(value)} value={city} style={styles.input} />
+        <TouchableOpacity onPress={gotoracecard} style={styles.buttonSend} activeOpacity={0.8}>
+        <Text><FontAwesome5 name="paper-plane" size={20} color="white" /></Text>
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity onPress={gotoracecard} style={styles.button} activeOpacity={0.8}>
@@ -162,6 +166,15 @@ const styles = StyleSheet.create({
     borderBottomColor: '#474CCC',
     borderBottomWidth: 1,
     fontSize: 16,
+  },
+  buttonSend: {
+    marginTop: 20,
+    width: '30%',
+    alignItems: 'center',
+    paddingTop: 8,
+    paddingBottom: 10,
+    backgroundColor: '#474CCC',
+    borderRadius: 10,
   },
   button: {
     marginTop: 20,
