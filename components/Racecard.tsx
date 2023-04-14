@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   containertopright:{
-
   },
   txtdescription:{
 
