@@ -38,11 +38,53 @@ export default function Racecardtest() {
           </View>
         </View>
 
-        <Text style={styles.topUsername}>pseudo</Text>
-        <Text style={styles.topUsername}>pseudo</Text>
+        <View style={styles.containertxtinfo} >
+      <View style={styles.viewinfo}>
+        <Text style={styles.txtinfoleft}>pseudo</Text>
+        <Text style={styles.txtinforight}>txt pseudo</Text>
+      </View>
+      <View style={styles.viewinfo}>
+        <Text style={styles.txtinfoleft}>pseudo</Text>
+        <Text style={styles.txtinforight}>txt pseudo</Text>
+      </View>
+      <View style={styles.viewinfo}>
+        <Text style={styles.txtinfoleft}>pseudo</Text>
+        <Text style={styles.txtinforight}>txt pseudo</Text>
+      </View>
+      <View style={styles.viewinfo}>
+        <Text style={styles.txtinfoleft}>pseudo</Text>
+        <Text style={styles.txtinforight}>txt pseudo</Text>
+      </View>
+      <View style={styles.viewinfo}>
+        <Text style={styles.txtinfoleft}>pseudo</Text>
+        <Text style={styles.txtinforight}>txt pseudo</Text>
+      </View>
+      <View style={styles.viewinfo}>
+        <Text style={styles.txtinfoleft}>pseudo</Text>
+        <Text style={styles.txtinforight}>txt pseudo</Text>
+      </View>
+    </View>
+
+
+      <View style={styles.containerbtnbot}>
+        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Aller au chat de groupe</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Commence dans XXX min !</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.containerbtnbot}>
+      <Text style={styles.txtbot}>un imprevu ? besoin de quitter ce groupe !</Text>
+        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Leave</Text>
+        </TouchableOpacity>
+      </View>
 
 
     </View>
+    
     
   )
 }
@@ -86,24 +128,70 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderColor: 'red',
     borderWidth: 1,
+     alignItems: 'center',
   },
   containertopleft:{
     borderColor: 'green',
-    borderWidth: 1,
+    borderWidth: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },
   containertopright:{
-
   },
   txtdescription:{
 
   },
+
+  containertxtinfo:{
+    flexDirection: 'column',
+    borderColor: 'yellow',
+    borderWidth: 1,
+  },
+ viewinfo:{
+  flexDirection: 'row',
+  borderColor: 'grey',
+  borderWidth: 1,
+  alignItems:'center',
+  justifyContent:"space-evenly",
+  },
+  txtinfoleft:{
+    width:60,
+    marginTop: 2,
+    color: '#474CCC',
+    
+  },
+  txtinforight:{
+    marginLeft:20,
+    marginTop: 2,
+    color: 'grey',
+  },
+
+
+
   input: {
     width: 150,
     borderBottomColor: '#474CCC',
     borderBottomWidth: 1,
     fontSize: 16,
   },
+  containerbtnbot: {
+    flexDirection: 'row',
+    borderColor: 'red',
+    borderWidth: 1,
+    justifyContent: "space-around",
+  },
 
+  txtbot: {
+    color: 'grey',
+    height: 50,
+    fontWeight: '600',
+    fontSize: 12,
+  },
+
+  textButton: {
+    color: 'grey',
+    height: 50,
+    fontWeight: '600',
+    fontSize: 18,
+  },
 });
