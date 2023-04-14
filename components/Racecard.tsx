@@ -21,7 +21,6 @@ import DatePicker from '@react-native-community/datetimepicker';
 
 
 export default function Racecardtest(props) {
-  const photosData= "https://static.lacapsule.academy/faceup/picture1.jpg";
   
   return (
     <View style={styles.containerall}>
@@ -69,8 +68,8 @@ export default function Racecardtest(props) {
 
 
       <View style={styles.containerbtnbot}>
-        <TouchableOpacity onPress={() => handleLeave()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Pour la V2 chat</Text>
+        <TouchableOpacity onPress={() => handleLeavechat()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButtonred}>Pour la V2 chat</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => handleS()} style={styles.button} activeOpacity={0.8}>
           <Text style={styles.textButtontimer}>Commence dans {props.timer} min !</Text>
@@ -79,7 +78,7 @@ export default function Racecardtest(props) {
 
       <View style={styles.containerbtnbot}>
       <Text style={styles.txtbot}>un imprevu ? besoin de quitter ce groupe !</Text>
-        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+        <TouchableOpacity onPress={() => handleLeaveGroupe()} style={styles.button} activeOpacity={0.8}>
           <Text style={styles.textButton}>Leave</Text>
         </TouchableOpacity>
       </View>
@@ -210,16 +209,24 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 18,
   },
-
-textButtontimer: {
-alignItems: 'center',
-justifyContent:'center',
-paddingTop: 8,
-width: '70%',
-
-backgroundColor: '#474CCC',
-borderRadius: 50,
-
-fontSize: 12,
+  textButtonred: {
+    alignItems: 'center',
+    justifyContent:'center',
+    paddingTop: 8,
+    width: '70%',
+    backgroundColor: '#474CCC',
+    borderRadius: 50,
+    fontSize: 12,
+    },
+  textButtontimer: {
+    alignItems: 'center',
+    justifyContent:'center',
+    paddingTop: 8,
+    width: '70%',
+    backgroundColor: '#474CCC',
+    borderRadius: 50,
+    fontSize: 12,
 },
+
+
 });
