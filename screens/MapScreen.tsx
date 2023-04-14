@@ -183,6 +183,12 @@ export default function MapScreen() {
                 <Text style={styles.textStyle}>Changez votre profil</Text>
             </TouchableOpacity> 
 
+            <Pressable
+              style={ styles.buttonClose}
+              onPress={() => setModalProfileVisible(!modalProfileVisible)}>
+              <Text style={styles.textStyle}>Retour</Text>
+            </Pressable>
+
           
           </View>
      
@@ -208,6 +214,17 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     paddingTop: 70,
 
+  },
+  buttonClose: {
+   
+    paddingTop:30,
+    margin :15,
+    
+    backgroundColor:'red',
+    borderRadius: 100,
+    alignContent:'center',
+    justifyContent:'center',
+    height:    Dimensions.get("window").height/15,
   },
   button: {
     position:'absolute',
@@ -340,6 +357,7 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
+    marginTop: 40, 
     backgroundColor: 'white',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
