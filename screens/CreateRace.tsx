@@ -4,7 +4,7 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, ScrollView 
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { updatenewracelat, updatenewracelon } from '../reducers/race';
+import { updatenewracelat, updatenewracelon, addNewAddress } from '../reducers/race';
 import RNPickerSelect from 'react-native-picker-select';
 import DatePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -22,6 +22,7 @@ export default function CreateRace() {
 
   const navigation = useNavigation();
   const [description, setDescription] = useState('');
+  const [address, setAddress] = useState('');
   const [duration, setDuration] = useState(null);
   const [distance, setDistance] = useState(null);
   // const [nbrParticipants, setNbrParticipants] = useState('');
@@ -49,6 +50,10 @@ export default function CreateRace() {
     setDescription(text);
   };
 
+  const handleAddressChange = (text) => {
+    setAddress(text);
+  };
+
   // Durée
   const handleDurationChange = (text) => {
     setDuration(text.replace(/[^0-9]/g, '').slice(0, 3));
@@ -65,12 +70,12 @@ export default function CreateRace() {
     const durationNumber = Number(duration);
     const distanceNumber = Number(distance);
     const nbrParticipantsNumber = Number(nbrParticipants);
-    const data = { token: user.token, description: description, date: date, address: "Parc", latitude: race.newracelat, longitude: race.newracelon, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber };
+    const data = { token: user.token, description: description, date: date, address: race.newAddress, latitude: race.newracelat, longitude: race.newracelon, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber };
     console.log(data); // Ajout de cette ligne pour afficher les données envoyées
     fetch(`${BACKEND_ADDRESS}/races`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: user.token, description: description, date: date, address: "Place de la mairie", latitude: race.newracelat, longitude:race.newracelon, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber }),
+      body: JSON.stringify({ token: user.token, description: description, date: date, address: race.newAddress, latitude: race.newracelat, longitude: race.newracelon, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber }),
     }).then((response) => response.json())
       .then((data) => {
         if (data.result) {
@@ -79,13 +84,14 @@ export default function CreateRace() {
       });
   };
 
-console.log(race.newracelat)
+  console.log(race.newracelat)
 
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <Text style={styles.title}>Création de course</Text>
         <View style={styles.containerInput}>
+
           <TextInput
             style={styles.textInput}
             placeholder="Description de votre course :"
@@ -95,10 +101,16 @@ console.log(race.newracelat)
             onChangeText={handleDescriptionChange}
           />
 
-          <View style={styles.placeView}>
-            <Text style={styles.titlePlace}>Adresse : </Text>
-            <Text style={styles.place}>Bois de Boulogne, près du lac</Text>
-          </View>
+
+            {/* <TextInput
+              style={styles.addressInput}
+              placeholder="Entrez une adresse"
+              value={address}
+              onChangeText={handleAddressChange}
+            /> */}
+
+            <Text style={styles.titleAddress} >Adresse : </Text>
+            <Text style={styles.address} >{race.newAddress} </Text>
 
 
 
@@ -227,16 +239,23 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   // Adresse du parcours
-  placeView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  titlePlace: {
+  titleAddress: {
     marginTop: 20,
+    textAlign: 'center',
+    fontSize: 16,
     color: '#474CCC',
   },
-  place: {
-    marginTop: 20,
+  address: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    textAlign: 'center',
+    height: 20,
+    marginTop: 5,
+    paddingvertical: 10,
+    paddingHorizontal: 10,
+    minWidth: '80%',
+    maxWidth: '80%',
+    fontSize: 16,
   },
   // Durée et distance
   inputView: {

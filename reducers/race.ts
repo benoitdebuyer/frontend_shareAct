@@ -8,6 +8,7 @@
           photos: [],
           newracelat:null,
           newracelon: null,
+          newAddress: null,
       }
     }
       export const userSlice = createSlice({
@@ -19,7 +20,9 @@
           },
           updatenewracelon: (state, action) => {
             state.value.newracelon = action.payload; 
-          
+          },
+          addNewAddress: (state, action) => {
+            state.value.newAddress = action.payload; 
           },
           removePlace: (state, action) => {
             state.value.places = state.value.places.filter(e => e.name !== action.payload);
@@ -30,6 +33,6 @@
       }
       });
       
-      export const { updatenewracelat, updatenewracelon, removePlace,addPlaces } = userSlice.actions;
+      export const { updatenewracelat, updatenewracelon, addNewAddress, removePlace,addPlaces } = userSlice.actions;
       export default userSlice.reducer;
       
