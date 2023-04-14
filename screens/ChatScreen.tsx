@@ -24,6 +24,12 @@ export default function PlacesScreen( {navigation}) {
     navigation.navigate("Racecard");
   }
 
+  const gotoParticipants = () => {
+    navigation.navigate("Participants");
+  }
+
+  
+
 const handleSubmit = () => {
 
   // if (city.length === 0) {
@@ -94,11 +100,15 @@ const handleSubmit = () => {
 
       <View style={styles.inputContainer}>
         <TextInput placeholder="Message" onChangeText={(value) => setCity(value)} value={city} style={styles.input} />
-       
-        <TouchableOpacity onPress={gotoracecard} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Envoyer</Text>
-        </TouchableOpacity>
       </View>
+
+      <TouchableOpacity onPress={gotoracecard} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Racecard</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={gotoParticipants} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Participants </Text>
+        </TouchableOpacity>
 
       <ScrollView contentContainerStyle={styles.scrollView}>
         {/* {places} */}
@@ -154,6 +164,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
+    marginTop: 20,
     width: '30%',
     alignItems: 'center',
     paddingTop: 8,
