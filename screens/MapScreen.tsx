@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Modal, Image, StyleSheet, Dimensions, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { TouchableWithoutFeedback, Modal, Image, StyleSheet, Dimensions, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { addRaceByUser, delRaceByUser, } from '../reducers/race';
+import { useRoute } from '@react-navigation/native';
 
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -23,9 +25,11 @@ export default function MapScreen() {
   const [modalProfileVisible, setModalProfileVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
   const [races, setRaces] = useState([]);
+  const [selectedRace, setSelectedRace] = useState(null);
 
  
-
+  const dispatch = useDispatch();
+  const race = useSelector((state) => state.race.value);
   const user = useSelector((state: { user: UserState }) => state.user.value);
 
   const handleMyLocationPress = () => {
@@ -62,19 +66,41 @@ export default function MapScreen() {
 
   const onChangeButtonPress= () => {
     navigation.navigate( "MonCompte" );
-    setModalProfileVisible(!modalProfileVisible);
+    //setModalProfileVisible(!modalProfileVisible);
    }
 
   const handleCreateRace = () => {
     navigation.navigate('MapCreate');
   }
 
-  const handleMarker = () => {
-    navigation.navigate('MapCreate');
+
+  // desous  function pour la modal des marquer de race
+  const handleCloseModalmarker = () => {
+    setSelectedRace(null)
+    dispatch(delRaceByUser())
   }
+
+  const handleMarkerPress = (race) => {
+    setSelectedRace(race)
+    dispatch(addRaceByUser(race))
+    console.log(race)
+  }
+  const  handleCloseModalgotorace = (race) => {
+    /* 
+    navigation.navigate('Details', { courseId: data.id });
+Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.params.courseId. */
+navigation.navigate('JoinRaceScreen')
+    setSelectedRace(null);
+  }
+////////////////
   
-  const allRaces = races.map((data, i) => {
-    return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.address} pinColor="#FF4800" />;
+
+//// map sur le tableau race qui viendra de la BDD
+  const allRaces = races.map((race, i) => {
+    return <Marker key={race._id} coordinate={{ latitude: race.latitude, longitude: race.longitude }} 
+    title={race.address}
+    onPress={() => handleMarkerPress(race)}
+   pinColor="#FF4800" />;
   }); 
 
   return (
@@ -86,9 +112,9 @@ export default function MapScreen() {
       /> 
       
       <Pressable
-  style={styles.buttonProfileModale}
-  onPress={() => setModalProfileVisible(true)}
->
+      style={styles.buttonProfileModale}
+      onPress={() => setModalProfileVisible(true)}
+    >
   <Image source={require('../assets/user.png')} style={styles.profil} />
 </Pressable>
       <TouchableOpacity  style={styles.button} onPress={() => handleCreateRace()} activeOpacity={0.8}>
@@ -129,6 +155,37 @@ export default function MapScreen() {
                style={styles.localisation_icon}
             />       
       </TouchableOpacity> 
+
+
+
+
+
+
+      <TouchableWithoutFeedback onPress={() => handleCloseModalmarker()}>
+      <Modal
+        visible={selectedRace !== null}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={handleCloseModalmarker}
+      >
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.20)' }}>
+          <View style={{ backgroundColor: 'white', padding: 16, borderRadius: 8 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 8 }}>{selectedRace?.date}</Text>
+            <Text style={{ marginBottom: 8 }}>Distance : {selectedRace?.distance}</Text>
+            <Text style={{ marginBottom: 16 }}>Temps : {selectedRace?.time}</Text>
+            <TouchableOpacity onPress={() => handleCloseModalgotorace(race)}>
+              <Text style={{ color: 'blue' }}>Voir la course</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      </TouchableWithoutFeedback>
+
+
+
+
+
+
 
 
       <Modal
