@@ -221,6 +221,66 @@ const styles = StyleSheet.create({
     left:'25%',
     bottom: '2%',
   },
+  imgProfileModal:{
+      width:  Dimensions.get("window").width/3, 
+      height:  Dimensions.get("window").width/3,
+      borderColor: '#474CCC',
+      borderWidth: 5, 
+      borderRadius: 100, 
+      marginBottom: 30, 
+  },
+  infosProfile:{
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+
+
+    
+
+  },
+  textInfos:{
+
+
+    width: '70%',
+
+    textAlign:'center',
+    borderBottomColor: '#474CCC',
+    borderBottomWidth: 1,
+    fontSize: 18,
+    paddingBottom: 5,
+    margin: 15,
+    fontWeight: '600',
+    fontSize: 15,
+    
+
+
+    
+
+  },
+  buttonProfileModif:{
+    paddingTop:30,
+    margin :15,
+    
+    backgroundColor:'#474CCC',
+    borderRadius: 100,
+    alignContent:'center',
+    justifyContent:'center',
+    height:    Dimensions.get("window").height/15,
+  },
+  textStyle:{
+    textAlign:'center',
+    color: '#ffffff',
+    height: 30,
+    fontWeight: '600',
+    fontSize: 15,
+    width: Dimensions.get("window").width/2,
+    height: 50,
+
+   
+
+  },
+
+
   textButton: {
     color: '#ffffff',
     height: 30,
@@ -281,10 +341,13 @@ const styles = StyleSheet.create({
 
   modalView: {
     backgroundColor: 'white',
-    borderRadius: 20,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
     padding: 30,
     alignItems: 'center',
     shadowColor: '#000',
+    width :  Dimensions.get("window").width, 
+    height :Dimensions.get("window").height, 
     shadowOffset: {
       width: 0,
       height: 2,

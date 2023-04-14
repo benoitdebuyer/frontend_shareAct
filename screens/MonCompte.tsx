@@ -29,23 +29,38 @@ export default function MonCompte() {
   }
 
   const handleSendBdd = () => {
+    console.log(firstname, username, email, image, user.token)
 
-    fetch(`${BACKEND_ADDRESS}/changesprofil`, {
-            method: "POST",
+    const datas = {
+      firstname: firstname,
+      username: username,
+      email: email,
+      image: image,
+      token:user.token,
+    };
+
+    fetch(`${BACKEND_ADDRESS}/users/changesprofil`, {
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(firstname, username, email, age, image),
+            body: JSON.stringify(datas),
           })
             .then((response) => response.json())
             .then((data) => {
               if (!data.result) { 
-                setEmailError(true); 
+                
+                console.log(data.error)
+
+                
               } else { 
-                dispatch(updateEmail(email));
+                //dispatch(updateEmail(email));
+                console.log("Hello BDD")
                 navigation.navigate("TabNavigator", { screen: "Map" });
+                
+
               }
             })
 
-    console.log("Hello BDD")
+  
   }
   return (
     <View style={styles.container}>
@@ -65,11 +80,11 @@ export default function MonCompte() {
         <TextInput placeholder={user.username} onChangeText={(value) => setUsername(value)} value={username} style={styles.input} />
         
         <TextInput placeholder={user.email} onChangeText={(value) => setEmail(value)} value={email} style={styles.input} />
-        <TextInput placeholder={user.age} onChangeText={(value) => setAge(value)} value={age} style={styles.input} />
+        <TextInput placeholder='/img' onChangeText={(value) => setImg(value)} value={image} style={styles.input} />
        
 
 
-        <TouchableOpacity  style={styles.button} onPress={() => handleSendBdd()} activeOpacity={0.8}>
+        <TouchableOpacity  style={styles.button} onPress={handleSendBdd} activeOpacity={0.8}>
               <Text style={styles.textButton} >Envoyer les modifications</Text>
       </TouchableOpacity> 
 
@@ -131,12 +146,12 @@ imgProfile:{
     borderColor: '#474CCC',
     borderWidth : 4,
     borderRadius: 100,
+   
 },
  
 textButton:{
    
     textAlign:'center',
-    
     color: '#ffffff',
     height: 30,
     fontWeight: '600',
@@ -154,6 +169,7 @@ input: {
     fontSize: 18,
     paddingBottom: 5,
     margin: 10,
+    
   },
   
 })
