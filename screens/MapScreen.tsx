@@ -66,7 +66,7 @@ export default function MapScreen() {
 
   const onChangeButtonPress= () => {
     navigation.navigate( "MonCompte" );
-    setModalProfileVisible(!modalProfileVisible);
+    //setModalProfileVisible(!modalProfileVisible);
    }
 
   const handleCreateRace = () => {
@@ -112,9 +112,9 @@ navigation.navigate('JoinRaceScreen')
       /> 
       
       <Pressable
-  style={styles.buttonProfileModale}
-  onPress={() => setModalProfileVisible(true)}
->
+      style={styles.buttonProfileModale}
+      onPress={() => setModalProfileVisible(true)}
+    >
   <Image source={require('../assets/user.png')} style={styles.profil} />
 </Pressable>
       <TouchableOpacity  style={styles.button} onPress={() => handleCreateRace()} activeOpacity={0.8}>
