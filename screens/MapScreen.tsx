@@ -1,24 +1,30 @@
-import React from "react";
-import { useEffect, useState } from 'react';
-import { Modal, Image,  StyleSheet, Dimensions,  Text, TextInput, TouchableOpacity, View, } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { Modal, Image, StyleSheet, Dimensions, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
+import { useFocusEffect } from '@react-navigation/native';
+
 import { useNavigation } from '@react-navigation/native';
+//import Modal from 'react-native-modal'
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 
 
 export default function MapScreen() {
+
+
+
   const navigation = useNavigation();
   const [currentPosition, setCurrentPosition] = useState(null);
   const [tempCoordinates, setTempCoordinates] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalProfileVisible, setModalProfileVisible] = useState(false);
   const [newPlace, setNewPlace] = useState('');
   const [races, setRaces] = useState([]);
-  const [markers, setMarkers] = useState([]);
+
+ 
 
   const user = useSelector((state: { user: UserState }) => state.user.value);
 
@@ -32,6 +38,7 @@ export default function MapScreen() {
     }
   }; 
   useEffect(() => {
+    
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === 'granted') {
@@ -47,7 +54,16 @@ export default function MapScreen() {
        data.result && setRaces(data.races);
       
       });
-  }, []);
+  }
+
+  ,[]);
+
+
+
+  const onChangeButtonPress= () => {
+    navigation.navigate( "MonCompte" );
+    setModalProfileVisible(!modalProfileVisible);
+   }
 
   const handleCreateRace = () => {
     navigation.navigate('MapCreate');
@@ -63,10 +79,13 @@ export default function MapScreen() {
         source={require('../assets/filter.png')}
         style={styles.icon}
       /> 
-        <Image source ={require('../assets/user.png')}
-              style={styles.profil}
-      />
-    
+      
+      <Pressable
+  style={styles.buttonProfileModale}
+  onPress={() => setModalProfileVisible(true)}
+>
+  <Image source={require('../assets/user.png')} style={styles.profil} />
+</Pressable>
       <TouchableOpacity  style={styles.button} onPress={() => handleCreateRace()} activeOpacity={0.8}>
               <Text style={styles.textButton} >Créer une course</Text>
       </TouchableOpacity>  
@@ -105,6 +124,65 @@ export default function MapScreen() {
                style={styles.localisation_icon}
             />       
       </TouchableOpacity> 
+
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        //backdropColor="red"
+        //presentationStyle="OverFullScreen"
+        
+        visible={modalProfileVisible}
+        onRequestClose={() => {
+          //Alert.alert('Modal has been closed.');
+          setModalProfileVisible(!modalProfileVisible);
+
+        }}>
+
+       
+
+       
+          <View style={styles.modalView}>
+            
+            
+
+                      
+            <Image source ={require('../assets/user.png')}
+             style={styles.imgProfileModal}/>
+
+            <View style={styles.infosProfile}>
+
+            <Text style ={styles.textInfos}>
+                  
+                  {user.username}
+                  </Text>
+
+                  <Text style ={styles.textInfos}>
+                
+                  {user.firstname}
+                  </Text>
+
+                <Text style ={styles.textInfos}>
+                  
+                  {user.email}
+                  </Text>
+
+                  <Text style ={styles.textInfos}>
+                 
+                  {user.age}
+                  </Text>
+
+            </View>
+
+            <TouchableOpacity style={styles.buttonProfileModif} onPress={onChangeButtonPress}>
+                <Text style={styles.textStyle}>Changez votre profil</Text>
+            </TouchableOpacity> 
+
+          
+          </View>
+     
+        
+      </Modal>
     </View>
   );
 }
@@ -144,24 +222,32 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 15,
   },
+  buttonProfileModale:{
+    zIndex:1,
+    position: 'absolute',
+    top:'9%',
+    right:'2%',
+    
+    
+  },
   icon: {
     position: 'absolute',
     left:'4%',
     top:'12%',
+    zIndex:1,
     width : 50,
     height: 50,
     marginLeft:30,
-    zIndex:1,
+    
   },
   profil: {
-    position: 'absolute',
+   
     width: 90,
     height: 90,
-    top:'9%',
-    right:'2%',
+   
     borderRadius: 50,
     backgroundColor: '#ffffff',
-    zIndex: 1,
+    
     borderWidth:2,
     borderColor: '#474CCC',
     borderWidth : 4,
@@ -187,6 +273,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   modalView: {
     backgroundColor: 'white',
     borderRadius: 20,
@@ -226,5 +313,7 @@ const styles = StyleSheet.create({
     right:'4%',
     zIndex: 1,
   }
+
+  
 
 });

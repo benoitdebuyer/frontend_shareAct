@@ -59,6 +59,8 @@ export default function MapScreen() {
   }, []);
 
   const handleMyLocationPress = () => {
+    // console.log("hello")
+    console.log(currentPosition)
     if (currentPosition) {
       mapRef.animateToRegion({
         ...currentPosition,
