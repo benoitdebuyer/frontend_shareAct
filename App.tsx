@@ -15,6 +15,7 @@ import CreateRace from './screens/CreateRace'
 import MonCompte from './screens/MonCompte'
 import SnapScreen from './screens/SnapScreen'
 import Racecardtest from './components/Racecard'
+import Participants from './components/Participants'
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -67,6 +68,7 @@ export default function App() {
           <Stack.Screen name="CreateRace" component={CreateRace} />
           <Stack.Screen name="MapCreate" component={MapCreate} />
           <Stack.Screen name="Racecard" component={Racecardtest} />
+          <Stack.Screen name="Participants" component={Participants} />
           <Stack.Screen name="MonCompte" component={MonCompte} />
       
           <Stack.Screen name="TabNavigator" component={TabNavigator} />

@@ -72,6 +72,7 @@ export default function CreateRace() {
     const nbrParticipantsNumber = Number(nbrParticipants);
     const data = { token: user.token, description: description, date: date, address: race.newAddress, latitude: race.newracelat, longitude: race.newracelon, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber };
     console.log(data); // Ajout de cette ligne pour afficher les données envoyées
+    
     fetch(`${BACKEND_ADDRESS}/races`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
