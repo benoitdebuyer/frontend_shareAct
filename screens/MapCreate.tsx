@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPlace, importPlaces } from '../reducers/user';
+import { updatenewracelat, updatenewracelon } from '../reducers/race';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
@@ -34,11 +34,11 @@ export default function MapScreen() {
       }
     })();
 
-    fetch(`${BACKEND_ADDRESS}/races/${user.nickname}`)
-      .then((response) => response.json())
-      .then((data) => {
-        data.result && dispatch(importPlaces(data.places));
-      });
+    // fetch(`${BACKEND_ADDRESS}/races/${user.nickname}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     data.result && dispatch(importPlaces(data.places));
+    //   });
   }, []);
 
   const handleMyLocationPress = () => {
@@ -69,7 +69,9 @@ export default function MapScreen() {
 
   const handleConfirm = () => {
     setModalVisible(false);
-    dispatch(addPlace(`${tempCoordinates.latitude},${tempCoordinates.longitude}`));
+    console.log(tempCoordinates.latitude)
+    dispatch(updatenewracelat(tempCoordinates.latitude));
+    dispatch(updatenewracelon(tempCoordinates.longitude));
     navigation.navigate('CreateRace', { coord: tempCoordinates });
   }
 
