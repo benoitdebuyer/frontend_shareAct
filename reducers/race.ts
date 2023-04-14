@@ -11,7 +11,7 @@
       }
     }
       export const userSlice = createSlice({
-        name: 'user',
+        name: 'race',
         initialState,
         reducers: {
           updatenewracelat: (state, action) => {

@@ -19,9 +19,10 @@ import Racecardtest from './components/Racecard'
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
+import race from './reducers/race';
 
 const store = configureStore({
-  reducer: { user },
+  reducer: { user, race },
 });
 
 const Stack = createNativeStackNavigator();

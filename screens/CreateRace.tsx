@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updatenewracelat, updatenewracelon } from '../reducers/race';
 import RNPickerSelect from 'react-native-picker-select';
 import DatePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -14,7 +15,9 @@ const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 // const BACKEND_ADDRESS = 'http://10.6.23.18:3000';
 
 export default function CreateRace() {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
+  const race = useSelector((state) => state.race.value);
   const route = useRoute();
 
   const navigation = useNavigation();
@@ -62,12 +65,12 @@ export default function CreateRace() {
     const durationNumber = Number(duration);
     const distanceNumber = Number(distance);
     const nbrParticipantsNumber = Number(nbrParticipants);
-    const data = { token: user.token, description: description, date: date, address: "Parc", latitude: user.userplaces, longitude: user.userplaces, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber };
+    const data = { token: user.token, description: description, date: date, address: "Parc", latitude: race.newracelat, longitude: race.newracelon, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber };
     console.log(data); // Ajout de cette ligne pour afficher les données envoyées
     fetch(`${BACKEND_ADDRESS}/races`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: user.token, description: description, date: date, address: "Place de la mairie", latitude: 48.883732, longitude: 2.230914, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber }),
+      body: JSON.stringify({ token: user.token, description: description, date: date, address: "Place de la mairie", latitude: race.newracelat, longitude:race.newracelon, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber }),
     }).then((response) => response.json())
       .then((data) => {
         if (data.result) {
@@ -76,7 +79,7 @@ export default function CreateRace() {
       });
   };
 
-
+console.log(race.newracelat)
 
   return (
     <ScrollView style={styles.scrollView}>
