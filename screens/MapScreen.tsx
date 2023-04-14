@@ -30,7 +30,7 @@ export default function MapScreen() {
         longitudeDelta: 0.0421,
       });
     }
-  };
+  }; 
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
