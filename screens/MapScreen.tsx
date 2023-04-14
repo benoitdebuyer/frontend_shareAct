@@ -7,6 +7,8 @@ import * as Location from 'expo-location';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { useNavigation } from '@react-navigation/native';
+//import Modal from 'react-native-modal'
+
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 
@@ -220,24 +222,32 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 15,
   },
+  buttonProfileModale:{
+    zIndex:1,
+    position: 'absolute',
+    top:'9%',
+    right:'2%',
+    
+    
+  },
   icon: {
     position: 'absolute',
     left:'4%',
     top:'12%',
+    zIndex:1,
     width : 50,
     height: 50,
     marginLeft:30,
-    zIndex:1,
+    
   },
   profil: {
-    position: 'absolute',
+   
     width: 90,
     height: 90,
-    top:'9%',
-    right:'2%',
+   
     borderRadius: 50,
     backgroundColor: '#ffffff',
-    zIndex: 1,
+    
     borderWidth:2,
     borderColor: '#474CCC',
     borderWidth : 4,
@@ -263,6 +273,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   modalView: {
     backgroundColor: 'white',
     borderRadius: 20,
@@ -302,5 +313,7 @@ const styles = StyleSheet.create({
     right:'4%',
     zIndex: 1,
   }
+
+  
 
 });
