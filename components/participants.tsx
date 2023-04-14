@@ -21,7 +21,7 @@ import DatePicker from '@react-native-community/datetimepicker';
 
 
 
-export default function Racecardtest() {
+export default function Racecardtest(props) {
     const photosData = "https://static.lacapsule.academy/faceup/picture1.jpg";
 
     return (
@@ -34,29 +34,29 @@ export default function Racecardtest() {
             <View style={styles.containerParticipants}>
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
 
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
 
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
                 <View style={styles.participant}>
                     <Image style={styles.photo} source={require('../assets/Shareact2.png')} />
-                    <Text style={styles.pseudo}>@pseudo</Text>
+                    <Text style={styles.pseudo}>@pseudo{props.username}</Text>
                 </View>
 
 

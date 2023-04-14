@@ -69,7 +69,7 @@ export default function MapScreen() {
     navigation.navigate('MapCreate');
   }
   const allRaces = races.map((data, i) => {
-    return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.address} pinColor="blue" />;
+    return <Marker key={i} coordinate={{ latitude: data.latitude, longitude: data.longitude }} title={data.address} pinColor="#FF4800" />;
   }); 
 
   return (
