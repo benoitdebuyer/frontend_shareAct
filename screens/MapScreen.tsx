@@ -17,7 +17,9 @@ import * as Location from "expo-location";
 import { addRaceByUser, delRaceByUser } from "../reducers/race";
 import { useRoute } from "@react-navigation/native";
 
-import { useFocusEffect } from "@react-navigation/native";
+//import { useFocusEffect } from "@react-navigation/native";
+import { useIsFocused } from '@react-navigation/native';
+
 
 import { useNavigation } from "@react-navigation/native";
 //import Modal from 'react-native-modal'
@@ -32,6 +34,8 @@ export default function MapScreen() {
   const [newPlace, setNewPlace] = useState("");
   const [races, setRaces] = useState([]);
   const [selectedRace, setSelectedRace] = useState(null);
+  const isFocused = useIsFocused();
+  const [hasPermission, setHasPermission] = useState(false);
 
   const dispatch = useDispatch();
   const race = useSelector((state) => state.race.value);
@@ -49,6 +53,7 @@ export default function MapScreen() {
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
+      setHasPermission(status === 'granted');
       if (status === "granted") {
         Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
           setCurrentPosition(location.coords);
@@ -62,9 +67,13 @@ export default function MapScreen() {
       });
   }, []);
 
+  if (!hasPermission || !isFocused) {
+    return <View />;
+  }
+
   const onChangeButtonPress = () => {
     navigation.navigate("MonCompte");
-    //setModalProfileVisible(!modalProfileVisible);
+    setModalProfileVisible(!modalProfileVisible);
   };
 
   const handleCreateRace = () => {
