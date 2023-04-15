@@ -11,15 +11,25 @@ import {
   View,
   UserState,
   Modal,
+  ScrollView,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
 
 export default function JoinRaceScreen(props) {
 
+  const navigation = useNavigation();
+
+  const handleSubmit = () => {
+    // dispatch pour test    
+    navigation.navigate("TabNavigator", { screen: "Courses" });
+  }
+
   return (
+    <ScrollView style={styles.scrollView}>
     <View style={styles.container}>
 
 
@@ -87,13 +97,15 @@ export default function JoinRaceScreen(props) {
           <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
           <Text style={styles.pseudo}>@pseudo{props.username}</Text>
         </View>
+    
       </View>
 
       <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>Rejoindre le groupe</Text>
+        <Text style={styles.textButton}>Rejoindre la course</Text>
       </TouchableOpacity>
 
     </View>
+    </ScrollView>
 
 
   )
@@ -231,7 +243,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     height: 30,
     fontSize: 16,
- },
+  },
 
 
 
