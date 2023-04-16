@@ -16,11 +16,11 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { addRaceByUser, delRaceByUser } from "../reducers/race";
 import { useRoute } from "@react-navigation/native";
-
-import { useFocusEffect } from "@react-navigation/native";
-
+import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
-//import Modal from 'react-native-modal'
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import GestureRecognizer from 'react-native-swipe-gestures';
+
 
 const BACKEND_ADDRESS = "https://shareact-backend.vercel.app";
 
@@ -32,6 +32,8 @@ export default function MapScreen() {
   const [newPlace, setNewPlace] = useState("");
   const [races, setRaces] = useState([]);
   const [selectedRace, setSelectedRace] = useState(null);
+  const isFocused = useIsFocused();
+  const [hasPermission, setHasPermission] = useState(false);
 
   const dispatch = useDispatch();
   const race = useSelector((state) => state.race.value);
@@ -49,6 +51,7 @@ export default function MapScreen() {
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
+      setHasPermission(status === 'granted');
       if (status === "granted") {
         Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
           setCurrentPosition(location.coords);
@@ -62,9 +65,13 @@ export default function MapScreen() {
       });
   }, []);
 
+  if (!hasPermission || !isFocused) {
+    return <View />;
+  }
+
   const onChangeButtonPress = () => {
     navigation.navigate("MonCompte");
-    //setModalProfileVisible(!modalProfileVisible);
+    setModalProfileVisible(!modalProfileVisible);
   };
 
   const handleCreateRace = () => {
@@ -112,6 +119,10 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     return `à ${hours}:${minutes}`;
   };
 
+  const onSwipeDown = () => {
+    setModalProfileVisible(!modalProfileVisible);
+  };
+
   //// map sur le tableau race qui viendra de la BDD
   const allRaces = races.map((race, i) => {
     return (
@@ -124,6 +135,26 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
       />
     );
   });
+
+  const onSwipe=({event}) =>{
+    if (event.nativeEvent != null && event.nativeEvent.translationX != null) {
+      // Accessing the doubleValue() method on a non-null object reference
+      const translationX = event.nativeEvent.translationX.doubleValue();
+      // ...
+    }
+  }
+
+//   const onSwipe = ({nativeEvent}) => {
+//     console.log('nativeEvent', nativeEvent);
+//   console.log('translationY', nativeEvent?.translationY);
+//   console.log('modalProfileVisible', modalProfileVisible);
+//   if (nativeEvent && nativeEvent.translationY != null && nativeEvent.translationY < 100) {
+//     // fermeture de la modale si elle est visible
+//     if (modalProfileVisible != null) {
+//       setModalProfileVisible(!modalProfileVisible);
+//     }
+//   }
+// }
 
   return (
     <View style={styles.container}>
@@ -234,6 +265,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
         </Modal>
 
+        <GestureRecognizer onSwipeDown={onSwipeDown}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -269,14 +301,10 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
             <Text style={styles.textStyle}>Changez votre profil</Text>
           </TouchableOpacity>
 
-          <Pressable
-            style={styles.buttonClose}
-            onPress={() => setModalProfileVisible(!modalProfileVisible)}
-          >
-            <Text style={styles.textStyle}>Retour</Text>
-          </Pressable>
+         
         </View>
       </Modal>
+      </GestureRecognizer>
     </View>
   );
 }

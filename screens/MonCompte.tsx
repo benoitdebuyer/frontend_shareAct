@@ -208,11 +208,11 @@ const styles = StyleSheet.create({
   }, 
   textButtonChangeOne:{
    textAlign:'center',
-   padding: 3,
+   padding: 1,
   alignItems:'center',
-   
     color: '#ffffff',
     fontWeight: 'bold',
+    fontSize:22, 
     
    
    
