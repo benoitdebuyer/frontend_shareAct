@@ -92,6 +92,8 @@ const handleSubmit = () => {
         </TouchableOpacity>
       </View>
 
+      <Text style={styles.textRace}>Course 1</Text>
+
       <ScrollView contentContainerStyle={styles.scrollView}>
         {/* {places} */}
       </ScrollView>
@@ -144,4 +146,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
   },
+  textRace : {
+    fontSize: 28,
+    color: '#474CCC',
+    padding: 20,
+    borderBottomColor: '#474CCC',
+    borderWidth: 1,
+  }
 });

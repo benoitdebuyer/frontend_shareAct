@@ -85,8 +85,6 @@ export default function CreateRace() {
       });
   };
 
-  console.log(race.newracelat)
-
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
@@ -101,14 +99,6 @@ export default function CreateRace() {
             value={description}
             onChangeText={handleDescriptionChange}
           />
-
-
-            {/* <TextInput
-              style={styles.addressInput}
-              placeholder="Entrez une adresse"
-              value={address}
-              onChangeText={handleAddressChange}
-            /> */}
 
             <Text style={styles.titleAddress} >Adresse : </Text>
             <Text style={styles.address} >{race.newAddress} </Text>
@@ -153,6 +143,7 @@ export default function CreateRace() {
                 mode="datetime"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
+                locale="fr_FR"
               />
             </Modal>
           </View>

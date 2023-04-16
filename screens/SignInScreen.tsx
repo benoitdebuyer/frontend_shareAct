@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { login } from '../reducers/user';
 import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import { updateFirstname,updateToken,updateUsername,updateEmail,updateImage,updateAge,updateGender,updateDatebirth} from '../reducers/user';
 
@@ -32,35 +33,35 @@ export default function HomeScreen({ navigation }) {
   const [hidePassword, setHidePassword] = useState(true);
 
 
+//   const handleSubmit = () => {
+// // dispatch pour test
+// dispatch(updateToken('U4t1K88SoTEvn5wHM08X5ASxfk4WYniw'))
+// dispatch(updateFirstname('Test'))
+// dispatch(updateUsername('Test'))
+// dispatch(updateEmail('Test@Test.Test'))
+// dispatch(updateAge('20'))
+// dispatch(updateGender('Autre'))
+
+//     navigation.navigate("TabNavigator", { screen: "Map" });
+//   }
+
+
   const handleSubmit = () => {
-// dispatch pour test
-dispatch(updateToken('U4t1K88SoTEvn5wHM08X5ASxfk4WYniw'))
-dispatch(updateFirstname('Test'))
-dispatch(updateUsername('Test'))
-dispatch(updateEmail('Test@Test.Test'))
-dispatch(updateAge('20'))
-dispatch(updateGender('Autre'))
-
-    navigation.navigate("TabNavigator", { screen: "Map" });
-  }
-
-
-  // const handleSubmit = () => {
-  //   fetch(`${BACKEND_ADDRESS}/users/signin`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ email, password }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (!data.result) { 
-  //         setEmailError(true); 
-  //       } else { 
-  //         dispatch(updateEmail(email));
-  //         navigation.navigate("TabNavigator", { screen: "Map" });
-  //       }
-  //     })
-  // };
+    fetch(`${BACKEND_ADDRESS}/users/signin`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.result) { 
+          setEmailError(true); 
+        } else { 
+          data.result && dispatch(login({ token: data.token, firstname: data.firstname, username: data.username }));
+          navigation.navigate("TabNavigator", { screen: "Map" });
+        }
+      })
+  };
   
 
 
