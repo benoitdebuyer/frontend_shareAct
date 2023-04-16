@@ -30,81 +30,81 @@ export default function JoinRaceScreen(props) {
 
   return (
     <ScrollView style={styles.scrollView}>
-    <View style={styles.container}>
+      <View style={styles.container}>
 
 
 
-      <View style={styles.containertop}>
-        <View style={styles.containertopleft}>
-          <Image style={styles.photo} source={require('../assets/user.png')} />
-          <Text style={styles.nameunderpic}>{props.username}username</Text>
+        <View style={styles.containertop}>
+          <View style={styles.containertopleft}>
+            <Image style={styles.photo} source={require('../assets/user.png')} />
+            <Text style={styles.nameunderpic}>{props.username}username</Text>
+          </View>
+
+          <View style={styles.containertopright}>
+            <Text style={styles.txtdescription}>{props.description}Entraînement pour le prochain marathon</Text>
+          </View>
         </View>
 
-        <View style={styles.containertopright}>
-          <Text style={styles.txtdescription}>{props.description}Entraînement pour le prochain marathon</Text>
+
+
+
+
+        <View style={styles.viewTextInfos} >
+
+          <View style={styles.viewTitleInfos}>
+            <Text style={styles.textInfosLeft}>Date :</Text>
+            <Text style={styles.textInfosLeft}>Lieu :</Text>
+            <Text style={styles.textInfosLeft}>Durée :</Text>
+            <Text style={styles.textInfosLeft}>Distance :</Text>
+            <Text style={styles.textInfosLeft}>Niveau :</Text>
+
+          </View>
+
+          <View style={styles.viewInfos} >
+            <Text style={styles.textInfosRight}>{props.date}date</Text>
+            <Text style={styles.textInfosRight}>{props.lieu}lieu</Text>
+            <Text style={styles.textInfosRight}>{props.durée}durée</Text>
+            <Text style={styles.textInfosRight}>{props.distance}distance</Text>
+            <Text style={styles.textInfosRight}>{props.niveau}niveau</Text>
+          </View>
         </View>
+
+        <Text style={styles.titleParticipants}>Participants :</Text>
+        <View style={styles.containerParticipants}>
+          <View style={styles.participant}>
+            <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
+            <Text style={styles.pseudo}>@pseudo{props.username}</Text>
+          </View>
+
+          <View style={styles.participant}>
+            <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
+            <Text style={styles.pseudo}>@pseudo{props.username}</Text>
+          </View>
+
+          <View style={styles.participant}>
+            <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
+            <Text style={styles.pseudo}>@pseudo{props.username}</Text>
+          </View>
+          <View style={styles.participant}>
+            <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
+            <Text style={styles.pseudo}>@pseudo{props.username}</Text>
+          </View>
+          <View style={styles.participant}>
+            <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
+            <Text style={styles.pseudo}>@pseudo{props.username}</Text>
+          </View>
+          <View style={styles.participant}>
+            <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
+            <Text style={styles.pseudo}>@pseudo{props.username}</Text>
+          </View>
+
+        </View>
+
+        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Rejoindre la course</Text>
+        </TouchableOpacity>
+
       </View>
-
-
-
-
-
-      <View style={styles.viewTextInfos} >
-
-        <View style={styles.viewTitleInfos}>
-          <Text style={styles.textInfosLeft}>Date :</Text>
-          <Text style={styles.textInfosLeft}>Lieu :</Text>
-          <Text style={styles.textInfosLeft}>Durée :</Text>
-          <Text style={styles.textInfosLeft}>Distance :</Text>
-          <Text style={styles.textInfosLeft}>Niveau :</Text>
-
-        </View>
-
-        <View style={styles.viewInfos} >
-          <Text style={styles.textInfosRight}>{props.date}date</Text>
-          <Text style={styles.textInfosRight}>{props.lieu}lieu</Text>
-          <Text style={styles.textInfosRight}>{props.durée}durée</Text>
-          <Text style={styles.textInfosRight}>{props.distance}distance</Text>
-          <Text style={styles.textInfosRight}>{props.niveau}niveau</Text>
-        </View>
-      </View>
-
-      <Text style={styles.titleParticipants}>Participants :</Text>
-      <View style={styles.containerParticipants}>
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
-        </View>
-
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
-        </View>
-
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
-        </View>
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
-        </View>
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
-        </View>
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
-        </View>
-    
-      </View>
-
-      <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>Rejoindre la course</Text>
-      </TouchableOpacity>
-
-    </View>
     </ScrollView>
 
 

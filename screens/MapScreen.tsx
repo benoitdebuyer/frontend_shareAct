@@ -203,12 +203,12 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
               >
                 {formatDate(selectedRace?.date)}
               </Text>
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: "column" }}>
                 <Text style={{ marginBottom: 8 }}>
-                  Distance : {selectedRace?.distance}
+                  Distance : {selectedRace?.distance} km
                 </Text>
                 <Text style={{ marginBottom: 16 }}>
-                  Temps : {selectedRace?.duration}
+                  Temps : {selectedRace?.duration} min
                 </Text>
               </View>
 
