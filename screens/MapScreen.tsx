@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { addRaceByUser, delRaceByUser, udptadeIdRace, } from "../reducers/race";
-import {updateAge} from '../reducers/user'
+import { updateAge } from '../reducers/user'
 import { useRoute } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
@@ -53,7 +53,7 @@ export default function MapScreen() {
 
 
 
-  
+
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -64,25 +64,25 @@ export default function MapScreen() {
         });
       }
     })();
-  fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
-.then((response) => response.json())
-.then((data) => {
-  data.result && setRaces(data.races);
-})
-
-  }, []);
-
-  if (!hasPermission || !isFocused) {
-    return <View />;
-  }else{
     fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
       .then((response) => response.json())
       .then((data) => {
         data.result && setRaces(data.races);
       })
 
-      
-   }
+  }, []);
+
+  if (!hasPermission || !isFocused) {
+    return <View />;
+  } else {
+    fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
+      .then((response) => response.json())
+      .then((data) => {
+        data.result && setRaces(data.races);
+      })
+
+
+  }
 
   const onChangeButtonPress = () => {
     navigation.navigate("MonCompte");
@@ -306,20 +306,20 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
       </Modal>
 
-        <GestureRecognizer onSwipeDown={onSwipeDown}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalProfileVisible}
-        onRequestClose={() => {
-          setModalProfileVisible(!modalProfileVisible);
-        }}
-      >
-        <View style={styles.modalView}>
-          <Image 
-            source={require("../assets/user.png")}
-            style={styles.imgProfileModal}
-          />
+      <GestureRecognizer onSwipeDown={onSwipeDown}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalProfileVisible}
+          onRequestClose={() => {
+            setModalProfileVisible(!modalProfileVisible);
+          }}
+        >
+          <View style={styles.modalView}>
+            <Image
+              source={require("../assets/user.png")}
+              style={styles.imgProfileModal}
+            />
 
             <View style={styles.infosProfile}>
               <Text style={styles.textInfos}>{user.username}</Text>
@@ -328,12 +328,8 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
               <Text style={styles.textInfos}>{user.email}</Text>
 
-<<<<<<< HEAD
-            <Text style={styles.textInfos}>{user.age} ans  </Text>
-=======
-            <Text style={styles.textInfos}>{user.age} 28 ans  </Text>
->>>>>>> 0a45cb0edc022878e913af1097843d4c950ffe99
-          </View>
+              <Text style={styles.textInfos}>{user.age} 28 ans  </Text>
+            </View>
 
             <TouchableOpacity
               style={styles.buttonProfileModif}
@@ -400,10 +396,10 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderRadius: 100,
     marginBottom: 30,
-    
+
     shadowOpacity: 0.9,
     shadowRadius: 4,
-    
+
   },
   infosProfile: {
     justifyContent: "center",
@@ -423,23 +419,23 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   buttonProfileModif: {
-   
 
-    margin :15,
+
+    margin: 15,
     paddingTop: 12,
-    paddingLeft: 20, 
-    paddingRight:20, 
-    backgroundColor:'#474CCC',
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: '#474CCC',
     borderRadius: 20,
-    alignContent:'center',
-    justifyContent:'center',
+    alignContent: 'center',
+    justifyContent: 'center',
     shadowOpacity: 0.4,
     shadowRadius: 5,
     elevation: 10,
-    
+
   },
   textStyle: {
-    textAlign:'center',
+    textAlign: 'center',
     color: '#ffffff',
     height: 30,
     fontWeight: '600',
