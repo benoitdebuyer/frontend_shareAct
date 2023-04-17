@@ -57,10 +57,6 @@ export default function HomeScreen({ navigation }) {
         body: JSON.stringify({ firstname: firstname, username, email, password: mdp, age: dateOfBirth.toISOString(), gender }),
       }).then(response => response.json())
         .then(data => {
-          console.log(data)
-          data.result && dispatch(updateToken({ token: data.token, }));
-
-
           dispatch(updateFirstname(firstname))
           dispatch(updateUsername(username))
           dispatch(updateEmail(email))
@@ -68,7 +64,10 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateAge(age))
           dispatch(updateGender(gender))
           dispatch(updateToken(data.token))
+<<<<<<< HEAD
           console.log('log  user token ',user.token)
+=======
+>>>>>>> 0a45cb0edc022878e913af1097843d4c950ffe99
         });
 
       navigation.navigate("TabNavigator", { screen: "Map" });
