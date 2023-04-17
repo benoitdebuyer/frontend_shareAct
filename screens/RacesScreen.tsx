@@ -12,13 +12,46 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPlace, removePlace } from '../reducers/user';
+import { useIsFocused } from '@react-navigation/native';
+import Participants from '../components/Participants'
 
-const BACKEND_ADDRESS = 'http://BACKEND_IP:3000';
+
+const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 export default function PlacesScreen() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
+  const isFocused = useIsFocused();
 
+  const [racesUp, setRacesUp] = useState([]);
+
+  if (!isFocused) {
+    return <View />;
+  } else {
+    fetch(`${BACKEND_ADDRESS}/users/add/${user.token}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('race dans racescreen',data)
+        data.result && setRaces(data.races);
+      })
+
+      
+   }
+
+
+
+
+  const allRacesUp = racesUp.map((race, i) => {
+    return (
+      <Participants
+        key={race._id}
+        coordinate={{ latitude: race.latitude, longitude: race.longitude }}
+        title={race.address}
+        onPress={() => handleMarkerPress(race)}
+        pinColor="#FF4800"
+      />
+    );
+  });
 
 
   return (
@@ -35,7 +68,7 @@ export default function PlacesScreen() {
       <Text style={styles.textRace}>Course 1</Text>
 
       <ScrollView contentContainerStyle={styles.scrollView}>
-        {/* {places} */}
+        {/* {Race} */}
       </ScrollView>
     </SafeAreaView>
   );
