@@ -269,17 +269,13 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
       <Modal
         animationType="slide"
         transparent={true}
-        //backdropColor="red"
-        //presentationStyle="OverFullScreen"
-
         visible={modalProfileVisible}
         onRequestClose={() => {
-          //Alert.alert('Modal has been closed.');
           setModalProfileVisible(!modalProfileVisible);
         }}
       >
         <View style={styles.modalView}>
-          <Image
+          <Image 
             source={require("../assets/user.png")}
             style={styles.imgProfileModal}
           />
@@ -291,7 +287,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
             <Text style={styles.textInfos}>{user.email}</Text>
 
-            <Text style={styles.textInfos}>{user.age}</Text>
+            <Text style={styles.textInfos}>{user.age} ans </Text>
           </View>
 
           <TouchableOpacity
@@ -359,6 +355,11 @@ color :'white',
     borderWidth: 5,
     borderRadius: 100,
     marginBottom: 30,
+    
+    shadowOpacity: 0.9,
+    shadowRadius: 4,
+    elevation: 5,
+    
   },
   infosProfile: {
     justifyContent: "center",
@@ -378,23 +379,27 @@ color :'white',
     fontSize: 15,
   },
   buttonProfileModif: {
-    paddingTop: 30,
-    margin: 15,
+   
 
-    backgroundColor: "#474CCC",
-    borderRadius: 100,
-    alignContent: "center",
-    justifyContent: "center",
-    height: Dimensions.get("window").height / 15,
+    margin :15,
+    paddingTop: 12,
+    paddingLeft: 20, 
+    paddingRight:20, 
+    backgroundColor:'#474CCC',
+    borderRadius: 20,
+    alignContent:'center',
+    justifyContent:'center',
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 10,
+    
   },
   textStyle: {
-    textAlign: "center",
-    color: "#ffffff",
+    textAlign:'center',
+    color: '#ffffff',
     height: 30,
-    fontWeight: "600",
+    fontWeight: '600',
     fontSize: 15,
-    width: Dimensions.get("window").width / 2,
-    height: 50,
   },
 
   textButton: {
@@ -453,7 +458,7 @@ color :'white',
 
   modalView: {
     marginTop: 40,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     padding: 30,

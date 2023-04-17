@@ -32,6 +32,7 @@ export default function MonCompte() {
 
   }
   const handleButtonPressFirstname = () => {
+    onPress={handleButtonPressFirstname}
     setShowTextInputFirstname(true);
   };
 
@@ -84,64 +85,73 @@ export default function MonCompte() {
   }
   return (
     <View style={styles.container}>
-        <Text style={styles.text}>
-            Modifiez vos paramètres :
-        </Text>
+       
         
         <Image source ={require('../assets/user.png')}
              style={styles.imgProfile}/>
 
-        <TouchableOpacity  style={styles.button} activeOpacity={0.8}>
-            <Text style={styles.textButton} >Changer la photo</Text>
+        <TouchableOpacity  style={styles.buttonChangePhoto} activeOpacity={0.8}>
+            <Text style={styles.textButtonChangePhoto} >Changer la photo</Text>
         </TouchableOpacity> 
 
         <View style={styles.boolean}>
             {showTextInputFirstname ? (
             <TextInput
-              placeholder={user.firstname}
+              placeholder='Prénom'
               onChangeText={(value) => setFirstname(value)}
               value={firstname}
               style={styles.input}
             />
           ) : (
-
-            <Text style={styles.textInfos}>{user.firstname}</Text>
+            <View style={styles.changeField}>
+                  <Text style={styles.textInfos}>{user.firstname}</Text>
+                  <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressFirstname} activeOpacity={0.8}>
+                  <Text style={styles.textButtonChangeOne}>x</Text>
+                </TouchableOpacity>
+            </View>
           )}
-          <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressFirstname} activeOpacity={0.8}>
-            <Text style={styles.textButtonChangeOne}>x</Text>
-          </TouchableOpacity>
+          
       </View>
 
       <View style={styles.boolean}>
             {showTextInputUsername ? (
             <TextInput
-              placeholder={user.username}
+              placeholder='Pseudo'
               onChangeText={(value) => setUsername(value)}
               value={username}
               style={styles.input}
             />
           ) : (
-            <Text style={styles.textInfos}>{user.username}</Text>
+            <View style={styles.changeField}>
+                <Text style={styles.textInfos}>{user.username}</Text>
+                <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressUsername} activeOpacity={0.8}>
+                <Text style={styles.textButtonChangeOne}>x</Text>
+                </TouchableOpacity>
+            </View>
           )}
-          <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressUsername} activeOpacity={0.8}>
-            <Text style={styles.textButtonChangeOne}>x</Text>
-          </TouchableOpacity>
+          
       </View>
 
       <View style={styles.boolean}>
             {showTextInputEmail ? (
-            <TextInput
-              placeholder={user.email}
-              onChangeText={(value) => setEmail(value)}
-              value={email}
-              style={styles.input}
-            />
+              <View style={styles.changeField}>
+                <TextInput
+                  placeholder='email'
+                  onChangeText={(value) => setEmail(value)}
+                  value={email}
+                  style={styles.input}
+                />
+            </View>
           ) : (
-            <Text style={styles.textInfos}>{user.email}</Text>
+            <View style={styles.changeField}>
+                <Text style={styles.textInfos}>{user.email}</Text>
+                <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressEmail} activeOpacity={0.8}>
+                <Text style={styles.textButtonChangeOne}>x</Text>
+              </TouchableOpacity>
+           </View>
           )}
-          <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressEmail} activeOpacity={0.8}>
-            <Text style={styles.textButtonChangeOne}>x</Text>
-          </TouchableOpacity>
+          
+         
       </View>
 
     
@@ -177,6 +187,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems:'baseline',
+    margin:15, 
 
   },
   text:{
@@ -185,15 +196,28 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
     marginBottom:20,
   },
+  changeField:{
+      flex:1, 
+      flexDirection:'row',
+      //height: Dimensions.get("window").width/10,
+      
+      justifyContent: 'center',
+      borderWidth:4, 
+      borderColor: 'red',
+  },
   button:{
-    paddingTop:30,
     margin :15,
-    
+    paddingTop: 12,
+    paddingLeft: 20, 
+    paddingRight:20, 
     backgroundColor:'#474CCC',
-    borderRadius: 100,
+    borderRadius: 20,
     alignContent:'center',
     justifyContent:'center',
-    height:    Dimensions.get("window").height/15,
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 10,
+    
 
   },
 
@@ -201,8 +225,11 @@ const styles = StyleSheet.create({
     
    width : Dimensions.get("window").width/15,
    height : Dimensions.get("window").width/15,
-    backgroundColor:'red',
+    backgroundColor:'#474CCC',
     borderRadius: 100,
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 10,
     
   
   }, 
@@ -214,21 +241,41 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize:22, 
     
+    
    
    
   },
 
   buttonQuit:{
-    paddingTop:30,
+   
     margin :15,
-    
+    paddingTop: 12,
+    paddingLeft: 20, 
+    paddingRight:20,  
     backgroundColor:'red',
     borderRadius: 100,
     alignContent:'center',
     justifyContent:'center',
-    height:    Dimensions.get("window").height/15,
+    
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 10,
+   
 
   },
+
+  textButton:{
+    textAlign:'center',
+    color: '#ffffff',
+    height: 30,
+    fontWeight: '600',
+    fontSize: 15,
+  
+    
+   
+},
+
+
 imgProfile:{
     margin : 10,
     width: 140,
@@ -241,18 +288,18 @@ imgProfile:{
 },
 
  
-textButton:{
-   
-    textAlign:'center',
-    color: '#ffffff',
-    height: 30,
-    fontWeight: '600',
-    fontSize: 15,
-   
-    width: Dimensions.get("window").width/2,
-    height: 50,
 
+textButtonChangePhoto:{
+  textAlign:'center',
+  alignItems:'center',
+  color: 'black',
+  height: 30,
+  fontWeight: '600',
+  fontSize: 15,
+  width: Dimensions.get("window").width/3,
+  
 },
+
 input: {
     width: '50%',
     textAlign:'center',
@@ -260,7 +307,10 @@ input: {
     borderBottomWidth: 1,
     fontSize: 18,
     paddingTop: 5,
-    //marginTop: 10,
+    marginRight: 31,
+    //height: Dimensions.get("window").height/25,
+    borderWidth:2, 
+    borderColor: 'red',
 
     
     
@@ -279,5 +329,22 @@ input: {
 
 
   },
+  buttonChangePhoto:{
+    margin :15,
+    paddingTop: 12,
+    paddingLeft: 20, 
+    paddingRight:20,  
+    
+    color: '#474CCC',
+    borderRadius: 10,
+    borderWidth: 1,
+    backgroundColor: '#fff',
+    borderRadius: 100,
+    borderColor: "#474CCC",
+    alignItems: 'center',
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 10,
+  }
   
 })
