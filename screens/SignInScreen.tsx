@@ -57,10 +57,12 @@ export default function HomeScreen({ navigation }) {
         if (!data.result) {
           setEmailError(true);
         } else {
-          data.result && dispatch(login({ token: data.token, firstname: data.firstname, username: data.username }));
+          data.result
+          //  && dispatch(login({ token: data.token, firstname: data.firstname, username: data.username }));
           dispatch(updateFirstname(data.username));
           dispatch(updateUsername(data.firstname));
-          dispatch(updateEmail('Test@Test.Test'))
+          dispatch(updateToken(data.token))
+          dispatch(updateEmail(data.email))
           dispatch(updateAge('20'))
 
 

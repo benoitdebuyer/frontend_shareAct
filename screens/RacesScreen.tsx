@@ -87,7 +87,7 @@ const handleSubmit = () => {
         <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
           <Text style={styles.textButton}>En cours</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+        <TouchableOpacity onPress={() => handleSubmit()} style={styles.buttonFinish} activeOpacity={0.8}>
           <Text style={styles.textButton}>Terminés</Text>
         </TouchableOpacity>
       </View>
@@ -137,11 +137,22 @@ const styles = StyleSheet.create({
     width: '40%',
     alignItems: 'center',
     paddingTop: 8,
-    backgroundColor: '#474CCC',
+    backgroundColor: '#E2E2F3',
     borderRadius: 10,
+    borderWidth: 1,
+    borderBottomColor: '#474CCC',
+  },
+  buttonFinish: {
+    width: '40%',
+    alignItems: 'center',
+    paddingTop: 8,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderBottomColor: '#474CCC',
   },
   textButton: {
-    color: '#ffffff',
+    color: 'black',
     height: 30,
     fontWeight: '600',
     fontSize: 16,
@@ -152,5 +163,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomColor: '#474CCC',
     borderWidth: 1,
+    backgroundColor: '#fff',
   }
 });
