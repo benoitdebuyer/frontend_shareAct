@@ -22,17 +22,22 @@ import DatePicker from '@react-native-community/datetimepicker';
 
 export default function Racecardtest(props) {
 
+
+  // const participants = props.participants.map((participant, index) => {
+  //   return index === props.participants.length - 1 ? participant : participant + ", ";
+  // })
+
   return (
     <View style={styles.container}>
 
       <View style={styles.containertop}>
         <View style={styles.containertopleft}>
           <Image style={styles.photo} source={require('../assets/user1.png')} />
-          <Text style={styles.nameunderpic}>author</Text>
+          <Text style={styles.nameunderpic}>{props.author}</Text>
         </View>
 
         <View style={styles.containertopright}>
-          <Text style={styles.txtdescription}>description</Text>
+          <Text style={styles.txtdescription}>{props.description}</Text>
         </View>
       </View>
 
@@ -46,22 +51,24 @@ export default function Racecardtest(props) {
           <Text style={styles.textInfosLeft}>Durée :</Text>
           <Text style={styles.textInfosLeft}>Distance :</Text>
           <Text style={styles.textInfosLeft}>Niveau :</Text>
+          <Text style={styles.textInfosLeft}>Participants :</Text>
 
         </View>
 
         <View style={styles.viewInfos} >
-          <Text style={styles.textInfosRight}>formattedDate</Text>
-          <Text style={styles.textInfosRight}>address</Text>
-          <Text style={styles.textInfosRight}>duration minutes</Text>
-          <Text style={styles.textInfosRight}>distance km</Text>
-          <Text style={styles.textInfosRight}>level</Text>
+        <Text style={styles.textInfosRight}>{props.date}</Text>
+          <Text style={styles.textInfosRight}>{props.address}</Text>
+          <Text style={styles.textInfosRight}>{props.duration} minutes</Text>
+          <Text style={styles.textInfosRight}>{props.distance} km</Text>
+          <Text style={styles.textInfosRight}>{props.level}</Text>
+
         </View>
       </View>
 
       <View style={styles.containerButtons}>
 
         <TouchableOpacity style={styles.buttonTimer} onPress={() => handleS()} activeOpacity={0.8}>
-          <Text style={styles.textButtontimer}>Commence dans 10 min !</Text>
+          <Text style={styles.textButtontimer}>Commence dans {props.timer} min !</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
