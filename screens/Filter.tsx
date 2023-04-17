@@ -75,11 +75,22 @@ const SliderContainer = (props) => {
 };
 /////////////////////////////////////////////////////////////////////
 
-const applyFilter = () => {
-    console.log("apply filter")
-  };
 
 export default function Filter() {
+    const [dist, setDist] = useState(false);
+    const navigation = useNavigation();
+
+    const quitFilterPage = () => {
+        console.log("quit filter")
+        navigation.navigate("TabNavigator", { screen: "Map" });
+      };
+    const applyFilter = () => {
+        console.log("apply filter")
+      };
+
+
+
+    
     return (
         <View style={styles.container}>
             <Text><FontAwesome5 name="filter" size={60} color="#474CCC" /></Text>
@@ -99,23 +110,36 @@ export default function Filter() {
                 step={1}
                 thumbTintColor="#474CCC"
                 />
+
+             
                 
             </SliderContainer>
             </View>
+            <View style={styles.distance}>
+            <TextInput
+                placeholder='Entrez la distance max ...'
+                onChangeText={(value) => setDist(value)}
+                value={dist}
+                style={styles.input}
+            />
+            <Text >km</Text>
+            </View>
+            
+            <View style={styles.buttons}>
+                <TouchableOpacity
+                style={styles.buttonAnnuler}
+                onPress={quitFilterPage}
+                >
+                <Text style={styles.textStyleAnnuler}>Annuler</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.buttonAnnuler}
-              onPress={applyFilter}
-            >
-              <Text style={styles.textStyle}>Annuler</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.buttonProfileModif}
-              onPress={applyFilter}
-            >
-              <Text style={styles.textStyle}>Appliquer le filtre</Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                style={styles.buttonProfileModif}
+                onPress={applyFilter}
+                >
+                <Text style={styles.textStyle}>Appliquer le filtre</Text>
+                </TouchableOpacity>
+            </View>
         </View>
       );
     }
@@ -132,6 +156,9 @@ export default function Filter() {
       },
       slider:{
         width:Dimensions.get("window").width*2/3,
+        
+
+
         
       },
       buttonProfileModif: {
@@ -157,7 +184,7 @@ export default function Filter() {
         paddingTop: 12,
         paddingLeft: 20, 
         paddingRight:20, 
-        backgroundColor:'red',
+        backgroundColor:'white',
         borderRadius: 20,
         alignContent:'center',
         justifyContent:'center',
@@ -166,9 +193,22 @@ export default function Filter() {
         elevation: 10,
         
       },
+      distance:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'flex-end',
+
+      },
       textStyle: {
         textAlign:'center',
         color: '#ffffff',
+        height: 30,
+        fontWeight: '600',
+        fontSize: 15,
+      },
+      textStyleAnnuler: {
+        textAlign:'center',
+        color: 'black',
         height: 30,
         fontWeight: '600',
         fontSize: 15,
@@ -186,6 +226,10 @@ export default function Filter() {
         textAlign:'center',
         color: '#474CCC',
 
+      },
+      buttons:{
+        display:'flex',
+        flexDirection:'row',
       },
     
       logo: {
@@ -214,6 +258,15 @@ export default function Filter() {
       },
       fontAwesome:{
         width:40,
+      },
+      input :{
+    width: Dimensions.get("window").width/2,
+      textAlign: 'center',
+      borderBottomColor: '#474CCC',
+      borderBottomWidth: 1,
+      fontSize: 18,
+      paddingTop: 5,
+      marginRight: 31,
       },
     });
     
