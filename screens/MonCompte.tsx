@@ -12,9 +12,9 @@ const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 export default function MonCompte() {
   const user = useSelector((state: { user: UserState }) => state.user.value);
-  const [email, setEmail] = useState('');
-  const [firstname, setFirstname] = useState(null);
-  const [username, setUsername] = useState(null);
+  let [email, setEmail] = useState(null);
+  let [firstname, setFirstname] = useState(null);
+  let [username, setUsername] = useState(null);
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [age, setAge] = useState(null);
   const [image, setImage] = useState(null);
@@ -50,6 +50,19 @@ export default function MonCompte() {
   };
 
   const handleSendBdd = () => {
+
+    console.log(firstname, username, email, image, user.token)
+    if (firstname===null){
+      firstname=user.firstname
+      //setFirstname(user.firstname)
+      
+    }
+    if (username===null){
+      username=user.username
+    }
+    if (email===null){
+      email = user.email
+    }
     console.log(firstname, username, email, image, user.token)
 
     const datas = {
@@ -59,6 +72,8 @@ export default function MonCompte() {
       image: image,
       token: user.token,
     };
+    
+
 
     fetch(`${BACKEND_ADDRESS}/users/changesprofil`, {
       method: "PUT",
@@ -110,7 +125,7 @@ export default function MonCompte() {
             <Text style={styles.textInfos}>{user.username}</Text>
             <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressUsername} activeOpacity={0.8}>
               {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
-              <Text><FontAwesome5 name="times" size={20} color="white" /></Text>
+              <Text><FontAwesome5 name="edit" size={20} color="white" /></Text>
             </TouchableOpacity>
           </View>
         )}
@@ -130,7 +145,7 @@ export default function MonCompte() {
             <Text style={styles.textInfos}>{user.firstname}</Text>
             <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressFirstname} activeOpacity={0.8}>
               {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
-              <Text><FontAwesome5 name="times" size={20} color="white" /></Text>
+              <Text><FontAwesome5 name="edit" size={20} color="white" /></Text>
             </TouchableOpacity>
           </View>
         )}
@@ -152,7 +167,7 @@ export default function MonCompte() {
             <Text style={styles.textInfos}>{user.email}</Text>
             <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressEmail} activeOpacity={0.8}>
               {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
-              <Text><FontAwesome5 name="times" size={20} color="white" /></Text>
+              <Text><FontAwesome5 name="edit" size={20} color="white" /></Text>
             </TouchableOpacity>
           </View>
         )}
@@ -228,15 +243,16 @@ const styles = StyleSheet.create({
 
   buttonChangeOne: {
 
-    width: Dimensions.get("window").width / 15,
-    height: Dimensions.get("window").width / 15,
+    width: Dimensions.get("window").width / 13,
+    height: Dimensions.get("window").width / 13,
     backgroundColor: '#474CCC',
     borderRadius: 100,
-    // shadowOpacity: 0.4,
-    // shadowRadius: 5,
-    // elevation: 10,
-    // padding: 10,
-    padding: 5,
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 10,
+   
+    paddingLeft: 9,
+    paddingTop:8,
 
 
   },

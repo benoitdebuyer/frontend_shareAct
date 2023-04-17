@@ -44,8 +44,8 @@ export default function HomeScreen({ navigation }) {
   // dispatch(updateAge('20'))
   // dispatch(updateGender('Autre'))
 
-  //     navigation.navigate("TabNavigator", { screen: "Map" });
-  //   }
+    //   navigation.navigate("TabNavigator", { screen: "Map" });
+    // }
 
 
   const handleSubmit = () => {
@@ -70,14 +70,14 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateEmail(email))
           dispatch(updateDatebirth(data.age))
           
-          const seleteddate = user.datebirth
-          const calculateAge = (date) => {
-            const diff = Date.now() - date.getTime();
-            const ageDate = new Date(diff);
-            return Math.abs(ageDate.getUTCFullYear() - 1970);
-          };
-          const ageadd = calculateAge(seleteddate);
-          dispatch(updateAge(ageadd))
+          // const seleteddate = user.datebirth
+          // const calculateAge = (date) => {
+          //   const diff = Date.now() - date.getTime();
+          //   const ageDate = new Date(diff);
+          //   return Math.abs(ageDate.getUTCFullYear() - 1970);
+          // };
+          // const ageadd = calculateAge(seleteddate);
+          // dispatch(updateAge(ageadd))
           navigation.navigate("TabNavigator", { screen: "Map" });
         }
       })
