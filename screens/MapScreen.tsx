@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { addRaceByUser, delRaceByUser, udptadeIdRace, } from "../reducers/race";
-import {updateAge} from '../reducers/user'
+import { updateAge } from '../reducers/user'
 import { useRoute } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
@@ -54,7 +54,7 @@ export default function MapScreen() {
 
 
 
-  
+
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -74,7 +74,7 @@ export default function MapScreen() {
 
   if (!hasPermission || !isFocused) {
     return <View />;
-  }else{
+  } else {
     fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
       .then((response) => response.json())
       .then((data) => {
@@ -341,20 +341,20 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
       </Modal>
 
-        <GestureRecognizer onSwipeDown={onSwipeDown}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalProfileVisible}
-        onRequestClose={() => {
-          setModalProfileVisible(!modalProfileVisible);
-        }}
-      >
-        <View style={styles.modalView}>
-          <Image 
-            source={require("../assets/user.png")}
-            style={styles.imgProfileModal}
-          />
+      <GestureRecognizer onSwipeDown={onSwipeDown}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalProfileVisible}
+          onRequestClose={() => {
+            setModalProfileVisible(!modalProfileVisible);
+          }}
+        >
+          <View style={styles.modalView}>
+            <Image
+              source={require("../assets/user.png")}
+              style={styles.imgProfileModal}
+            />
 
             <View style={styles.infosProfile}>
               <Text style={styles.textInfos}>{user.username}</Text>
@@ -441,10 +441,10 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderRadius: 100,
     marginBottom: 30,
-    
+
     shadowOpacity: 0.9,
     shadowRadius: 4,
-    
+
   },
   infosProfile: {
     justifyContent: "center",
@@ -464,23 +464,23 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   buttonProfileModif: {
-   
 
-    margin :15,
+
+    margin: 15,
     paddingTop: 12,
-    paddingLeft: 20, 
-    paddingRight:20, 
-    backgroundColor:'#474CCC',
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: '#474CCC',
     borderRadius: 20,
-    alignContent:'center',
-    justifyContent:'center',
+    alignContent: 'center',
+    justifyContent: 'center',
     shadowOpacity: 0.4,
     shadowRadius: 5,
     elevation: 10,
-    
+
   },
   textStyle: {
-    textAlign:'center',
+    textAlign: 'center',
     color: '#ffffff',
     height: 30,
     fontWeight: '600',

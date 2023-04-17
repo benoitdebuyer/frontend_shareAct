@@ -13,7 +13,7 @@ import {
   Modal,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFirstname,updateToken,updateUsername,updateEmail,updateImage,updateAge,updateGender,updateDatebirth } from '../reducers/user';
+import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from '@react-native-community/datetimepicker';
 
@@ -21,222 +21,197 @@ import DatePicker from '@react-native-community/datetimepicker';
 
 
 export default function Racecardtest(props) {
-  
+
   return (
-    <View style={styles.containerall}>
+    <View style={styles.container}>
 
-      <View style={styles.containertopusername} >
-          <Text style={styles.topUsername}>{props.username}username</Text>
-      </View>
-
-        <View style={styles.containertop}>
-          <View style={styles.containertopleft}>
-          <Image style={styles.photo} source={require('../assets/shareact3.png')} />
-          <Text style={styles.nameunderpic}>{props.username}username</Text>
-          </View>
-          <View style={styles.containertopright}>
-              <Text style={styles.txtdescription}>{props.description}</Text>
-          </View>
+      <View style={styles.containertop}>
+        <View style={styles.containertopleft}>
+          <Image style={styles.photo} source={require('../assets/user1.png')} />
+          <Text style={styles.nameunderpic}>author</Text>
         </View>
 
-
-
-<View style={styles.containertxtinfoRL} >
-        <View style={styles.containertxtinfo} >
-            <View style={styles.viewinfo}>
-              <Text style={styles.txtinfoleft}>Date :</Text>
-              <Text style={styles.txtinfoleft}>Lieu :</Text>
-              <Text style={styles.txtinfoleft}>Durée :</Text>
-              <Text style={styles.txtinfoleft}>Distance :</Text>
-              <Text style={styles.txtinfoleft}>Niveau :</Text>
-              <Text style={styles.txtinfoleft}>Participants :</Text>
-          
-            </View>
-            </View>
-
-      <View style={styles.containertxtinfo} >
-
-        <Text style={styles.txtinforight}>{props.date}date</Text>
-        <Text style={styles.txtinforight}>{props.lieu}lieu</Text>
-        <Text style={styles.txtinforight}>{props.durée}durée</Text>
-        <Text style={styles.txtinforight}>{props.distance}distance</Text>
-        <Text style={styles.txtinforight}>{props.niveau}niveau</Text>
-        <Text style={styles.txtinforight}>{props.participants}participants</Text>
-      </View>
+        <View style={styles.containertopright}>
+          <Text style={styles.txtdescription}>description</Text>
+        </View>
       </View>
 
-      <View style={styles.containerbtnbot}>
-        <TouchableOpacity onPress={() => handleLeavechat()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButtonred}>Pour la V2 chat</Text>
+
+
+      <View style={styles.viewTextInfos} >
+
+        <View style={styles.viewTitleInfos}>
+          <Text style={styles.textInfosLeft}>Date :</Text>
+          <Text style={styles.textInfosLeft}>Lieu :</Text>
+          <Text style={styles.textInfosLeft}>Durée :</Text>
+          <Text style={styles.textInfosLeft}>Distance :</Text>
+          <Text style={styles.textInfosLeft}>Niveau :</Text>
+
+        </View>
+
+        <View style={styles.viewInfos} >
+          <Text style={styles.textInfosRight}>formattedDate</Text>
+          <Text style={styles.textInfosRight}>address</Text>
+          <Text style={styles.textInfosRight}>duration minutes</Text>
+          <Text style={styles.textInfosRight}>distance km</Text>
+          <Text style={styles.textInfosRight}>level</Text>
+        </View>
+      </View>
+
+      <View style={styles.containerButtons}>
+
+        <TouchableOpacity style={styles.buttonTimer} onPress={() => handleS()} activeOpacity={0.8}>
+          <Text style={styles.textButtontimer}>Commence dans 10 min !</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleS()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButtontimer}>Commence dans {props.timer} min !</Text>
+
+        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Chat de groupe</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.containerbtnbot}>
+      {/* <View style={styles.containerbtnbot}>
       <Text style={styles.txtbot}>un imprevu ? besoin de quitter ce groupe !</Text>
         <TouchableOpacity onPress={() => handleLeaveGroupe()} style={styles.button} activeOpacity={0.8}>
           <Text style={styles.textButton}>Leave</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
 
     </View>
-    
-    
+
+
   )
 }
 
 const styles = StyleSheet.create({
-  containerall: {
-    flex: 1,  
-    marginTop: 30,
+  container: {
+    flex: 1,
+    marginTop: 80,
+    paddingHorizontal: 20,
   },
 
-  containertopusername:{
+  // Photo et description 
+  containertop: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 5,
+    alignItems: 'flex-start',
+    // borderColor: 'red',
+    // borderWidth: 1,
+  },
+  containertopleft: {
+    // borderColor: 'green',
+    // borderWidth: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  containertopright: {
+    // margin: 10,
+    // borderColor: 'grey',
+    borderWidth: 1,
+    borderRadius: 20,
+    backgroundColor: '#e2e2f3',
+    borderBottomColor: '#474CCC',
+    width: 200,
+    height: 150,
+    marginLeft: 20,
+  },
+  txtdescription: {
+    fontSize: 14,
+    padding: 10,
+  },
+
+  containertopusername: {
     borderColor: 'green',
     borderWidth: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   nameunderpic: {
     width: '80%',
-    fontSize: 22,
+    fontSize: 16,
+    paddingTop: 5,
     fontWeight: '600',
     color: '#474CCC',
     textAlign: 'center',
-    borderColor: '#474CCC',
-    borderWidth: 1,
   },
-  topUsername: {
-    width: '80%',
-    fontSize: 38,
-    fontWeight: '600',
-    color: '#474CCC',
-    textAlign: 'center',
-    borderColor: '#474CCC',
-    borderWidth: 1,
-  },
+
   photo: {
-    margin: 5,
-    width: 150,
-    height: 150,
+    // margin: 5,
+    width: 140,
+    height: 140,
     borderRadius: 100,
-  },
-  profil: {
-    position: 'absolute',
-    width: 90,
-    height: 90,
-    top:'9%',
-    right:'2%',
-    borderRadius: 50,
-    backgroundColor: '#ffffff',
-    zIndex: 1,
-    borderWidth:2,
     borderColor: '#474CCC',
-    borderWidth : 4,
-    borderRadius: 50,
-    marginRight:30,
+    borderWidth: 4,
   },
-  containertop:{
 
+  // Informations 
+  viewTextInfos: {
     flexDirection: 'row',
-    borderColor: 'red',
-    borderWidth: 1,
-     alignItems: 'center',
-  },
-  containertopleft:{
-    marginLeft:10,
-    borderColor: 'green',
-    borderWidth: 3,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  containertopright:{
-    margin:10,
-    borderColor: 'grey',
-    borderWidth: 1,
-    borderRadius:20,
-    backgroundColor:'#e2e2f3',
-  },
-  txtdescription:{
-    height:200,
-    width:200,
+    marginTop: 20,
 
   },
 
-  containertxtinfo:{
+  viewTitleInfos: {
     flexDirection: 'column',
-    borderColor: 'yellow',
-    borderWidth: 1,
   },
-  containertxtinfoRL:{
-  flexDirection: 'row',
-  borderColor: 'grey',
-  borderWidth: 1,
-
-
-  textAlignVertical:'left',
+  viewInfos: {
+    flexDirection: 'column',
+    width: '80%',
   },
-  txtinfoleft:{
-    width:100,
-    marginTop: 2,
+  textInfosLeft: {
     color: '#474CCC',
-    
-  },
-  txtinforight:{
-    marginLeft:20,
-    marginTop: 2,
-    color: 'grey',
+    marginBottom: 7,
+    height: 35,
   },
 
+  textInfosRight: {
+    color: 'gray',
+    marginBottom: 7,
+    paddingLeft: 7,
+    height: 35,
+  },
+
+  // Bouton timer
 
 
-  input: {
-    width: 150,
-    borderBottomColor: '#474CCC',
-    borderBottomWidth: 1,
+  buttonTimer: {
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#FF4800',
+    // backgroundColor: '#FF4800',
+    alignItems: 'center',
+    // shadowOpacity: 0.4,
+    shadowRadius: 5,
+    // elevation: 10,
+  },
+  textButtontimer: {
+    fontWeight: '500',
     fontSize: 16,
   },
-  containerbtnbot: {
-    flexDirection: 'row',
-    borderColor: 'red',
-    borderWidth: 1,
-    justifyContent: "space-around",
-  },
 
-  txtbot: {
-    color: 'grey',
-    height: 50,
-    fontWeight: '600',
-    fontSize: 12,
+  // Bouton chat de groupe 
+  button: {
+    width: '70%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 8,
+    marginTop: 20,
+    backgroundColor: '#474CCC',
+    borderRadius: 50,
+    // solution à changer !!! pour mettre le bouton au milieu (container)
+    marginLeft: 60,
   },
-
   textButton: {
-    color: 'grey',
-    height: 50,
+    color: '#ffffff',
     fontWeight: '600',
-    fontSize: 18,
+    height: 30,
+    fontSize: 16,
   },
-  textButtonred: {
-    alignItems: 'center',
-    justifyContent:'center',
-    paddingTop: 8,
-    width: '70%',
-    backgroundColor: '#474CCC',
-    borderRadius: 50,
-    fontSize: 12,
-    },
-  textButtontimer: {
-    alignItems: 'center',
-    justifyContent:'center',
-    paddingTop: 8,
-    width: '70%',
-    backgroundColor: '#474CCC',
-    borderRadius: 50,
-    fontSize: 12,
-},
+
 
 
 });
