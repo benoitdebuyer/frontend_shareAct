@@ -36,6 +36,7 @@ export default function MapScreen() {
   const isFocused = useIsFocused();
   const [hasPermission, setHasPermission] = useState(false);
   const [idRace, setIdRace] = useState(null);
+  const [modalFilterVisible, setModalFilterVisible] = useState(false);
 
   const dispatch = useDispatch();
   const race = useSelector((state) => state.race.value);
@@ -159,9 +160,15 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     return `à ${hours}:${minutes}`;
   };
 
-
+  const changePage = () => {
+    navigation.navigate("Filter" );
+  };
   const onSwipeDown = () => {
     setModalProfileVisible(!modalProfileVisible);
+  };
+
+  const onSwipeDownFilter = () => {
+    setModalFilterVisible(!modalFilterVisible);
   };
 
   //// map sur le tableau race qui viendra de la BDD
@@ -198,8 +205,15 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
   // }
 
   return (
+   
     <View style={styles.container}>
-      <Image source={require("../assets/filter.png")} style={styles.icon} />
+      <Pressable 
+           style={styles.filter} 
+          //onPress={() => setModalFilterVisible(true)}
+          onPress ={changePage}
+        >
+               <Image source={require("../assets/filter.png")} style={styles.icon} />
+      </Pressable>
 
       <Pressable
         style={styles.buttonProfileModale}
@@ -254,6 +268,27 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
           style={styles.localisation_icon}
         />
       </TouchableOpacity>
+
+      <GestureRecognizer onSwipeDown={onSwipeDownFilter}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalFilterVisible}
+        onRequestClose={() => {
+          setModalFilterVisible(!modalFilterVisible);
+        }}
+      >
+        <View style={styles.modalFilterView}>
+          <Image 
+            source={require("../assets/user.png")}
+            style={styles.imgProfileModal}
+          />
+
+          
+
+          </View>
+        </Modal>
+      </GestureRecognizer>
 
 
       <Modal
@@ -350,6 +385,16 @@ const styles = StyleSheet.create({
 
   test: {
     color: 'white',
+
+  },
+  filter:{
+    position: "absolute",
+    left: "4%",
+    top: "12%",
+    zIndex: 1,
+    width: 50,
+    height: 50,
+    marginLeft: 30,
 
   },
   container: {
@@ -455,13 +500,10 @@ const styles = StyleSheet.create({
     right: "2%",
   },
   icon: {
-    position: "absolute",
-    left: "4%",
-    top: "12%",
-    zIndex: 1,
+    
     width: 50,
     height: 50,
-    marginLeft: 30,
+    
   },
   profil: {
     width: 90,
@@ -497,6 +539,25 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
+    marginTop: 40,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    padding: 30,
+    alignItems: "center",
+    shadowColor: "#000",
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  modalFilterView:{
     marginTop: 40,
     backgroundColor: 'white',
     borderTopLeftRadius: 50,
