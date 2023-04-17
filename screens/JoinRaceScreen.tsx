@@ -25,7 +25,6 @@ export default function JoinRaceScreen() {
   const [address, setAddress] = useState(null);
   const [author, setAuthor] = useState(null);
   const [participants, setParticipants] = useState(null);
-  const [userInRace, setUserInRace] = useState(false);
 
 
   // const BACKEND_ADDRESS = 'http://192.168.0.18:3000';
@@ -33,7 +32,8 @@ export default function JoinRaceScreen() {
 
   // console.log(user.token)
   // console.log(race.addracebyuser._id)
-  // console.log(participants)
+  console.log(participants)
+  console.log(user.username)
 
 
   useEffect(() => {
@@ -57,11 +57,6 @@ export default function JoinRaceScreen() {
   }, []);
 
 
-if (user.username == race.participants || race.author){
-setUserInRace(true)
-}
-
-
   const formatDate = (date) => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     const formattedDate = new Date(date).toLocaleString('fr-FR', options);
@@ -74,6 +69,10 @@ setUserInRace(true)
 
 
   const handleSubmit = () => {
+    if (participants && participants.includes(user.username)) {
+      alert('Vous êtes déjà inscrit à cette course.');
+      return;
+    }
     fetch(`${BACKEND_ADDRESS}/races/participants`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -271,17 +270,6 @@ const styles = StyleSheet.create({
 
   // Bouton rejoindre le groupe
   button: {
-    width: '70%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 8,
-    marginTop: 20,
-    backgroundColor: '#474CCC',
-    borderRadius: 50,
-    // solution à changer !!! pour mettre le bouton au milieu (container)
-    marginLeft: 60,
-  },
-  buttonUserInRace: {
     width: '70%',
     alignItems: 'center',
     justifyContent: 'center',

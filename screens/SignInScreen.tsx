@@ -61,39 +61,13 @@ export default function HomeScreen({ navigation }) {
       } else {
        
        
-        dispatch(updateFirstname(data.username));
-        dispatch(updateUsername(data.firstname));
+        dispatch(updateFirstname(data.firstname));
+        dispatch(updateUsername(data.username));
         dispatch(updateToken(data.token));
         dispatch(updateEmail(email));
         dispatch(updateGender(data.gender));
         dispatch(updateDatebirth(data.age));
 
-<<<<<<< HEAD
-        
-        if (!data.result) {
-          setEmailError(true);
-        } else {
-          data.result
-          //  && dispatch(login({ token: data.token, firstname: data.firstname, username: data.username }));
-          dispatch(updateFirstname(data.username));
-          dispatch(updateUsername(data.firstname));
-          dispatch(updateToken(data.token))
-          dispatch(updateEmail(email))
-          dispatch(updateDatebirth(data.age))
-          
-          // const seleteddate = user.datebirth
-          // const calculateAge = (date) => {
-          //   const diff = Date.now() - date.getTime();
-          //   const ageDate = new Date(diff);
-          //   return Math.abs(ageDate.getUTCFullYear() - 1970);
-          // };
-          // const ageadd = calculateAge(seleteddate);
-          // dispatch(updateAge(ageadd))
-          navigation.navigate("TabNavigator", { screen: "Map" });
-        }
-      })
-  };
-=======
         // appel de la fonction calculateAge qui calcule l'age par rapport a la date de naissance.
         const agecalculated = calculateAge(new Date(data.age)); 
         dispatch(updateAge(agecalculated))
@@ -101,7 +75,6 @@ export default function HomeScreen({ navigation }) {
       }
     })
 }
->>>>>>> acd3ece79e00d68183d896115d17334b695136c6
 
 
 const calculateAge = (dateOfBirth) => {
