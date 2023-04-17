@@ -1,103 +1,135 @@
-import React from "react";
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
-  UserState,
-  Modal,
   ScrollView,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
+import { useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import DatePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
+import { udptadeIdRace } from "../reducers/race";
+import Participants from '../components/Participants';
 
-export default function JoinRaceScreen(props) {
-
+export default function JoinRaceScreen() {
   const navigation = useNavigation();
+  const user = useSelector((state) => state.user.value);
+  const race = useSelector((state) => state.race.value);
+  const [description, setDescription] = useState(null);
+  const [date, setDate] = useState(null);
+  const [distance, setDistance] = useState(null);
+  const [duration, setDuration] = useState(null);
+  const [level, setLevel] = useState(null);
+  const [address, setAddress] = useState(null);
+  const [author, setAuthor] = useState(null);
+  const [participants, setParticipants] = useState(null);
+
+
+  // const BACKEND_ADDRESS = 'http://192.168.0.18:3000';
+  const BACKEND_ADDRESS = "https://shareact-backend.vercel.app";
+
+  // console.log(user.token)
+  // console.log(race.addracebyuser._id)
+  // console.log(participants)
+
+
+  useEffect(() => {
+    if (!user.token) {
+      return;
+    }
+
+    fetch(`${BACKEND_ADDRESS}/races/${race.addracebyuser._id}/${user.token}`)
+      .then(response => response.json())
+      .then(data => {
+        setDescription(data.race.description);
+        setDistance(data.race.distance);
+        setDuration(data.race.duration);
+        setLevel(data.race.level);
+        setAddress(data.race.address);
+        setDate(data.race.date);
+        setAuthor(data.race.author.username);
+        // setParticipants(data.race.participants[0].username);
+        setParticipants(data.race.participants.map(participant => participant.username));
+      });
+  }, []);
+
+
+  const formatDate = (date) => {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    const formattedDate = new Date(date).toLocaleString('fr-FR', options);
+    return formattedDate;
+  }
+
+
+  // Appel de la fonction pour formater la date
+  const formattedDate = formatDate(date);
+
 
   const handleSubmit = () => {
-    // dispatch pour test    
-    navigation.navigate("TabNavigator", { screen: "Courses" });
-  }
+    fetch(`${BACKEND_ADDRESS}/races/participants`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: user.token, raceId: race.addracebyuser._id }),
+    }).then(response => response.json())
+      .then(data => {
+        // data.result;
+        navigation.navigate('TabNavigator', { screen: 'Courses' });
+      });
+  };
+
+
 
   return (
     <ScrollView style={styles.scrollView}>
-    <View style={styles.container}>
+      <View style={styles.container}>
 
 
 
-      <View style={styles.containertop}>
-        <View style={styles.containertopleft}>
-          <Image style={styles.photo} source={require('../assets/user.png')} />
-          <Text style={styles.nameunderpic}>{props.username}username</Text>
+        <View style={styles.containertop}>
+          <View style={styles.containertopleft}>
+            <Image style={styles.photo} source={require('../assets/user1.png')} />
+            <Text style={styles.nameunderpic}>{author}</Text>
+          </View>
+
+          <View style={styles.containertopright}>
+            <Text style={styles.txtdescription}>{description}</Text>
+          </View>
         </View>
 
-        <View style={styles.containertopright}>
-          <Text style={styles.txtdescription}>{props.description}Entraînement pour le prochain marathon</Text>
-        </View>
-      </View>
 
 
+        <View style={styles.viewTextInfos} >
 
+          <View style={styles.viewTitleInfos}>
+            <Text style={styles.textInfosLeft}>Date :</Text>
+            <Text style={styles.textInfosLeft}>Lieu :</Text>
+            <Text style={styles.textInfosLeft}>Durée :</Text>
+            <Text style={styles.textInfosLeft}>Distance :</Text>
+            <Text style={styles.textInfosLeft}>Niveau :</Text>
 
+          </View>
 
-      <View style={styles.viewTextInfos} >
-
-        <View style={styles.viewTitleInfos}>
-          <Text style={styles.textInfosLeft}>Date :</Text>
-          <Text style={styles.textInfosLeft}>Lieu :</Text>
-          <Text style={styles.textInfosLeft}>Durée :</Text>
-          <Text style={styles.textInfosLeft}>Distance :</Text>
-          <Text style={styles.textInfosLeft}>Niveau :</Text>
-
-        </View>
-
-        <View style={styles.viewInfos} >
-          <Text style={styles.textInfosRight}>{props.date}date</Text>
-          <Text style={styles.textInfosRight}>{props.lieu}lieu</Text>
-          <Text style={styles.textInfosRight}>{props.durée}durée</Text>
-          <Text style={styles.textInfosRight}>{props.distance}distance</Text>
-          <Text style={styles.textInfosRight}>{props.niveau}niveau</Text>
-        </View>
-      </View>
-
-      <Text style={styles.titleParticipants}>Participants :</Text>
-      <View style={styles.containerParticipants}>
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
+          <View style={styles.viewInfos} >
+            <Text style={styles.textInfosRight}>{formattedDate}</Text>
+            <Text style={styles.textInfosRight}>{address}</Text>
+            <Text style={styles.textInfosRight}>{duration} minutes</Text>
+            <Text style={styles.textInfosRight}>{distance} km</Text>
+            <Text style={styles.textInfosRight}>{level}</Text>
+          </View>
         </View>
 
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
-        </View>
+        <Text style={styles.titleParticipants}>Participants :</Text>
+        <View style={styles.containerParticipants}>
+          {participants && participants.map((participant, index) => (
+            <View key={index} style={styles.participant}>
+              <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
+              <Text style={styles.pseudo}>{participant}</Text>
+            </View>
+          ))}
 
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
-        </View>
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
-        </View>
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
-        </View>
-        <View style={styles.participant}>
-          <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-          <Text style={styles.pseudo}>@pseudo{props.username}</Text>
-        </View>
-    
+
       </View>
 
       <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
@@ -105,7 +137,7 @@ export default function JoinRaceScreen(props) {
       </TouchableOpacity>
 
     </View>
-    </ScrollView>
+    </ScrollView >
 
 
   )
@@ -115,13 +147,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 80,
+    paddingHorizontal: 20,
   },
 
   // Photo et description 
   containertop: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 10,
+    padding: 5,
     alignItems: 'flex-start',
     // borderColor: 'red',
     // borderWidth: 1,
@@ -141,6 +174,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#474CCC',
     width: 200,
     height: 150,
+    marginLeft: 20,
   },
   txtdescription: {
     fontSize: 14,
@@ -165,8 +199,8 @@ const styles = StyleSheet.create({
 
   photo: {
     // margin: 5,
-    width: 150,
-    height: 150,
+    width: 140,
+    height: 140,
     borderRadius: 100,
     borderColor: '#474CCC',
     borderWidth: 4,
@@ -176,31 +210,34 @@ const styles = StyleSheet.create({
   viewTextInfos: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingVertical: 10,
+    marginTop: 20,
 
   },
 
   viewTitleInfos: {
     flexDirection: 'column',
   },
-  viewInfors: {
+  viewInfos: {
     flexDirection: 'column',
+    width: '80%',
   },
   textInfosLeft: {
     color: '#474CCC',
-    marginBottom: 5,
+    marginBottom: 7,
+    height: 35,
   },
 
   textInfosRight: {
     color: 'gray',
-    paddingLeft: 10,
-    marginBottom: 5,
+    marginBottom: 7,
+    paddingLeft: 7,
+    height: 35,
   },
 
   // Participants
 
   titleParticipants: {
-    paddingLeft: 30,
+    marginTop: 10,
     color: '#474CCC',
   },
   containerParticipants: {
@@ -213,8 +250,8 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   photoParticipants: {
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     borderRadius: 100,
     borderColor: '#474CCC',
     borderWidth: 4,

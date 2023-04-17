@@ -12,8 +12,9 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { login } from '../reducers/user';
 import { autoBatchEnhancer } from "@reduxjs/toolkit";
-import { updateFirstname,updateToken,updateUsername,updateEmail,updateImage,updateAge,updateGender,updateDatebirth} from '../reducers/user';
+import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
 
 // Grabbed from emailregex.com
 const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -32,36 +33,44 @@ export default function HomeScreen({ navigation }) {
   const [hidePassword, setHidePassword] = useState(true);
 
 
+  //   const handleSubmit = () => {
+  // // dispatch pour test
+  // dispatch(updateToken('U4t1K88SoTEvn5wHM08X5ASxfk4WYniw'))
+  // dispatch(updateFirstname('Test'))
+  // dispatch(updateUsername('Test'))
+  // dispatch(updateEmail('Test@Test.Test'))
+  // dispatch(updateAge('20'))
+  // dispatch(updateGender('Autre'))
+
+  //     navigation.navigate("TabNavigator", { screen: "Map" });
+  //   }
+
+
   const handleSubmit = () => {
-// dispatch pour test
-dispatch(updateToken('U4t1K88SoTEvn5wHM08X5ASxfk4WYniw'))
-dispatch(updateFirstname('Test'))
-dispatch(updateUsername('Test'))
-dispatch(updateEmail('Test@Test.Test'))
-dispatch(updateAge('20'))
-dispatch(updateGender('Autre'))
+    fetch(`${BACKEND_ADDRESS}/users/signin`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.result) {
+          setEmailError(true);
+        } else {
+          data.result
+          //  && dispatch(login({ token: data.token, firstname: data.firstname, username: data.username }));
+          dispatch(updateFirstname(data.username));
+          dispatch(updateUsername(data.firstname));
+          dispatch(updateToken(data.token))
+          dispatch(updateEmail(data.email))
+          dispatch(updateAge('20'))
 
-    navigation.navigate("TabNavigator", { screen: "Map" });
-  }
 
+          navigation.navigate("TabNavigator", { screen: "Map" });
+        }
+      })
+  };
 
-  // const handleSubmit = () => {
-  //   fetch(`${BACKEND_ADDRESS}/users/signin`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ email, password }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (!data.result) { 
-  //         setEmailError(true); 
-  //       } else { 
-  //         dispatch(updateEmail(email));
-  //         navigation.navigate("TabNavigator", { screen: "Map" });
-  //       }
-  //     })
-  // };
-  
 
 
   return (
@@ -75,17 +84,17 @@ dispatch(updateGender('Autre'))
 
 
       <View style={styles.inputContainer}>
-      <TextInput placeholder="Password" onChangeText={(value) => setPassword(value)} value={password} style={styles.inputPassword} secureTextEntry={hidePassword}/>
-      <TouchableOpacity 
+        <TextInput placeholder="Password" onChangeText={(value) => setPassword(value)} value={password} style={styles.inputPassword} secureTextEntry={hidePassword} />
+        <TouchableOpacity
           onPress={() => setHidePassword(!hidePassword)}
           activeOpacity={0.8}
           style={styles.iconButton}
         >
           <FontAwesome5 name={hidePassword ? "eye-slash" : "eye"} size={20} color="#474CCC" />
         </TouchableOpacity>
-        </View>
+      </View>
 
-      
+
       {emailError && <Text style={styles.error}>L'adresse e-mail ou le mot de passe est incorrect</Text>}
 
 
@@ -113,7 +122,7 @@ const styles = StyleSheet.create({
   image: {
     width: '70%',
     height: '40%',
-    marginTop:5,
+    marginTop: 5,
   },
   input: {
     width: '80%',

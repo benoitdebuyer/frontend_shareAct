@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
-import { addRaceByUser, delRaceByUser } from "../reducers/race";
+import { addRaceByUser, delRaceByUser, udptadeIdRace } from "../reducers/race";
 import { useRoute } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
@@ -34,6 +34,7 @@ export default function MapScreen() {
   const [selectedRace, setSelectedRace] = useState(null);
   const isFocused = useIsFocused();
   const [hasPermission, setHasPermission] = useState(false);
+  const [idRace, setIdRace] = useState(null);
 
   const dispatch = useDispatch();
   const race = useSelector((state) => state.race.value);
@@ -48,6 +49,11 @@ export default function MapScreen() {
       });
     }
   };
+
+
+
+
+  
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -88,7 +94,10 @@ export default function MapScreen() {
     setSelectedRace(race);
     dispatch(addRaceByUser(race));
     console.log(race);
+    // console.log(race._id)
   };
+
+
   const handleCloseModalgotorace = (race) => {
     /* 
     navigation.navigate('Details', { courseId: data.id });
@@ -96,28 +105,51 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     navigation.navigate("JoinRaceScreen");
     setSelectedRace(null);
   };
+
+
   ////////////////
   /// transforme la date iso en lisible
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "long" });
+    const monthIndex = date.getMonth();
+    // const month = date.toLocaleString("default", { month: "long", locale: 'fr-FR' });
     const year = date.getFullYear();
     const hours = date.getHours();
-    const minutes = date.getMinutes();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
 
-    return `Le ${day} ${month} ${year} à ${hours} : ${minutes}`;
+    const months = [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre",
+    ];
+
+    const formattedDate = `${day} ${months[monthIndex]} ${year} à ${hours}:${minutes}`;
+    return `Le ${formattedDate}`;
   };
+
+
+
   const formatDate2 = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
     const month = date.toLocaleString("default", { month: "long" });
     const year = date.getFullYear();
     const hours = date.getHours();
-    const minutes = date.getMinutes();
+    const minutes = date.getMinutes().toString().padStart(2, '0'); // Ajout de cette ligne
 
     return `à ${hours}:${minutes}`;
   };
+
 
   const onSwipeDown = () => {
     setModalProfileVisible(!modalProfileVisible);
@@ -136,7 +168,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     );
   });
 
-  const onSwipe=({event}) =>{
+  const onSwipe = ({ event }) => {
     if (event.nativeEvent != null && event.nativeEvent.translationX != null) {
       // Accessing the doubleValue() method on a non-null object reference
       const translationX = event.nativeEvent.translationX.doubleValue();
@@ -144,17 +176,17 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     }
   }
 
-//   const onSwipe = ({nativeEvent}) => {
-//     console.log('nativeEvent', nativeEvent);
-//   console.log('translationY', nativeEvent?.translationY);
-//   console.log('modalProfileVisible', modalProfileVisible);
-//   if (nativeEvent && nativeEvent.translationY != null && nativeEvent.translationY < 100) {
-//     // fermeture de la modale si elle est visible
-//     if (modalProfileVisible != null) {
-//       setModalProfileVisible(!modalProfileVisible);
-//     }
-//   }
-// }
+  //   const onSwipe = ({nativeEvent}) => {
+  //     console.log('nativeEvent', nativeEvent);
+  //   console.log('translationY', nativeEvent?.translationY);
+  //   console.log('modalProfileVisible', modalProfileVisible);
+  //   if (nativeEvent && nativeEvent.translationY != null && nativeEvent.translationY < 100) {
+  //     // fermeture de la modale si elle est visible
+  //     if (modalProfileVisible != null) {
+  //       setModalProfileVisible(!modalProfileVisible);
+  //     }
+  //   }
+  // }
 
   return (
     <View style={styles.container}>
@@ -192,7 +224,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
           {currentPosition && (
             <Marker
               coordinate={currentPosition}
-              title="My position"
+              title="Ma position"
               pinColor="#474CCC"
             />
           )}
@@ -214,36 +246,36 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
         />
       </TouchableOpacity>
 
-      
-        <Modal
-          visible={selectedRace !== null}
-          animationType="slide"
-          transparent={true}
-          onRequestClose={handleCloseModalmarker}
-          
+
+      <Modal
+        visible={selectedRace !== null}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={handleCloseModalmarker}
+
+      >
+
+        <View onPress={handleCloseModalmarker}
+          style={styles.centeredViewmarker}
         >
-
-          <View onPress={handleCloseModalmarker}
-            style={styles.centeredViewmarker}
+          <View
+            style={styles.modalViewmarker}
           >
-            <View
-              style={styles.modalViewmarker}
+            <Text
+              style={{ fontSize: 18, fontWeight: "bold", margin: 8, }}
             >
-              <Text
-                style={{ fontSize: 18, fontWeight: "bold", margin: 8,}}
-              >
-                {formatDate(selectedRace?.date)}
+              {formatDate(selectedRace?.date)}
+            </Text>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={{ marginBottom: 8 }}>
+                Distance : {selectedRace?.distance} km
               </Text>
-              <View style={{ flexDirection: "row" }}>
-                <Text style={{ marginBottom: 8 }}>
-                  Distance : {selectedRace?.distance}
-                </Text>
-                <Text style={{ marginBottom: 16 }}>
-                  Temps : {selectedRace?.duration}
-                </Text>
-              </View>
+              <Text style={{ marginBottom: 16 }}>
+                Temps : {selectedRace?.duration} min
+              </Text>
+            </View>
 
-              <View style={styles.viewmodalbtn}>
+            <View style={styles.viewmodalbtn}>
 
               <TouchableOpacity onPress={() => handleCloseModalgotorace(race)}>
                 <Text style={styles.modalbtngotorace}>Voir la course</Text>
@@ -252,18 +284,18 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
               <Text style={styles.test}>        </Text>
 
               <TouchableOpacity onPress={() => handleCloseModalmarker()}>
-              <Text style={styles.modalbtnReturn}>Close</Text>
-            </TouchableOpacity>
+                <Text style={styles.modalbtnReturn}>Close</Text>
+              </TouchableOpacity>
 
             </View>
 
 
-            </View>
           </View>
+        </View>
 
 
 
-        </Modal>
+      </Modal>
 
         <GestureRecognizer onSwipeDown={onSwipeDown}>
       <Modal
@@ -280,26 +312,26 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
             style={styles.imgProfileModal}
           />
 
-          <View style={styles.infosProfile}>
-            <Text style={styles.textInfos}>{user.username}</Text>
+            <View style={styles.infosProfile}>
+              <Text style={styles.textInfos}>{user.username}</Text>
 
-            <Text style={styles.textInfos}>{user.firstname}</Text>
+              <Text style={styles.textInfos}>{user.firstname}</Text>
 
-            <Text style={styles.textInfos}>{user.email}</Text>
+              <Text style={styles.textInfos}>{user.email}</Text>
 
             <Text style={styles.textInfos}>{user.age} ans </Text>
           </View>
 
-          <TouchableOpacity
-            style={styles.buttonProfileModif}
-            onPress={onChangeButtonPress}
-          >
-            <Text style={styles.textStyle}>Changez votre profil</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonProfileModif}
+              onPress={onChangeButtonPress}
+            >
+              <Text style={styles.textStyle}>Changez votre profil</Text>
+            </TouchableOpacity>
 
-         
-        </View>
-      </Modal>
+
+          </View>
+        </Modal>
       </GestureRecognizer>
     </View>
   );
@@ -307,8 +339,8 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
 const styles = StyleSheet.create({
 
-  test:{
-color :'white',
+  test: {
+    color: 'white',
 
   },
   container: {
@@ -520,33 +552,30 @@ color :'white',
     elevation: 5,
   },
 
-  viewmodalbtn:{
+  viewmodalbtn: {
     flexDirection: "row",
-    
-    
+
+
   },
-  modalbtngotorace:{
+  modalbtngotorace: {
     padding: 10,
     color: 'white',
     borderRadius: 10,
     backgroundColor: '#474CCC',
-    fontSize: 17,
+    fontSize: 16,
     alignItems: 'center',
-    shadowOpacity: 0.9,
-    shadowRadius: 4,
-    elevation: 5,
+    overflow: 'hidden',
   },
-  modalbtnReturn:{
+  modalbtnReturn: {
     padding: 10,
     color: '#474CCC',
     borderRadius: 10,
     borderWidth: 1,
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    // backgroundColor: '#fff',
     borderColor: "#474CCC",
     alignItems: 'center',
-    shadowOpacity: 0.4,
+    // shadowOpacity: 0.4,
     shadowRadius: 5,
-    elevation: 10,
+    // elevation: 10,
   },
 });

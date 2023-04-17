@@ -266,6 +266,7 @@ export default function HomeScreen({ navigation }) {
             mode="date"
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}
+            locale="fr_FR"
           />
         </Modal>
       </View>

@@ -202,8 +202,7 @@ const styles = StyleSheet.create({
       //height: Dimensions.get("window").width/10,
       
       justifyContent: 'center',
-      borderWidth:4, 
-      borderColor: 'red',
+     
   },
   button:{
     margin :15,
@@ -309,8 +308,7 @@ input: {
     paddingTop: 5,
     marginRight: 31,
     //height: Dimensions.get("window").height/25,
-    borderWidth:2, 
-    borderColor: 'red',
+   
 
     
     
