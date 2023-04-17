@@ -77,7 +77,7 @@ const SliderContainer = (props) => {
 
 
 export default function Filter() {
-    const [dist, setDist] = useState(false);
+    let [dist, setDist] = useState(0);
     const navigation = useNavigation();
 
     const quitFilterPage = () => {
@@ -86,6 +86,30 @@ export default function Filter() {
       };
     const applyFilter = () => {
         console.log("apply filter")
+        dist = dist*1000
+        const data = {
+            start_date: '2023-05-01',
+            end_date: '2023-05-31',
+            lat: 48.8566,
+            lon: 2.3522,
+            distance: dist,       
+          };
+          
+          fetch(`${BACKEND_ADDRESS}/races/filter`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              // faire quelque chose avec les données filtrées
+            })
+            .catch(error => {
+              console.error(error);
+            });
       };
 
 
