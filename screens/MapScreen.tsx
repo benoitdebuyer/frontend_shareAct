@@ -14,7 +14,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
-import { addRaceByUser, delRaceByUser, udptadeIdRace } from "../reducers/race";
+import { addRaceByUser, delRaceByUser, udptadeIdRace, } from "../reducers/race";
+import {updateAge} from '../reducers/user'
 import { useRoute } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
@@ -52,7 +53,6 @@ export default function MapScreen() {
 
 
 
-
   
   useEffect(() => {
     (async () => {
@@ -65,6 +65,7 @@ export default function MapScreen() {
       }
     })();
 ;
+
   }, []);
 
   if (!hasPermission || !isFocused) {
@@ -321,7 +322,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
               <Text style={styles.textInfos}>{user.email}</Text>
 
-            <Text style={styles.textInfos}>{user.age} ans </Text>
+            <Text style={styles.textInfos}>{user.age} 30 ans  </Text>
           </View>
 
             <TouchableOpacity
@@ -392,7 +393,6 @@ const styles = StyleSheet.create({
     
     shadowOpacity: 0.9,
     shadowRadius: 4,
-    elevation: 5,
     
   },
   infosProfile: {

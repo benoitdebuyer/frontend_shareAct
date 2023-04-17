@@ -24,7 +24,9 @@ const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 
 export default function HomeScreen({ navigation }) {
+
   const dispatch = useDispatch();
+  const user = useSelector((state: { user: UserState }) => state.user.value);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -63,15 +65,19 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateUsername(data.firstname));
           dispatch(updateToken(data.token))
           dispatch(updateEmail(email))
-          dispatch(updateAge(data.age))
-
+          dispatch(updateDatebirth(data.age))
+          
 
           navigation.navigate("TabNavigator", { screen: "Map" });
         }
       })
   };
 
-
+  const calculateAge = (date) => {
+    const diff = Date.now() - date.getTime();
+    const ageDate = new Date(diff);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -80,7 +86,7 @@ export default function HomeScreen({ navigation }) {
       <Image style={styles.image} source={require('../assets/shareact-white.png')} />
 
 
-      <TextInput placeholder="Email" onChangeText={(value) => setEmail(value)} value={email} style={styles.input} />
+      <TextInput placeholder="Email" onChangeText={(value) => setEmail(value)} value={email} keyboardType="email-address" style={styles.input} />
 
 
       <View style={styles.inputContainer}>
