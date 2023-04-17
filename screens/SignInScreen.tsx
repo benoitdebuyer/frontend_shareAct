@@ -56,6 +56,9 @@ export default function HomeScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
+        
+
+        
         if (!data.result) {
           setEmailError(true);
         } else {
@@ -67,7 +70,14 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateEmail(email))
           dispatch(updateDatebirth(data.age))
           
-
+          const seleteddate = user.datebirth
+          const calculateAge = (date) => {
+            const diff = Date.now() - date.getTime();
+            const ageDate = new Date(diff);
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
+          };
+          const ageadd = calculateAge(seleteddate);
+          dispatch(updateAge(ageadd))
           navigation.navigate("TabNavigator", { screen: "Map" });
         }
       })

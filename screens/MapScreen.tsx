@@ -64,7 +64,11 @@ export default function MapScreen() {
         });
       }
     })();
-;
+  fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
+.then((response) => response.json())
+.then((data) => {
+  data.result && setRaces(data.races);
+})
 
   }, []);
 
@@ -76,6 +80,8 @@ export default function MapScreen() {
       .then((data) => {
         data.result && setRaces(data.races);
       })
+
+      
    }
 
   const onChangeButtonPress = () => {
@@ -322,7 +328,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
               <Text style={styles.textInfos}>{user.email}</Text>
 
-            <Text style={styles.textInfos}>{user.age} 30 ans  </Text>
+            <Text style={styles.textInfos}>{user.age} ans  </Text>
           </View>
 
             <TouchableOpacity
