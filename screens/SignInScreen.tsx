@@ -44,8 +44,8 @@ export default function HomeScreen({ navigation }) {
   // dispatch(updateAge('20'))
   // dispatch(updateGender('Autre'))
 
-  //     navigation.navigate("TabNavigator", { screen: "Map" });
-  //   }
+    //   navigation.navigate("TabNavigator", { screen: "Map" });
+    // }
 
 
   const handleSubmit = () => {
