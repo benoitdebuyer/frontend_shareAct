@@ -62,8 +62,8 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateFirstname(data.username));
           dispatch(updateUsername(data.firstname));
           dispatch(updateToken(data.token))
-          dispatch(updateEmail(data.email))
-          dispatch(updateAge('20'))
+          dispatch(updateEmail(email))
+          dispatch(updateAge(data.age))
 
 
           navigation.navigate("TabNavigator", { screen: "Map" });
