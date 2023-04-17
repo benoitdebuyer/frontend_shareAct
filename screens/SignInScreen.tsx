@@ -35,30 +35,30 @@ export default function HomeScreen({ navigation }) {
   const [hidePassword, setHidePassword] = useState(true);
 
 
-  //   const handleSubmit = () => {
-  // // dispatch pour test
-  // dispatch(updateToken('U4t1K88SoTEvn5wHM08X5ASxfk4WYniw'))
-  // dispatch(updateFirstname('Test'))
-  // dispatch(updateUsername('Test'))
-  // dispatch(updateEmail('Test@Test.Test'))
-  // dispatch(updateAge('20'))
-  // dispatch(updateGender('Autre'))
+    const handleSubmit = () => {
+  // dispatch pour test
+  dispatch(updateToken('U4t1K88SoTEvn5wHM08X5ASxfk4WYniw'))
+  dispatch(updateFirstname('Test'))
+  dispatch(updateUsername('Test'))
+  dispatch(updateEmail('Test@Test.Test'))
+  dispatch(updateAge('20'))
+  dispatch(updateGender('Autre'))
 
-    //   navigation.navigate("TabNavigator", { screen: "Map" });
-    // }
+      navigation.navigate("TabNavigator", { screen: "Map" });
+    }
 
 
-  const handleSubmit = () => {
-    fetch(`${BACKEND_ADDRESS}/users/signin`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      if (!data.result) {
-        setEmailError(true);
-      } else {
+//   const handleSubmit = () => {
+//     fetch(`${BACKEND_ADDRESS}/users/signin`, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ email, password }),
+//     })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       if (!data.result) {
+//         setEmailError(true);
+//       } else {
        
        
         dispatch(updateFirstname(data.firstname));

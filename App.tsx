@@ -17,6 +17,7 @@ import SnapScreen from './screens/SnapScreen'
 import JoinRaceScreen from './screens/JoinRaceScreen'
 import Racecardtest from './components/Racecard'
 import Participants from './components/Participants'
+import Filter from './screens/Filter'
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -72,6 +73,7 @@ export default function App() {
           <Stack.Screen name="Participants" component={Participants} />
           <Stack.Screen name="JoinRaceScreen" component={JoinRaceScreen} />
           <Stack.Screen name="MonCompte" component={MonCompte} />
+          <Stack.Screen name="Filter" component={Filter} />
       
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
