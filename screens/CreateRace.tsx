@@ -109,6 +109,7 @@ export default function CreateRace() {
             <TextInput
               style={styles.input}
               placeholder="Durée"
+              keyboardType="numeric"
               maxLength={4}
               value={duration}
               onChangeText={handleDurationChange}
@@ -120,6 +121,7 @@ export default function CreateRace() {
             <TextInput
               style={styles.input}
               placeholder="Distance"
+              keyboardType="numeric"
               maxLength={4}
               value={distance}
               onChangeText={handleDistanceChange}
@@ -243,7 +245,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     height: 40,
     marginTop: 5,
-    paddingvertical: 10,
+    paddingVertical: 10,
     paddingHorizontal: 10,
     minWidth: '80%',
     maxWidth: '80%',

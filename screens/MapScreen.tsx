@@ -64,16 +64,18 @@ export default function MapScreen() {
         });
       }
     })();
-    fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
-      .then((response) => response.json())
-      .then((data) => {
-        data.result && setRaces(data.races);
-      });
+;
   }, []);
 
   if (!hasPermission || !isFocused) {
     return <View />;
-  }
+  }else{
+    fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
+      .then((response) => response.json())
+      .then((data) => {
+        data.result && setRaces(data.races);
+      })
+   }
 
   const onChangeButtonPress = () => {
     navigation.navigate("MonCompte");
