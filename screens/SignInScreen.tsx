@@ -54,10 +54,21 @@ export default function HomeScreen({ navigation }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        
+    .then((response) => response.json())
+    .then((data) => {
+      if (!data.result) {
+        setEmailError(true);
+      } else {
+       
+       
+        dispatch(updateFirstname(data.username));
+        dispatch(updateUsername(data.firstname));
+        dispatch(updateToken(data.token));
+        dispatch(updateEmail(email));
+        dispatch(updateGender(data.gender));
+        dispatch(updateDatebirth(data.age));
 
+<<<<<<< HEAD
         
         if (!data.result) {
           setEmailError(true);
@@ -82,12 +93,22 @@ export default function HomeScreen({ navigation }) {
         }
       })
   };
+=======
+        // appel de la fonction calculateAge qui calcule l'age par rapport a la date de naissance.
+        const agecalculated = calculateAge(new Date(data.age)); 
+        dispatch(updateAge(agecalculated))
+        navigation.navigate("TabNavigator", { screen: "Map" });
+      }
+    })
+}
+>>>>>>> acd3ece79e00d68183d896115d17334b695136c6
 
-  const calculateAge = (date) => {
-    const diff = Date.now() - date.getTime();
-    const ageDate = new Date(diff);
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-  };
+
+const calculateAge = (dateOfBirth) => {
+  const diff = Date.now() - dateOfBirth.getTime();
+  const ageDate = new Date(diff);
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+};
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

@@ -64,12 +64,11 @@ export default function MapScreen() {
         });
       }
     })();
-    fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
-      .then((response) => response.json())
-      .then((data) => {
-        data.result && setRaces(data.races);
-      })
-
+  fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
+.then((response) => response.json())
+.then((data) => {
+  data.result && setRaces(data.races);
+})
   }, []);
 
   if (!hasPermission || !isFocused) {
@@ -81,9 +80,10 @@ export default function MapScreen() {
         data.result && setRaces(data.races);
       })
 
+      
+   }
 
-  }
-
+   
   const onChangeButtonPress = () => {
     navigation.navigate("MonCompte");
     setModalProfileVisible(!modalProfileVisible);
@@ -328,8 +328,8 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
               <Text style={styles.textInfos}>{user.email}</Text>
 
-              <Text style={styles.textInfos}>{user.age} 28 ans  </Text>
-            </View>
+            <Text style={styles.textInfos}>{user.age} ans  </Text>
+          </View>
 
             <TouchableOpacity
               style={styles.buttonProfileModif}
