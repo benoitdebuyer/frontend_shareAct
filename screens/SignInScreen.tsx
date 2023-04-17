@@ -54,34 +54,25 @@ export default function HomeScreen({ navigation }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        
+    .then((response) => response.json())
+    .then((data) => {
+      if (!data.result) {
+        setEmailError(true);
+      } else {
+        const dateOfBirth = new Date(data.age);
+        const age = calculateAge(dateOfBirth); // calculer l'âge de l'utilisateur
 
         
-        if (!data.result) {
-          setEmailError(true);
-        } else {
-          data.result
-          //  && dispatch(login({ token: data.token, firstname: data.firstname, username: data.username }));
-          dispatch(updateFirstname(data.username));
-          dispatch(updateUsername(data.firstname));
-          dispatch(updateToken(data.token))
-          dispatch(updateEmail(email))
-          dispatch(updateDatebirth(data.age))
-          
-          const seleteddate = user.datebirth
-          const calculateAge = (date) => {
-            const diff = Date.now() - date.getTime();
-            const ageDate = new Date(diff);
-            return Math.abs(ageDate.getUTCFullYear() - 1970);
-          };
-          const ageadd = calculateAge(seleteddate);
-          dispatch(updateAge(ageadd))
-          navigation.navigate("TabNavigator", { screen: "Map" });
-        }
-      })
-  };
+        dispatch(updateFirstname(user.username));
+        dispatch(updateUsername(user.firstname));
+        dispatch(updateToken(data.token));
+        dispatch(updateEmail(email));
+        dispatch(updateDatebirth(user.dateOfBirth));
+        dispatch(updateAge(age)); // mettre à jour l'âge de l'utilisateur dans le reducer
+        navigation.navigate("TabNavigator", { screen: "Map" });
+      }
+    })
+}
 
   const calculateAge = (date) => {
     const diff = Date.now() - date.getTime();
