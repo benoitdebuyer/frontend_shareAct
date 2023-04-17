@@ -322,7 +322,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
               <Text style={styles.textInfos}>{user.email}</Text>
 
-            <Text style={styles.textInfos}>{user.age} 30 ans  </Text>
+            <Text style={styles.textInfos}>{user.age} 28 ans  </Text>
           </View>
 
             <TouchableOpacity
