@@ -69,7 +69,6 @@ export default function MapScreen() {
 .then((data) => {
   data.result && setRaces(data.races);
 })
-
   }, []);
 
   if (!hasPermission || !isFocused) {
@@ -84,6 +83,7 @@ export default function MapScreen() {
       
    }
 
+   
   const onChangeButtonPress = () => {
     navigation.navigate("MonCompte");
     setModalProfileVisible(!modalProfileVisible);
@@ -328,7 +328,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
               <Text style={styles.textInfos}>{user.email}</Text>
 
-            <Text style={styles.textInfos}>{user.age} 28 ans  </Text>
+            <Text style={styles.textInfos}>{user.age} ans  </Text>
           </View>
 
             <TouchableOpacity

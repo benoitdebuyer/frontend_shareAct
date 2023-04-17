@@ -59,26 +59,29 @@ export default function HomeScreen({ navigation }) {
       if (!data.result) {
         setEmailError(true);
       } else {
-        const dateOfBirth = new Date(data.age);
-        const age = calculateAge(dateOfBirth); // calculer l'âge de l'utilisateur
-
-        
-        dispatch(updateFirstname(user.username));
-        dispatch(updateUsername(user.firstname));
+       
+       
+        dispatch(updateFirstname(data.username));
+        dispatch(updateUsername(data.firstname));
         dispatch(updateToken(data.token));
         dispatch(updateEmail(email));
-        dispatch(updateDatebirth(user.dateOfBirth));
-        dispatch(updateAge(age)); // mettre à jour l'âge de l'utilisateur dans le reducer
+        dispatch(updateGender(data.gender));
+        dispatch(updateDatebirth(data.age));
+
+        // appel de la fonction calculateAge qui calcule l'age par rapport a la date de naissance.
+        const agecalculated = calculateAge(new Date(data.age)); 
+        dispatch(updateAge(agecalculated))
         navigation.navigate("TabNavigator", { screen: "Map" });
       }
     })
 }
 
-  const calculateAge = (date) => {
-    const diff = Date.now() - date.getTime();
-    const ageDate = new Date(diff);
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-  };
+
+const calculateAge = (dateOfBirth) => {
+  const diff = Date.now() - dateOfBirth.getTime();
+  const ageDate = new Date(diff);
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+};
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
