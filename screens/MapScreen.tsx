@@ -69,7 +69,6 @@ export default function MapScreen() {
 .then((data) => {
   data.result && setRaces(data.races);
 })
-
   }, []);
 
   if (!hasPermission || !isFocused) {
@@ -84,6 +83,7 @@ export default function MapScreen() {
       
    }
 
+   
   const onChangeButtonPress = () => {
     navigation.navigate("MonCompte");
     setModalProfileVisible(!modalProfileVisible);

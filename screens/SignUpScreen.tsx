@@ -64,7 +64,6 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateAge(age))
           dispatch(updateGender(gender))
           dispatch(updateToken(data.token))
-          console.log('log  user token ',user.token)
         });
 
       navigation.navigate("TabNavigator", { screen: "Map" });
