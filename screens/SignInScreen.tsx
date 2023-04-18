@@ -65,6 +65,7 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateEmail(email));
           dispatch(updateGender(data.gender));
           dispatch(updateDatebirth(data.age));
+          dispatch(updateImage(data.image));
           //  appel de la fonction calculateAge qui calcule l'age par rapport a la date de naissance.
         const agecalculated = calculateAge(new Date(data.age)); 
         dispatch(updateAge(agecalculated))

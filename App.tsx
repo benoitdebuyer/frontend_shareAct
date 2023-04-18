@@ -67,10 +67,10 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="SnapScreen" component={SnapScreen} />
           <Stack.Screen name="CreateRace" component={CreateRace} />
           <Stack.Screen name="MapCreate" component={MapCreate} />
           <Stack.Screen name="Racecard" component={Racecardtest} />
+          <Stack.Screen name="SnapScreen" component={SnapScreen} />
           <Stack.Screen name="Participants" component={Participants} />
           <Stack.Screen name="JoinRaceScreen" component={JoinRaceScreen} />
           <Stack.Screen name="MonCompte" component={MonCompte} />

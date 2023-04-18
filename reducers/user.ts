@@ -64,7 +64,7 @@ export const userSlice = createSlice({
     updateEmail: (state, action: PayloadAction<string>) => {
       state.value.email = action.payload;
     },
-    updateImage: (state, action: PayloadAction<string>) => {
+    updateImage: (state, action) => {
       state.value.image = action.payload;
     },
     updateAge: (state, action) => {

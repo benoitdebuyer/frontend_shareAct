@@ -28,11 +28,13 @@ export default function PlacesScreen( {navigation}) {
   const gotoParticipants = () => {
     navigation.navigate("Participants");
   }
-
+  
   const gotoJoin = () => {
     navigation.navigate("JoinRaceScreen");
   }
-
+  const gotoSnapScreen = () => {
+    navigation.navigate("SnapScreen");
+  }
   
 
 const handleSubmit = () => {
@@ -115,6 +117,10 @@ const handleSubmit = () => {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={gotoParticipants} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Participants </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={gotoSnapScreen} style={styles.button} activeOpacity={0.8}>
           <Text style={styles.textButton}>Participants </Text>
         </TouchableOpacity>
 

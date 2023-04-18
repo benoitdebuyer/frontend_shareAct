@@ -95,12 +95,17 @@ export default function MonCompte() {
 
     navigation.navigate("TabNavigator", { screen: "Map" });
   }
+
+  // let testimage = require('../assets/user.png')
+  let testimage = user.image 
   return (
     <View style={styles.container}>
+<View>
 
-      <Image source={require('../assets/user.png')}
+  
+      <Image source={{ uri : testimage}}
         style={styles.imgProfile} />
-
+</View>
       {/* <TouchableOpacity style={styles.buttonChangePhoto} activeOpacity={0.8}>
         <Text style={styles.textButtonChangePhoto} >Changer la photo</Text>
       </TouchableOpacity> */}
