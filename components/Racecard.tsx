@@ -62,15 +62,9 @@ export default function Racecardtest(props) {
 
       
 
-<<<<<<< HEAD
         
 
         <View style={styles.containerButtons}>
-=======
-        <TouchableOpacity style={styles.buttonTimer} onPress={() => handleS()} activeOpacity={0.8}>
-          <Text style={styles.textButtontimer}>Commence dans {props.timer} min !</Text>
-        </TouchableOpacity>
->>>>>>> 28bd17aada3f19b868ffc766932475c7929bf9fd
 
         <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
           <Text style={styles.textButton}>Chat de groupe</Text>

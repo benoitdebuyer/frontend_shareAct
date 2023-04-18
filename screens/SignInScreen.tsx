@@ -59,14 +59,15 @@ export default function HomeScreen({ navigation }) {
         if (!data.result) {
           setEmailError(true);
         } else {
-
-
           dispatch(updateFirstname(data.firstname));
           dispatch(updateUsername(data.username));
           dispatch(updateToken(data.token));
           dispatch(updateEmail(email));
           dispatch(updateGender(data.gender));
           dispatch(updateDatebirth(data.age));
+          //  appel de la fonction calculateAge qui calcule l'age par rapport a la date de naissance.
+        const agecalculated = calculateAge(new Date(data.age)); 
+        dispatch(updateAge(agecalculated))
 
       navigation.navigate("TabNavigator", { screen: "Map" });
        }
