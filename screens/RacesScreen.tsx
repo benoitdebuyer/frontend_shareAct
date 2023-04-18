@@ -12,7 +12,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPlace, removePlace } from '../reducers/user';
 import { useIsFocused } from '@react-navigation/native';
-import Participants from '../components/Participants'
 import Racecardtest from '../components/Racecard'
 
 
@@ -22,62 +21,87 @@ export default function PlacesScreen() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const isFocused = useIsFocused();
-
   const [racesUp, setRacesUp] = useState([]);
 
+  const [shouldUpdate, setShouldUpdate] = useState(false);
+
+function handleUpdate() {
+  setShouldUpdate(prev => !prev);
+}
+
+const token = user.token
   useEffect(() => {
+    console.log('usertoken debut de l use effetc',token)
     if (isFocused) {
-      fetch(`${BACKEND_ADDRESS}/users/add/${user.token}`)
+      fetch(`${BACKEND_ADDRESS}/users/add/${token}`)
         .then((response) => response.json())
         .then((data) => {
-          setRacesUp(data.race);
+          console.log('data dans le fetch //////',data)
+          setRacesUp(data.races);
         });
     }
-  }, [isFocused]);
+  }, [isFocused,shouldUpdate ]);
 
-  console.log(racesUp)
+  
+  console.log('raceUp',racesUp)
  
+
+
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   const day = date.getDate();
+  //   const monthIndex = date.getMonth();
+  //   // const month = date.toLocaleString("default", { month: "long", locale: 'fr-FR' });
+  //   const year = date.getFullYear();
+  //   const hours = date.getHours();
+  //   const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  //   const months = [
+  //     "Janvier",
+  //     "Février",
+  //     "Mars",
+  //     "Avril",
+  //     "Mai",
+  //     "Juin",
+  //     "Juillet",
+  //     "Août",
+  //     "Septembre",
+  //     "Octobre",
+  //     "Novembre",
+  //     "Décembre",
+  //   ];
+    
+  //   const formattedDate = `${day} ${months[monthIndex]} ${year} à ${hours}:${minutes}`;
+  //   return `Le ${formattedDate}`;
+  // };
+
+  const formatDate = (date) => {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    const formattedDate = new Date(date).toLocaleString('fr-FR', options);
+    return formattedDate;
+  }
+
 
   const allRacesUp = racesUp.map((race, i) => {
 
-    const formatDate = (dateString) => {
-      const date = new Date(dateString);
-      const day = date.getDate();
-      const monthIndex = date.getMonth();
-      // const month = date.toLocaleString("default", { month: "long", locale: 'fr-FR' });
-      const year = date.getFullYear();
-      const hours = date.getHours();
-      const minutes = date.getMinutes().toString().padStart(2, '0');
-  
-      const months = [
-        "Janvier",
-        "Février",
-        "Mars",
-        "Avril",
-        "Mai",
-        "Juin",
-        "Juillet",
-        "Août",
-        "Septembre",
-        "Octobre",
-        "Novembre",
-        "Décembre",
-      ];
-  
-      const formattedDate = `${day} ${months[monthIndex]} ${year} à ${hours}:${minutes}`;
-      return `Le ${formattedDate}`;
-    };
+    
+const date = formatDate(race.date)
+    console.log('date de race log',date)
     return (
-      <Racecardtest
+      <Racecardtest 
+      onUpdate={handleUpdate}
       key={race._id}
-      author={race.author}
+      author={race.author.username}
       description={race.description}
-      date={formatDate(race.date)}
+      date={date}
       address={race.address}
       duration={race.duration}
       distance={race.distance}
       level={race.level}
-        />
+      participants={race.participants}
+      _idRace = {race._id}
+      />
+
     );
   });
 
@@ -89,7 +113,7 @@ export default function PlacesScreen() {
   // duration={race.duration}
   // distance={race.distance}
   // level={race.level}
-
+console.log(allRacesUp)
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.menuContainer}>
@@ -101,11 +125,12 @@ export default function PlacesScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* <Text style={styles.textRace}>Course 1</Text> */}
 
       <ScrollView contentContainerStyle={styles.scrollView}>
-
-        {allRacesUp}
+       
+        <View style={styles.viewcard}>
+          {allRacesUp}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -119,10 +144,9 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: 'center',
-    paddingBottom: 20,
+    width:'85%',
   },
   card: {
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '80%',
@@ -130,6 +154,9 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 20,
     borderRadius: 10,
+  },
+  viewcard: {
+   width: '100%',
   },
   name: {
     fontSize: 18,
