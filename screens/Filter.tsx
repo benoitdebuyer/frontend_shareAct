@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Dimensions, AppRegistry, StyleSheet, Text, Image, TextInput, View, TouchableOpacity, Button, } from 'react-native';
+import { Dimensions, AppRegistry, StyleSheet, Text,KeyboardAvoidingView, Image, TextInput, View, TouchableOpacity, Button, } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -108,7 +108,7 @@ export default function Filter() {
 
     
     return (
-        <View style={styles.container}>
+             <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <Text><FontAwesome5 name="filter" size={60} color="#474CCC" /></Text>
 
            
@@ -156,7 +156,7 @@ export default function Filter() {
                 <Text style={styles.textStyle}>Appliquer le filtre</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+            </KeyboardAvoidingView>
       );
     }
     
