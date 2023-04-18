@@ -8,10 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
-import { udptadeIdRace } from "../reducers/race";
-import Participants from '../components/Participants';
 
 export default function JoinRaceScreen() {
   const navigation = useNavigation();
@@ -24,8 +21,10 @@ export default function JoinRaceScreen() {
   const [level, setLevel] = useState(null);
   const [address, setAddress] = useState(null);
   const [author, setAuthor] = useState(null);
+  // const [authorImage, setAuthorImage] = useState(null);
   const [participants, setParticipants] = useState(null);
-  const [userInRace, setUserInRace] = useState(false);
+  const [maxParticipants, setMaxParticipants] = useState(null);
+
 
 
   // const BACKEND_ADDRESS = 'http://192.168.0.18:3000';
@@ -33,8 +32,8 @@ export default function JoinRaceScreen() {
 
   // console.log(user.token)
   // console.log(race.addracebyuser._id)
-  // console.log(participants)
-
+  // console.log(participants) 
+  // console.log(user.username)
 
   useEffect(() => {
     if (!user.token) {
@@ -51,15 +50,11 @@ export default function JoinRaceScreen() {
         setAddress(data.race.address);
         setDate(data.race.date);
         setAuthor(data.race.author.username);
-        // setParticipants(data.race.participants[0].username);
+        setMaxParticipants(data.race.maxParticipants);
+        // setAuthorImage(data.race.author.image);
         setParticipants(data.race.participants.map(participant => participant.username));
       });
   }, []);
-
-
-if (user.username == race.participants || race.author){
-setUserInRace(true)
-}
 
 
   const formatDate = (date) => {
@@ -74,6 +69,17 @@ setUserInRace(true)
 
 
   const handleSubmit = () => {
+    if (participants && participants.includes(user.username)) {
+      alert('Vous êtes déjà inscrit à cette course.');
+      return;
+    }
+
+    if (participants && participants.length >= maxParticipants) {
+      alert('Le nombre maximum de participants a été atteint.');
+      return;
+    }
+
+
     fetch(`${BACKEND_ADDRESS}/races/participants`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -84,7 +90,6 @@ setUserInRace(true)
         navigation.navigate('TabNavigator', { screen: 'Courses' });
       });
   };
-
 
 
   return (
@@ -131,18 +136,25 @@ setUserInRace(true)
           {participants && participants.map((participant, index) => (
             <View key={index} style={styles.participant}>
               <Image style={styles.photoParticipants} source={require('../assets/Shareact2.png')} />
-              <Text style={styles.pseudo}>{participant}</Text>
+              <Text style={styles.pseudo}>@{participant}</Text>
+
             </View>
           ))}
 
 
+        </View>
+
+
+        <View style={styles.buttonView}>
+          <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+            <Text style={styles.textButton}>Rejoindre la course</Text>
+          </TouchableOpacity>
+        </View>
+
+
       </View>
 
-      <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>Rejoindre la course</Text>
-      </TouchableOpacity>
 
-    </View>
     </ScrollView >
 
 
@@ -162,18 +174,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 5,
     alignItems: 'flex-start',
-    // borderColor: 'red',
-    // borderWidth: 1,
   },
   containertopleft: {
-    // borderColor: 'green',
-    // borderWidth: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },
   containertopright: {
-    // margin: 10,
-    // borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 20,
     backgroundColor: '#e2e2f3',
@@ -204,7 +210,6 @@ const styles = StyleSheet.create({
   },
 
   photo: {
-    // margin: 5,
     width: 140,
     height: 140,
     borderRadius: 100,
@@ -270,6 +275,9 @@ const styles = StyleSheet.create({
 
 
   // Bouton rejoindre le groupe
+  buttonView: {
+    alignItems: 'center',
+  },
   button: {
     width: '70%',
     alignItems: 'center',
@@ -278,19 +286,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: '#474CCC',
     borderRadius: 50,
-    // solution à changer !!! pour mettre le bouton au milieu (container)
-    marginLeft: 60,
-  },
-  buttonUserInRace: {
-    width: '70%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 8,
-    marginTop: 20,
-    backgroundColor: '#474CCC',
-    borderRadius: 50,
-    // solution à changer !!! pour mettre le bouton au milieu (container)
-    marginLeft: 60,
   },
   textButton: {
     color: '#ffffff',

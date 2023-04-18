@@ -2,21 +2,13 @@ import React from "react";
 import { useState } from 'react';
 import {
   Image,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
-  UserState,
-  Modal,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import DatePicker from '@react-native-community/datetimepicker';
-
 
 
 
@@ -41,6 +33,9 @@ export default function Racecardtest(props) {
         </View>
       </View>
 
+      <TouchableOpacity style={styles.buttonTimer} onPress={() => handleS()} activeOpacity={0.8}>
+          <Text style={styles.textButtontimer}>Commence dans 10 min !</Text>
+        </TouchableOpacity>
 
 
       <View style={styles.viewTextInfos} >
@@ -65,15 +60,22 @@ export default function Racecardtest(props) {
         </View>
       </View>
 
-      <View style={styles.containerButtons}>
+      
 
-        <TouchableOpacity style={styles.buttonTimer} onPress={() => handleS()} activeOpacity={0.8}>
-          <Text style={styles.textButtontimer}>Commence dans {props.timer} min !</Text>
-        </TouchableOpacity>
+        
+
+        <View style={styles.containerButtons}>
 
         <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
           <Text style={styles.textButton}>Chat de groupe</Text>
         </TouchableOpacity>
+
+
+        <TouchableOpacity onPress={() => handleSubmit()} style={styles.buttonLeave} activeOpacity={0.8}>
+        <Text style={styles.textButtonLeave}>Quitter le groupe</Text>
+        </TouchableOpacity>
+
+    
       </View>
 
       {/* <View style={styles.containerbtnbot}>
@@ -124,12 +126,12 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   txtdescription: {
-    fontSize: 14,
+    fontSize: 16,
     padding: 10,
   },
 
   containertopusername: {
-    borderColor: 'green',
+    // borderColor: 'green',
     borderWidth: 3,
     justifyContent: 'center',
     alignItems: 'center',
@@ -172,13 +174,16 @@ const styles = StyleSheet.create({
     color: '#474CCC',
     marginBottom: 7,
     height: 35,
+    paddingLeft: 20,
+    fontSize: 18,
   },
 
   textInfosRight: {
-    color: 'gray',
+    color: 'black',
     marginBottom: 7,
-    paddingLeft: 7,
+    paddingLeft: 10,
     height: 35,
+    fontSize: 18,
   },
 
   // Bouton timer
@@ -193,6 +198,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // shadowOpacity: 0.4,
     shadowRadius: 5,
+    marginTop: 30,
+    marginBottom: 10,
     // elevation: 10,
   },
   textButtontimer: {
@@ -200,6 +207,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
+
+  containerButtons : {
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   // Bouton chat de groupe 
   button: {
     width: '70%',
@@ -210,7 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#474CCC',
     borderRadius: 50,
     // solution à changer !!! pour mettre le bouton au milieu (container)
-    marginLeft: 60,
+    // marginLeft: 60,
   },
   textButton: {
     color: '#ffffff',
@@ -219,6 +232,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
+  // Bouton pour quitter le groupe de la course 
+  buttonLeave: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+    backgroundColor: '#FF4800',
+    width: "60%",
+    paddingTop: 8,
+    borderRadius: 50,
+  },
+
+  textButtonLeave:  {
+    color: '#fff',
+    fontWeight: '600',
+    height: 30,
+    fontSize: 16,
+  },
 
 
 });

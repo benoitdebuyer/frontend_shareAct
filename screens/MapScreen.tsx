@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { addRaceByUser, delRaceByUser, udptadeIdRace, } from "../reducers/race";
-import { updateAge } from '../reducers/user'
+import { updateAge, updateImage } from '../reducers/user'
 import { useRoute } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
@@ -55,7 +55,6 @@ export default function MapScreen() {
       });
     }
   };
-
 
 
 
@@ -272,6 +271,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
   //     }
   //   }
   // }
+  // console.log(user.image)
 
   return (
    
@@ -288,7 +288,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
         style={styles.buttonProfileModale}
         onPress={() => setModalProfileVisible(true)}
       >
-        <Image source={require("../assets/user.png")} style={styles.profil} />
+        <Image source={require(`../assets/user.png`)} style={styles.profil} />
       </Pressable>
       <TouchableOpacity
         style={styles.button}

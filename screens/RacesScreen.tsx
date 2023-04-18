@@ -101,7 +101,7 @@ export default function PlacesScreen() {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.textRace}>Course 1</Text>
+      {/* <Text style={styles.textRace}>Course 1</Text> */}
 
       <ScrollView contentContainerStyle={styles.scrollView}>
 
