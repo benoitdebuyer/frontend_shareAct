@@ -60,6 +60,7 @@ export default function MapScreen() {
 
 
   useEffect(() => {
+
     dispatch(addFilter([null, null])),
     dispatch(addFilter2(0)),
     (async () => {
@@ -85,6 +86,7 @@ export default function MapScreen() {
 
 
   useEffect(() => {
+    if (currentPosition) {
     console.log('ma coord: ', currentPosition)
         console.log(filter, filter.valeur[0])
               let dist = filter.distance*1000
@@ -121,7 +123,7 @@ export default function MapScreen() {
                       console.error(error);
                     });
 
-
+                  }
 
   }, [isFocused]);
   console.log("mes races", races)
