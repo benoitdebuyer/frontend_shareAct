@@ -28,12 +28,6 @@ export default function MonCompte() {
   const navigation = useNavigation();
 
 
-  const handleReturn = () => {
-
-    navigation.navigate("TabNavigator", { screen: "Map" });
-
-
-  }
   const handleButtonPressFirstname = () => {
     onPress = { handleButtonPressFirstname }
     setShowTextInputFirstname(true);
@@ -51,6 +45,7 @@ export default function MonCompte() {
   //   setShowTextInputImage(true);
   // };
 
+  // Bouton "Envoyer les modifications"
   const handleSendBdd = () => {
 
     // console.log(firstname, username, email, image, user.token)
@@ -95,6 +90,11 @@ export default function MonCompte() {
       })
 
   }
+   // Bouton "Annuler"
+   const handleReturn = () => {
+
+    navigation.navigate("TabNavigator", { screen: "Map" });
+  }
   return (
     <View style={styles.container}>
 
@@ -104,7 +104,6 @@ export default function MonCompte() {
       {/* <TouchableOpacity style={styles.buttonChangePhoto} activeOpacity={0.8}>
         <Text style={styles.textButtonChangePhoto} >Changer la photo</Text>
       </TouchableOpacity> */}
-
 
 
       <View style={styles.boolean}>
@@ -166,10 +165,7 @@ export default function MonCompte() {
             </TouchableOpacity>
           </View>
         )}
-
-
       </View>
-
 
 
       <TouchableOpacity style={styles.button} onPress={handleSendBdd} activeOpacity={0.8}>
@@ -179,9 +175,6 @@ export default function MonCompte() {
       <TouchableOpacity style={styles.buttonQuit} onPress={handleReturn} activeOpacity={0.8}>
         <Text style={styles.textButton} >Annuler</Text>
       </TouchableOpacity>
-
-
-
 
     </View>
 
@@ -197,6 +190,59 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  imgProfile: {
+    margin: 10,
+    width: 140,
+    height: 140,
+    borderColor: '#474CCC',
+    borderWidth: 4,
+    borderRadius: 100,
+  },
+  textButtonChangePhoto: {
+    textAlign: 'center',
+    alignItems: 'center',
+    color: 'black',
+    height: 30,
+    fontWeight: '600',
+    fontSize: 15,
+    width: Dimensions.get("window").width / 3,
+  },
+  input: {
+    width: '50%',
+    textAlign: 'center',
+    borderBottomColor: '#474CCC',
+    borderBottomWidth: 1,
+    fontSize: 18,
+    paddingTop: 5,
+    marginRight: 31,
+  },
+  textInfos: {
+    width: '50%',
+    textAlign: 'center',
+    borderBottomColor: '#474CCC',
+    borderBottomWidth: 1,
+    fontSize: 18,
+    paddingBottom: 5,
+    margin: 10,
+    height: 30,
+    fontWeight: '600',
+  },
+  // buttonChangePhoto: {
+  //   margin: 15,
+  //   paddingTop: 12,
+  //   paddingLeft: 20,
+  //   paddingRight: 20,
+  //   color: '#474CCC',
+  //   borderWidth: 1,
+  //   backgroundColor: '#fff',
+  //   borderRadius: 100,
+  //   borderColor: "#474CCC",
+  //   alignItems: 'center',
+  //   shadowOpacity: 0.4,
+  //   shadowRadius: 5,
+  //   elevation: 10,
+  // }
+
   boolean: {
     display: 'flex',
     flexDirection: 'row',
@@ -215,8 +261,17 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-
   },
+
+  // Icon Fontawesome5
+  buttonChangeOne: {
+    width: Dimensions.get("window").width / 13,
+    height: Dimensions.get("window").width / 13,
+    paddingLeft: 7,
+    paddingTop: 8,
+  },
+
+
   button: {
     margin: 15,
     paddingTop: 12,
@@ -229,27 +284,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 5,
     elevation: 10,
-  },
-
-  buttonChangeOne: {
-
-    width: Dimensions.get("window").width / 13,
-    height: Dimensions.get("window").width / 13,
-    // backgroundColor: '#474CCC',
-    // borderRadius: 100,
-    // shadowOpacity: 0.4,
-    // shadowRadius: 5,
-    // elevation: 10,
-    paddingLeft: 7,
-    paddingTop: 8,
-  },
-  textButtonChangeOne: {
-    // textAlign: 'center',
-    // alignItems: 'center',
-    // color: '#ffffff',
-    // fontWeight: 'bold',
-    // fontSize: 16,
-    // paddingLeft: 3,
   },
 
   buttonQuit: {
@@ -273,71 +307,4 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 15,
   },
-
-
-  imgProfile: {
-    margin: 10,
-    width: 140,
-    height: 140,
-    borderColor: '#474CCC',
-    borderWidth: 4,
-    borderRadius: 100,
-  },
-
-
-
-  textButtonChangePhoto: {
-    textAlign: 'center',
-    alignItems: 'center',
-    color: 'black',
-    height: 30,
-    fontWeight: '600',
-    fontSize: 15,
-    width: Dimensions.get("window").width / 3,
-
-  },
-
-  input: {
-    width: '50%',
-    textAlign: 'center',
-    borderBottomColor: '#474CCC',
-    borderBottomWidth: 1,
-    fontSize: 18,
-    paddingTop: 5,
-    marginRight: 31,
-    //height: Dimensions.get("window").height/25,
-
-
-
-
-  },
-  textInfos: {
-    width: '50%',
-    textAlign: 'center',
-    borderBottomColor: '#474CCC',
-    borderBottomWidth: 1,
-    fontSize: 18,
-    paddingBottom: 5,
-    margin: 10,
-    height: 30,
-    fontWeight: '600',
-  },
-  buttonChangePhoto: {
-    margin: 15,
-    paddingTop: 12,
-    paddingLeft: 20,
-    paddingRight: 20,
-
-    color: '#474CCC',
-    borderRadius: 10,
-    borderWidth: 1,
-    backgroundColor: '#fff',
-    borderRadius: 100,
-    borderColor: "#474CCC",
-    alignItems: 'center',
-    shadowOpacity: 0.4,
-    shadowRadius: 5,
-    elevation: 10,
-  }
-
 })
