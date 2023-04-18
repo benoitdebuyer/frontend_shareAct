@@ -12,6 +12,7 @@ import {
 export default function HomeScreen({ navigation }) {
 
 
+
   const handleSignUp = () => {;
     navigation.navigate('SignUp');
   };

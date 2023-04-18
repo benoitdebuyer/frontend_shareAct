@@ -12,6 +12,7 @@ import {
   updateGender,
   updateDatebirth,
 } from "../reducers/user";
+import Timer from "./Timer";
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
@@ -63,7 +64,7 @@ export default function Racecardtest(props) {
       <View style={styles.containertop}>
         <View style={styles.containertopleft}>
           <Image style={styles.photo} source={require("../assets/user1.png")} />
-          <Text style={styles.nameunderpic}>{props.author}</Text>
+          <Text style={styles.nameunderpic}>@{props.author}</Text>
         </View>
 
         <View style={styles.containertopright}>
@@ -73,11 +74,12 @@ export default function Racecardtest(props) {
 
       <TouchableOpacity
         style={styles.buttonTimer}
-        onPress={() => handleS()}
         activeOpacity={0.8}
       >
-        <Text style={styles.textButtontimer}>Commence dans 10 min !</Text>
+        <Text style={styles.textButtontimer}>Commence dans </Text>
+        <Timer date={props.dateTimer} />
       </TouchableOpacity>
+     
 
       <View style={styles.viewTextInfos}>
         <View style={styles.viewTitleInfos}>
@@ -95,7 +97,7 @@ export default function Racecardtest(props) {
           <Text style={styles.textInfosRight}>{props.duration} minutes</Text>
           <Text style={styles.textInfosRight}>{props.distance} km</Text>
           <Text style={styles.textInfosRight}>{props.level}</Text>
-          <Text style={styles.textInfosRightBigger}>{props.participants}</Text>
+          <Text style={styles.textInfosRightParticipants}>{props.participants}</Text>
         </View>
       </View>
 
@@ -124,11 +126,6 @@ export default function Racecardtest(props) {
             <Text style={styles.textButton}>Quitter le groupe</Text>
           </TouchableOpacity>
         }
-
-
-
-
-
 
 
       </View>
@@ -249,6 +246,13 @@ const styles = StyleSheet.create({
     height: 45,
     fontSize: 16,
   },
+  textInfosRightParticipants: {
+    color: "black",
+    marginBottom: 7,
+    paddingLeft: 10,
+    height: 50,
+    fontSize: 16,
+  },
 
   // Bouton timer
 
@@ -256,12 +260,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: "#FF4800",
+    borderColor: "#474CCC",
     // backgroundColor: '#FF4800',
     alignItems: "center",
-    // shadowOpacity: 0.4,
-    shadowRadius: 5,
-    // elevation: 10,
   },
   textButtontimer: {
     fontWeight: "500",
@@ -282,8 +283,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: "#474CCC",
     borderRadius: 50,
-    // solution à changer !!! pour mettre le bouton au milieu (container)
-    // marginLeft: 60,
   },
   textButton: {
     color: "#ffffff",
@@ -299,7 +298,8 @@ const styles = StyleSheet.create({
   buttonLeave: {
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 10,
     backgroundColor: "#474CCC",
     width: "60%",
     paddingTop: 8,
@@ -315,19 +315,14 @@ const styles = StyleSheet.create({
   buttonDelete: {
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
-    backgroundColor: "red",
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: "#FF4800",
     width: "60%",
     paddingTop: 8,
     borderRadius: 50,
   },
 
-  textButtonLeave: {
-    color: "#fff",
-    fontWeight: "600",
-    height: 30,
-    fontSize: 16,
-  },
 });
 
 {

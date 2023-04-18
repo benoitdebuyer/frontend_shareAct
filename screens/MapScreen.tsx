@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { addRaceByUser, delRaceByUser, udptadeIdRace, } from "../reducers/race";
-import { updateAge, updateImage } from '../reducers/user'
+import { logout } from '../reducers/user'
 import { useRoute } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
@@ -59,84 +59,84 @@ export default function MapScreen() {
   useEffect(() => {
 
     dispatch(addFilter([5, 60])),
-    dispatch(addFilter2(10000)),
-    (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      setHasPermission(status === 'granted');
-      if (status === "granted") {
-        Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
-          setCurrentPosition(location.coords);
-        });
-      }
-    })();
+      dispatch(addFilter2(10000)),
+      (async () => {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        setHasPermission(status === 'granted');
+        if (status === "granted") {
+          Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
+            setCurrentPosition(location.coords);
+          });
+        }
+      })();
     console.log('mon filter: ', filter)
 
-          fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
-          .then((response) => response.json())
-          .then((data) => {
-            data.result && setRaces(data.races);
-            console.log('route all races', data.races)
+    fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
+      .then((response) => response.json())
+      .then((data) => {
+        data.result && setRaces(data.races);
+        console.log('route all races', data.races)
       })
- 
-      
+
+
   }, []);
 
 
   useEffect(() => {
-    if (currentPosition){
+    if (currentPosition) {
 
-      if ((filter.valeur[0]!==5 || filter.valeur[1]!==60) && filter.distance!==10000 ) {
-         
+      if ((filter.valeur[0] !== 5 || filter.valeur[1] !== 60) && filter.distance !== 10000) {
 
-        
-               console.log('ma coord: ', currentPosition)
-               console.log(filter, filter.valeur[0])
-               let dist = filter.distance*1000
-               //let dist = 10000;
-               let maDate = new Date();
-               // Ajouter 2 heures à l'heure actuelle
-               let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
-               let end_date = maDate.setHours(maDate.getHours() + filter.valeur[1]);
 
-               const date = new Date(start_date);
-               const date2= new Date(end_date);
-               
 
-               console.log('mes dates', date, date2)
-
-                 const data = {
-                     start_date: date,
-                     end_date: date2,
-                     lat: currentPosition.latitude,
-                     lon: currentPosition.longitude,
-                     distance: dist,       
-                   };
-
-                  
-                   fetch(`${BACKEND_ADDRESS}/races/filter`, {
-                     method: 'POST',
-                     headers: {
-                       'Content-Type': 'application/json'
-                     },
-                     body: JSON.stringify(data)
-                   })
-                     .then(response => response.json())
-                     .then(data => {
-                       console.log('route filter',data.data)
-                       setRaces([...data.data]); 
-                     })
-                     .catch(error => {
-                       console.error(error);
-                     });
-       }
-
-      if ((filter.valeur[0]===5 && filter.valeur[1]===60) && filter.distance!==10000 ) {
-         
-
-        
         console.log('ma coord: ', currentPosition)
         console.log(filter, filter.valeur[0])
-        let dist = filter.distance*1000
+        let dist = filter.distance * 1000
+        //let dist = 10000;
+        let maDate = new Date();
+        // Ajouter 2 heures à l'heure actuelle
+        let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
+        let end_date = maDate.setHours(maDate.getHours() + filter.valeur[1]);
+
+        const date = new Date(start_date);
+        const date2 = new Date(end_date);
+
+
+        console.log('mes dates', date, date2)
+
+        const data = {
+          start_date: date,
+          end_date: date2,
+          lat: currentPosition.latitude,
+          lon: currentPosition.longitude,
+          distance: dist,
+        };
+
+
+        fetch(`${BACKEND_ADDRESS}/races/filter`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('route filter', data.data)
+            setRaces([...data.data]);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+
+      if ((filter.valeur[0] === 5 && filter.valeur[1] === 60) && filter.distance !== 10000) {
+
+
+
+        console.log('ma coord: ', currentPosition)
+        console.log(filter, filter.valeur[0])
+        let dist = filter.distance * 1000
         //let dist = 10000;
         let maDate = new Date();
         // Ajouter 2 heures à l'heure actuelle
@@ -144,106 +144,114 @@ export default function MapScreen() {
         let end_date = maDate.setHours(maDate.getHours() + 30000);
 
         const date = new Date(maDate);
-        const date2= new Date(end_date);
-        
+        const date2 = new Date(end_date);
+
 
         console.log('mes dates', date, date2)
 
-          const data = {
-              start_date: date,
-              end_date: date2,
-              lat: currentPosition.latitude,
-              lon: currentPosition.longitude,
-              distance: dist,       
-            };
+        const data = {
+          start_date: date,
+          end_date: date2,
+          lat: currentPosition.latitude,
+          lon: currentPosition.longitude,
+          distance: dist,
+        };
 
-           
-            fetch(`${BACKEND_ADDRESS}/races/filter`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(data)
-            })
-              .then(response => response.json())
-              .then(data => {
-                console.log('route filter',data.data)
-                setRaces([...data.data]); 
-              })
-              .catch(error => {
-                console.error(error);
-              });
-}
 
-if ((filter.valeur[0]!==5 || filter.valeur[1]!==60) && filter.distance===10000 ) {
-         
-
-        
-  console.log('ma coord: ', currentPosition)
-  console.log(filter, filter.valeur[0])
-  let dist = filter.distance*1000
-  //let dist = 10000;
-  let maDate = new Date();
-  // Ajouter 2 heures à l'heure actuelle
-  let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
-  let end_date = maDate.setHours(maDate.getHours() + filter.valeur[1]);
-
-  const date = new Date(start_date);
-  const date2= new Date(end_date);
-  
-
-  console.log('mes dates', date, date2)
-
-    const data = {
-        start_date: date,
-        end_date: date2,
-        lat: currentPosition.latitude,
-        lon: currentPosition.longitude,
-        distance: dist,       
-      };
-
-     
-      fetch(`${BACKEND_ADDRESS}/races/filter`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('route filter',data.data)
-          setRaces([...data.data]); 
+        fetch(`${BACKEND_ADDRESS}/races/filter`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
         })
-        .catch(error => {
-          console.error(error);
-        });
-}
+          .then(response => response.json())
+          .then(data => {
+            console.log('route filter', data.data)
+            setRaces([...data.data]);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
 
-     else{
+      if ((filter.valeur[0] !== 5 || filter.valeur[1] !== 60) && filter.distance === 10000) {
 
-       fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
-       .then((response) => response.json())
-       .then((data) => {
-         data.result && setRaces([...data.races]);
-         console.log('route all races', data.result)})
-     } 
-    
-    } 
-    
-    
-    
+
+
+        console.log('ma coord: ', currentPosition)
+        console.log(filter, filter.valeur[0])
+        let dist = filter.distance * 1000
+        //let dist = 10000;
+        let maDate = new Date();
+        // Ajouter 2 heures à l'heure actuelle
+        let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
+        let end_date = maDate.setHours(maDate.getHours() + filter.valeur[1]);
+
+        const date = new Date(start_date);
+        const date2 = new Date(end_date);
+
+
+        console.log('mes dates', date, date2)
+
+        const data = {
+          start_date: date,
+          end_date: date2,
+          lat: currentPosition.latitude,
+          lon: currentPosition.longitude,
+          distance: dist,
+        };
+
+
+        fetch(`${BACKEND_ADDRESS}/races/filter`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('route filter', data.data)
+            setRaces([...data.data]);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+
+      else {
+
+        fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
+          .then((response) => response.json())
+          .then((data) => {
+            data.result && setRaces([...data.races]);
+            console.log('route all races', data.result)
+          })
+      }
+
+    }
+
+
+
 
   }, [isFocused]);
 
 
- 
 
-   
+
+
   const onChangeButtonPress = () => {
     navigation.navigate("MonCompte");
     setModalProfileVisible(!modalProfileVisible);
   };
+
+  const buttonLogout = () => {
+    dispatch(logout());
+    navigation.navigate("Home");
+  };
+
+
 
   const handleCreateRace = () => {
     navigation.navigate("MapCreate");
@@ -258,7 +266,7 @@ if ((filter.valeur[0]!==5 || filter.valeur[1]!==60) && filter.distance===10000 )
   const handleMarkerPress = (race) => {
     setSelectedRace(race);
     dispatch(addRaceByUser(race));
-    console.log(race);
+    // console.log(race);
     // console.log(race._id)
   };
 
@@ -316,7 +324,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
   };
 
   const changePage = () => {
-    navigation.navigate("Filter" );
+    navigation.navigate("Filter");
   };
   const onSwipeDown = () => {
     setModalProfileVisible(!modalProfileVisible);
@@ -327,7 +335,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
   };
 
   //// map sur le tableau race qui viendra de la BDD
- 
+
   const allRaces = races.map((race, i) => {
     return (
       <Marker
@@ -363,14 +371,14 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
   // console.log(user.image)
 
   return (
-   
+
     <View style={styles.container}>
-      <Pressable 
-           style={styles.filter} 
-          //onPress={() => setModalFilterVisible(true)}
-          onPress ={changePage}
-        >
-               <Image source={require("../assets/filter.png")} style={styles.icon} />
+      <Pressable
+        style={styles.filter}
+        //onPress={() => setModalFilterVisible(true)}
+        onPress={changePage}
+      >
+        <Image source={require("../assets/filter.png")} style={styles.icon} />
       </Pressable>
 
       <Pressable
@@ -428,22 +436,19 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
       </TouchableOpacity>
 
       <GestureRecognizer onSwipeDown={onSwipeDownFilter}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalFilterVisible}
-        onRequestClose={() => {
-          setModalFilterVisible(!modalFilterVisible);
-        }}
-      >
-        <View style={styles.modalFilterView}>
-          <Image 
-            source={require("../assets/user.png")}
-            style={styles.imgProfileModal}
-          />
-
-          
-
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalFilterVisible}
+          onRequestClose={() => {
+            setModalFilterVisible(!modalFilterVisible);
+          }}
+        >
+          <View style={styles.modalFilterView}>
+            <Image
+              source={require("../assets/user.png")}
+              style={styles.imgProfileModal}
+            />
           </View>
         </Modal>
       </GestureRecognizer>
@@ -521,14 +526,21 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
               <Text style={styles.textInfos}>{user.email}</Text>
 
-            <Text style={styles.textInfos}>{user.age} ans  </Text>
-          </View>
+              <Text style={styles.textInfos}>{user.age} ans  </Text>
+            </View>
 
             <TouchableOpacity
               style={styles.buttonProfileModif}
               onPress={onChangeButtonPress}
             >
               <Text style={styles.textStyle}>Changez votre profil</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.buttonLogout}
+              onPress={buttonLogout}
+            >
+              <Text style={styles.textStyle}>Déconnexion</Text>
             </TouchableOpacity>
 
 
@@ -545,7 +557,7 @@ const styles = StyleSheet.create({
     color: 'white',
 
   },
-  filter:{
+  filter: {
     position: "absolute",
     left: "4%",
     top: "12%",
@@ -615,15 +627,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderBottomColor: "#474CCC",
     borderBottomWidth: 1,
-    fontSize: 18,
     paddingBottom: 5,
     margin: 15,
     fontWeight: "600",
     fontSize: 15,
   },
   buttonProfileModif: {
-
-
     margin: 15,
     paddingTop: 12,
     paddingLeft: 20,
@@ -635,7 +644,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 5,
     elevation: 10,
-
   },
   textStyle: {
     textAlign: 'center',
@@ -644,12 +652,26 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 15,
   },
-
   textButton: {
     color: "#ffffff",
     height: 30,
     fontWeight: "600",
     fontSize: 15,
+  },
+  // Bouton "Déconnexion"
+  buttonLogout: {
+    margin: 15,
+    paddingTop: 12,
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: "red",
+    // backgroundColor: "#FF4800",
+    borderRadius: 20,
+    alignContent: 'center',
+    justifyContent: 'center',
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 10,
   },
   buttonProfileModale: {
     zIndex: 1,
@@ -658,22 +680,16 @@ const styles = StyleSheet.create({
     right: "2%",
   },
   icon: {
-    
     width: 50,
     height: 50,
-    
   },
   profil: {
     width: 90,
     height: 90,
-
     borderRadius: 50,
-    backgroundColor: "#ffffff",
-
+    backgroundColor: "#fff",
     borderWidth: 2,
     borderColor: "#474CCC",
-    borderWidth: 4,
-    borderRadius: 50,
     marginRight: 30,
   },
 
@@ -696,8 +712,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  // la modal profil quand tu cliques sur l'image 
   modalView: {
-    marginTop: 40,
+    marginTop: 180,
     backgroundColor: 'white',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
@@ -715,7 +732,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 
-  modalFilterView:{
+  modalFilterView: {
     marginTop: 40,
     backgroundColor: 'white',
     borderTopLeftRadius: 50,
