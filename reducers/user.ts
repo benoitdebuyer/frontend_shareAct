@@ -50,7 +50,6 @@ export const userSlice = createSlice({
       state.value.image = null;
       state.value.age = null;
       state.value.gender = null;
-      state.value.userplaces = [];
       state.value.datebirth = null;
     },
     updateFirstname: (state, action: PayloadAction<string>) => {

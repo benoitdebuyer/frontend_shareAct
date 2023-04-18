@@ -22,7 +22,7 @@ export default function PlacesScreen() {
   const user = useSelector((state) => state.user.value);
   const isFocused = useIsFocused();
   const [racesUp, setRacesUp] = useState([]);
-
+  const [author, setAuthor] = useState(null);
   const [shouldUpdate, setShouldUpdate] = useState(false);
 
 function handleUpdate() {
@@ -31,20 +31,20 @@ function handleUpdate() {
 
 const token = user.token
   useEffect(() => {
-    console.log('usertoken debut de l use effetc',token)
+    // console.log('usertoken debut de l use effetc',token)
     if (isFocused) {
       fetch(`${BACKEND_ADDRESS}/users/add/${token}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log('data dans le fetch //////',data)
+          // console.log('data dans le fetch //////',data)
           setRacesUp(data.races);
+    
         });
     }
   }, [isFocused,shouldUpdate ]);
 
   
-  console.log('raceUp',racesUp)
- 
+  // console.log('raceUp',racesUp)
 
 
   // const formatDate = (dateString) => {
@@ -86,7 +86,7 @@ const token = user.token
 
     
 const date = formatDate(race.date)
-    console.log('date de race log',date)
+    // console.log('date de race log',date)
     return (
       <Racecardtest 
       onUpdate={handleUpdate}
@@ -113,7 +113,7 @@ const date = formatDate(race.date)
   // duration={race.duration}
   // distance={race.distance}
   // level={race.level}
-console.log(allRacesUp)
+// console.log(allRacesUp)
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.menuContainer}>
