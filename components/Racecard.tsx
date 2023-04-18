@@ -55,26 +55,27 @@ export default function Racecardtest(props) {
 
         </View>
 
-        <View style={styles.viewInfos} >
-        <Text style={styles.textInfosRight}>{props.date}</Text>
+        <View style={styles.viewInfos}>
+          <Text style={styles.textInfosRight}>{props.date}</Text>
           <Text style={styles.textInfosRight}>{props.address}</Text>
           <Text style={styles.textInfosRight}>{props.duration} minutes</Text>
           <Text style={styles.textInfosRight}>{props.distance} km</Text>
           <Text style={styles.textInfosRight}>{props.level}</Text>
+          <Text style={styles.textInfosRight}>{props.participants}</Text>
 
         </View>
       </View>
 
-      <View style={styles.containerButtons}>
+      {/* {<View style={styles.containerButtons}>
 
         <TouchableOpacity style={styles.buttonTimer} onPress={() => handleS()} activeOpacity={0.8}>
-          <Text style={styles.textButtontimer}>Commence dans {props.timer} min !</Text>
+          <Text style={styles.textButtontimer}>Commence dans  min !</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
           <Text style={styles.textButton}>Chat de groupe</Text>
         </TouchableOpacity>
-      </View>
+      </View>} */}
 
       {/* <View style={styles.containerbtnbot}>
       <Text style={styles.txtbot}>un imprevu ? besoin de quitter ce groupe !</Text>
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
   },
 
   textInfosRight: {
-    color: 'gray',
+    color: 'black',
     marginBottom: 7,
     paddingLeft: 7,
     height: 35,
@@ -192,7 +193,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#FF4800',
     alignItems: 'center',
     // shadowOpacity: 0.4,
-    shadowRadius: 5,
+    // shadowRadius: 5,
     // elevation: 10,
   },
   textButtontimer: {
