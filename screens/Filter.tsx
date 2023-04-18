@@ -67,13 +67,15 @@ const SliderContainer = (props) => {
 
   return (
     <View >
-      <Text style={styles.textFilter}>Sélectionner par horaire de départ :</Text>
-      {renderChildren()}
+      {/* <Text style={styles.textFilter}>Sélectionner par horaire de départ :</Text>
+       */}
       <View style={styles.filter}>
         {/* <Text >{caption}</Text> */}
         
-        <Text style={styles.textFilter}>D'ici {Array.isArray(value) ? value.join(" à ") : value} h !</Text>
+        <Text style={styles.textFilter}>Départ d'ici {Array.isArray(value) ? value.join(" à ") : value} h !</Text>
+        
       </View>
+      {renderChildren()}
     </View>
   );
 };
@@ -83,12 +85,12 @@ const SliderContainer = (props) => {
 export default function Filter() {
     const dispatch = useDispatch();
 
-    let [dist, setDist] = useState(0);
+    let [dist, setDist] = useState(10000);
     const navigation = useNavigation();
 
     const quitFilterPage = () => {
         console.log("quit filter")
-        navigation.navigate("TabNavigator", { screen: "Map" });
+        //navigation.navigate("TabNavigator", { screen: "Map" });
       };
     const applyFilter = () => {
         console.log("apply filter")
@@ -140,12 +142,12 @@ export default function Filter() {
             </View>
             
             <View style={styles.buttons}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                 style={styles.buttonAnnuler}
                 onPress={quitFilterPage}
                 >
                 <Text style={styles.textStyleAnnuler}>Annuler</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity
                 style={styles.buttonProfileModif}

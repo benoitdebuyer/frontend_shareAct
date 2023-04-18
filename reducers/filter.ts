@@ -7,7 +7,8 @@ const initialState = {
     valeur: [],
     // start_date: null,
     // end_date: null,
-    distance: null,
+    distance: 10000,
+    modale:true,
    
   
 }}
@@ -25,9 +26,14 @@ export const filterSlice = createSlice({
         state.value.distance = action.payload;
         console.log('filter2',state.value.distance)
     
-  }
+  },
+  addModale:(state, action) => {
+    state.value.modale = action.payload;
+    console.log('modale',state.value.modale)
+
+},
 }
 });
 
-export const { addFilter, addFilter2 } = filterSlice.actions;
+export const { addFilter, addFilter2, addModale } = filterSlice.actions;
 export default filterSlice.reducer;
