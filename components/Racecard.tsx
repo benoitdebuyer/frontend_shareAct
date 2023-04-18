@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,8 +20,16 @@ export default function Racecardtest(props) {
   // const participants = props.participants.map((participant, index) => {
   //   return index === props.participants.length - 1 ? participant : participant + ", ";
   // })
+  const [isAuthor, setIsAuthor] = useState(false);
+
 
   const user = useSelector((state) => state.user.value);
+
+  useEffect(() => {
+    if (props.author === user.username) {
+      setIsAuthor(true);
+    }
+  }, [props.author, user.username]);
 
 
   const handleLeaveGroupe = (idRace) => {
@@ -35,6 +43,18 @@ export default function Racecardtest(props) {
         props.onUpdate();
         // data.result;
       });
+  };
+
+  const handleDeleteRace = (idRace) => {
+    fetch(`${BACKEND_ADDRESS}/races`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: user.token, raceId: idRace }),
+    })
+      .then(response => response.json())
+      .then(data => {
+          props.onUpdate();
+      })
   };
 
 
@@ -80,13 +100,37 @@ export default function Racecardtest(props) {
       </View>
 
       <View style={styles.containerButtonLeave}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => handleLeaveGroupe(props._idRace)}
           style={styles.buttonLeave}
           activeOpacity={0.8}
         >
           <Text style={styles.textButton}>Quitter le groupe</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        {isAuthor ?
+          <TouchableOpacity
+            onPress={() => handleDeleteRace(props._idRace)}
+            style={styles.buttonDelete}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.textButton}>Supprimer la course</Text>
+          </TouchableOpacity>
+          :
+          <TouchableOpacity
+            onPress={() => handleLeaveGroupe(props._idRace)}
+            style={styles.buttonLeave}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.textButton}>Quitter le groupe</Text>
+          </TouchableOpacity>
+        }
+
+
+
+
+
+
+
       </View>
     </View>
   );
@@ -257,6 +301,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     backgroundColor: "#474CCC",
+    width: "60%",
+    paddingTop: 8,
+    borderRadius: 50,
+  },
+
+  textButtonLeave: {
+    color: "#fff",
+    fontWeight: "600",
+    height: 30,
+    fontSize: 16,
+  },
+  buttonDelete: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    backgroundColor: "red",
     width: "60%",
     paddingTop: 8,
     borderRadius: 50,
