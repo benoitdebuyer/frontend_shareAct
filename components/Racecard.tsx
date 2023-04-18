@@ -1,27 +1,48 @@
 import React from "react";
-import { useState } from 'react';
+import { useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
+  updateFirstname,
+  updateToken,
+  updateUsername,
+  updateEmail,
+  updateImage,
+  updateAge,
+  updateGender,
+  updateDatebirth,
+} from "../reducers/user";
 
+const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 
 export default function Racecardtest(props) {
+  // const participants = props.participants.map((participant, index) => {
+  //   return index === props.participants.length - 1 ? participant : participant + ", ";
+  // })
 
+  const user = useSelector((state) => state.user.value);
+
+
+  const handleLeaveGroupe = (idRace) => {
+
+    fetch(`${BACKEND_ADDRESS}/races/participants`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: user.token, raceId: idRace }),
+    }).then(response => response.json())
+      .then(data => {
+        props.onUpdate();
+        // data.result;
+      });
+  };
 
 
   return (
     <View style={styles.container}>
-
       <View style={styles.containertop}>
         <View style={styles.containertopleft}>
-          <Image style={styles.photo} source={require('../assets/user1.png')} />
+          <Image style={styles.photo} source={require("../assets/user1.png")} />
           <Text style={styles.nameunderpic}>{props.author}</Text>
         </View>
 
@@ -30,97 +51,86 @@ export default function Racecardtest(props) {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.buttonTimer} onPress={() => handleS()} activeOpacity={0.8}>
-          <Text style={styles.textButtontimer}>Commence dans 10 min !</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.buttonTimer}
+        onPress={() => handleS()}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.textButtontimer}>Commence dans 10 min !</Text>
+      </TouchableOpacity>
 
-
-      <View style={styles.viewTextInfos} >
-
+      <View style={styles.viewTextInfos}>
         <View style={styles.viewTitleInfos}>
           <Text style={styles.textInfosLeft}>Date :</Text>
-          <Text style={styles.textInfosLeft}>Lieu :</Text>
+          <Text style={styles.textInfosLeftBigger}>Lieu :</Text>
           <Text style={styles.textInfosLeft}>Durée :</Text>
           <Text style={styles.textInfosLeft}>Distance :</Text>
           <Text style={styles.textInfosLeft}>Niveau :</Text>
-          <Text style={styles.textInfosLeft}>Participants :</Text>
-
+          <Text style={styles.textInfosLeftBigger}>Participants :</Text>
         </View>
 
-        <View style={styles.viewInfos} >
-        <Text style={styles.textInfosRight}>{props.date}</Text>
-          <Text style={styles.textInfosRight}>{props.address}</Text>
+        <View style={styles.viewInfos}>
+          <Text style={styles.textInfosRight}>{props.date}</Text>
+          <Text style={styles.textInfosRightBigger}>{props.address}</Text>
           <Text style={styles.textInfosRight}>{props.duration} minutes</Text>
           <Text style={styles.textInfosRight}>{props.distance} km</Text>
           <Text style={styles.textInfosRight}>{props.level}</Text>
-
+          <Text style={styles.textInfosRightBigger}>{props.participants}</Text>
         </View>
       </View>
 
-      
-
-        
-
-        <View style={styles.containerButtons}>
-
-        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Chat de groupe</Text>
+      <View style={styles.containerButtonLeave}>
+        <TouchableOpacity
+          onPress={() => handleLeaveGroupe(props._idRace)}
+          style={styles.buttonLeave}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.textButton}>Quitter le groupe</Text>
         </TouchableOpacity>
-
-
-        <TouchableOpacity onPress={() => handleSubmit()} style={styles.buttonLeave} activeOpacity={0.8}>
-        <Text style={styles.textButtonLeave}>Quitter le groupe</Text>
-        </TouchableOpacity>
-
-    
       </View>
-
-      {/* <View style={styles.containerbtnbot}>
-      <Text style={styles.txtbot}>un imprevu ? besoin de quitter ce groupe !</Text>
-        <TouchableOpacity onPress={() => handleLeaveGroupe()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Leave</Text>
-        </TouchableOpacity>
-      </View> */}
-
-
     </View>
-
-
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 80,
-    paddingHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 10,
+    paddingTop: 15,
+    paddingHorizontal: 30,
+    borderColor: "#474CCC",
+    borderRadius: 15,
+    borderWidth: 1,
+    backgroundColor: "#F0F7FF",
   },
 
-  // Photo et description 
+  // Photo et description
   containertop: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 5,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
+    marginBottom: 10,
     // borderColor: 'red',
     // borderWidth: 1,
   },
   containertopleft: {
     // borderColor: 'green',
     // borderWidth: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   containertopright: {
     // margin: 10,
     // borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 20,
-    backgroundColor: '#e2e2f3',
-    borderBottomColor: '#474CCC',
+    backgroundColor: "#e2e2f3",
+    borderColor: "#474CCC",
     width: 200,
-    height: 150,
-    marginLeft: 20,
+    height: 130,
+    marginLeft: 50,
   },
   txtdescription: {
     fontSize: 16,
@@ -130,128 +140,138 @@ const styles = StyleSheet.create({
   containertopusername: {
     // borderColor: 'green',
     borderWidth: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   nameunderpic: {
-    width: '80%',
+    width: "80%",
     fontSize: 16,
     paddingTop: 5,
-    fontWeight: '600',
-    color: '#474CCC',
-    textAlign: 'center',
+    fontWeight: "600",
+    color: "#474CCC",
+    textAlign: "center",
   },
 
   photo: {
     // margin: 5,
-    width: 140,
-    height: 140,
+    width: 120,
+    height: 120,
     borderRadius: 100,
-    borderColor: '#474CCC',
+    borderColor: "#474CCC",
     borderWidth: 4,
   },
 
-  // Informations 
+  // Informations
   viewTextInfos: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     marginTop: 20,
-
   },
 
   viewTitleInfos: {
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   viewInfos: {
-    flexDirection: 'column',
-    width: '80%',
+    flexDirection: "column",
+    width: "80%",
   },
   textInfosLeft: {
-    color: '#474CCC',
+    color: "#474CCC",
     marginBottom: 7,
-    height: 35,
+    height: 30,
     paddingLeft: 20,
-    fontSize: 18,
+    fontSize: 16,
   },
 
   textInfosRight: {
-    color: 'black',
     marginBottom: 7,
     paddingLeft: 10,
-    height: 35,
-    fontSize: 18,
+    height: 30,
+    fontSize: 16,
+  },
+  textInfosLeftBigger: {
+    color: "#474CCC",
+    marginBottom: 7,
+    height: 45,
+    paddingLeft: 20,
+    fontSize: 16,
+  },
+
+  textInfosRightBigger: {
+    color: "black",
+    marginBottom: 7,
+    paddingLeft: 10,
+    height: 45,
+    fontSize: 16,
   },
 
   // Bouton timer
-
 
   buttonTimer: {
     padding: 10,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#FF4800',
+    borderColor: "#FF4800",
     // backgroundColor: '#FF4800',
-    alignItems: 'center',
+    alignItems: "center",
     // shadowOpacity: 0.4,
     shadowRadius: 5,
-    marginTop: 30,
-    marginBottom: 10,
     // elevation: 10,
   },
   textButtontimer: {
-    fontWeight: '500',
+    fontWeight: "500",
     fontSize: 16,
   },
 
-
-  containerButtons : {
+  containerButtons: {
     marginTop: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
-  // Bouton chat de groupe 
+  // Bouton chat de groupe
   button: {
-    width: '70%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "70%",
+    alignItems: "center",
+    justifyContent: "center",
     paddingTop: 8,
     marginTop: 20,
-    backgroundColor: '#474CCC',
+    backgroundColor: "#474CCC",
     borderRadius: 50,
     // solution à changer !!! pour mettre le bouton au milieu (container)
     // marginLeft: 60,
   },
   textButton: {
-    color: '#ffffff',
-    fontWeight: '600',
+    color: "#ffffff",
+    fontWeight: "600",
     height: 30,
     fontSize: 16,
   },
 
-  // Bouton pour quitter le groupe de la course 
+  // Bouton pour quitter le groupe de la course
+  containerButtonLeave: {
+    alignItems: "center",
+  },
   buttonLeave: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
-    backgroundColor: '#FF4800',
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    backgroundColor: "#474CCC",
     width: "60%",
     paddingTop: 8,
     borderRadius: 50,
   },
 
-  textButtonLeave:  {
-    color: '#fff',
-    fontWeight: '600',
+  textButtonLeave: {
+    color: "#fff",
+    fontWeight: "600",
     height: 30,
     fontSize: 16,
   },
-
-
 });
 
-
-{/* <View style={styles.containertxtinfo} >
+{
+  /* <View style={styles.containertxtinfo} >
 <View style={styles.viewinfo}>
   <Text style={styles.txtinfoleft}>Date :</Text>
   <Text style={styles.txtinforight}>{props.date}date</Text>
@@ -276,5 +296,5 @@ const styles = StyleSheet.create({
   <Text style={styles.txtinfoleft}>Participants :</Text>
   <Text style={styles.txtinforight}>{props.participants}participants</Text>
 </View>
-</View> */}
-
+</View> */
+}
