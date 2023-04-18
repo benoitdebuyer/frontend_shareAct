@@ -4,6 +4,7 @@ import { Dimensions, StyleSheet, Text, Image, TextInput, View, TouchableOpacity,
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { updateUsername, updateFirstname, updateEmail } from '../reducers/user'
 
 
 
@@ -11,17 +12,18 @@ const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 
 export default function MonCompte() {
+  const dispatch = useDispatch();
   const user = useSelector((state: { user: UserState }) => state.user.value);
   let [email, setEmail] = useState(null);
   let [firstname, setFirstname] = useState(null);
   let [username, setUsername] = useState(null);
-  const [dateOfBirth, setDateOfBirth] = useState(new Date());
-  const [age, setAge] = useState(null);
-  const [image, setImage] = useState(null);
+  // const [dateOfBirth, setDateOfBirth] = useState(new Date());
+  // const [age, setAge] = useState(null);
+  // const [image, setImage] = useState(null);
   const [showTextInputFirstname, setShowTextInputFirstname] = useState(false);
   const [showTextInputUsername, setShowTextInputUsername] = useState(false);
   const [showTextInputEmail, setShowTextInputEmail] = useState(false);
-  const [showTextInputImage, setShowTextInputImage] = useState(false);
+  // const [showTextInputImage, setShowTextInputImage] = useState(false);
 
   const navigation = useNavigation();
 
@@ -45,35 +47,33 @@ export default function MonCompte() {
     setShowTextInputEmail(true);
   };
 
-  const handleButtonPressImage = () => {
-    setShowTextInputImage(true);
-  };
+  // const handleButtonPressImage = () => {
+  //   setShowTextInputImage(true);
+  // };
 
   const handleSendBdd = () => {
 
-    console.log(firstname, username, email, image, user.token)
-    if (firstname===null){
-      firstname=user.firstname
+    // console.log(firstname, username, email, image, user.token)
+    if (firstname === null) {
+      firstname = user.firstname
       //setFirstname(user.firstname)
-      
+
     }
-    if (username===null){
-      username=user.username
+    if (username === null) {
+      username = user.username
     }
-    if (email===null){
+    if (email === null) {
       email = user.email
     }
-    console.log(firstname, username, email, image, user.token)
+    // console.log(firstname, username, email, image, user.token)
 
     const datas = {
       firstname: firstname,
       username: username,
       email: email,
-      image: image,
+      // image: image,
       token: user.token,
     };
-    
-
 
     fetch(`${BACKEND_ADDRESS}/users/changesprofil`, {
       method: "PUT",
@@ -83,54 +83,29 @@ export default function MonCompte() {
       .then((response) => response.json())
       .then((data) => {
         if (!data.result) {
-
           console.log(data.error)
 
-
         } else {
-          //dispatch(updateEmail(email));
-          console.log("Hello BDD")
+          dispatch(updateFirstname(firstname));
+          dispatch(updateUsername(username));
+          dispatch(updateEmail(email));
+          // console.log("Hello BDD")
           navigation.navigate("TabNavigator", { screen: "Map" });
-
-
         }
       })
-
-
 
   }
   return (
     <View style={styles.container}>
 
-
       <Image source={require('../assets/user.png')}
         style={styles.imgProfile} />
 
-      <TouchableOpacity style={styles.buttonChangePhoto} activeOpacity={0.8}>
+      {/* <TouchableOpacity style={styles.buttonChangePhoto} activeOpacity={0.8}>
         <Text style={styles.textButtonChangePhoto} >Changer la photo</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
 
-
-      <View style={styles.boolean}>
-        {showTextInputUsername ? (
-          <TextInput
-            placeholder='Pseudo'
-            onChangeText={(value) => setUsername(value)}
-            value={username}
-            style={styles.input}
-          />
-        ) : (
-          <View style={styles.changeField}>
-            <Text style={styles.textInfos}>{user.username}</Text>
-            <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressUsername} activeOpacity={0.8}>
-              {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
-              <Text><FontAwesome5 name="edit" size={20} color="white" /></Text>
-            </TouchableOpacity>
-          </View>
-        )}
-
-      </View>
 
       <View style={styles.boolean}>
         {showTextInputFirstname ? (
@@ -145,7 +120,27 @@ export default function MonCompte() {
             <Text style={styles.textInfos}>{user.firstname}</Text>
             <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressFirstname} activeOpacity={0.8}>
               {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
-              <Text><FontAwesome5 name="edit" size={20} color="white" /></Text>
+              <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+      </View>
+
+      <View style={styles.boolean}>
+        {showTextInputUsername ? (
+          <TextInput
+            placeholder='Pseudo'
+            onChangeText={(value) => setUsername(value)}
+            value={username}
+            style={styles.input}
+          />
+        ) : (
+          <View style={styles.changeField}>
+            <Text style={styles.textInfos}>{user.username}</Text>
+            <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressUsername} activeOpacity={0.8}>
+              {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
+              <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
             </TouchableOpacity>
           </View>
         )}
@@ -167,7 +162,7 @@ export default function MonCompte() {
             <Text style={styles.textInfos}>{user.email}</Text>
             <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressEmail} activeOpacity={0.8}>
               {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
-              <Text><FontAwesome5 name="edit" size={20} color="white" /></Text>
+              <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
             </TouchableOpacity>
           </View>
         )}
@@ -198,7 +193,6 @@ export default function MonCompte() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     flexDirection: "column",
     alignItems: 'center',
     justifyContent: 'center',
@@ -220,8 +214,6 @@ const styles = StyleSheet.create({
   changeField: {
     flex: 1,
     flexDirection: 'row',
-    //height: Dimensions.get("window").width/10,
-
     justifyContent: 'center',
 
   },
@@ -237,37 +229,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 5,
     elevation: 10,
-
-
   },
 
   buttonChangeOne: {
 
     width: Dimensions.get("window").width / 13,
     height: Dimensions.get("window").width / 13,
-    backgroundColor: '#474CCC',
-    borderRadius: 100,
-    shadowOpacity: 0.4,
-    shadowRadius: 5,
-    elevation: 10,
-   
-    paddingLeft: 9,
-    paddingTop:8,
-
-
+    // backgroundColor: '#474CCC',
+    // borderRadius: 100,
+    // shadowOpacity: 0.4,
+    // shadowRadius: 5,
+    // elevation: 10,
+    paddingLeft: 7,
+    paddingTop: 8,
   },
   textButtonChangeOne: {
-    textAlign: 'center',
-    alignItems: 'center',
-    color: '#ffffff',
-    fontWeight: 'bold',
-    fontSize: 16,
-    paddingLeft: 3,
-
+    // textAlign: 'center',
+    // alignItems: 'center',
+    // color: '#ffffff',
+    // fontWeight: 'bold',
+    // fontSize: 16,
+    // paddingLeft: 3,
   },
 
   buttonQuit: {
-
     margin: 15,
     paddingTop: 12,
     paddingLeft: 20,
@@ -276,12 +261,9 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignContent: 'center',
     justifyContent: 'center',
-
     shadowOpacity: 0.4,
     shadowRadius: 5,
     elevation: 10,
-
-
   },
 
   textButton: {
@@ -290,9 +272,6 @@ const styles = StyleSheet.create({
     height: 30,
     fontWeight: '600',
     fontSize: 15,
-
-
-
   },
 
 
@@ -300,11 +279,9 @@ const styles = StyleSheet.create({
     margin: 10,
     width: 140,
     height: 140,
-    borderWidth: 2,
     borderColor: '#474CCC',
     borderWidth: 4,
     borderRadius: 100,
-
   },
 
 
@@ -344,9 +321,6 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 30,
     fontWeight: '600',
-    fontSize: 15,
-
-
   },
   buttonChangePhoto: {
     margin: 15,
