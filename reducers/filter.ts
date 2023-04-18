@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
   
 const initialState = {
     value: {
-    valeur: [],
+    valeur: [5,60],
     // start_date: null,
     // end_date: null,
     distance: 10000,
