@@ -18,12 +18,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-
-
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state: { user: UserState }) => state.user.value);
-
   const [firstname, setFirstname] = useState(null);
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
@@ -33,15 +30,11 @@ export default function HomeScreen({ navigation }) {
   const [gender, setGender] = useState(null);
   // const [image, setImage] = useState(null);
   const [age, setAge] = useState(null);
-
-
   const [connectionError, setConnectionError] = useState(null);
   const [showPassword, setShowPassword] = useState(true);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [ageaddinput, setageaddinput] = useState(false);
-
-  const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+  const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
   const handleSubmit = () => {
     console.log(user)
     console.log(`state firstname ${firstname}  username ${username} age ${age} mdp: ${mdp} mdp2: ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
@@ -50,7 +43,6 @@ export default function HomeScreen({ navigation }) {
       return;
     }
     if (mdp == mdp2 && firstname && username && email && gender && age) {
-
       fetch('https://shareact-backend.vercel.app/users/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

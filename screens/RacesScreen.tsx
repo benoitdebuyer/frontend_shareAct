@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from 'react';
+import React, { useEffect, useState, useRef } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -14,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPlace, removePlace } from '../reducers/user';
 import { useIsFocused } from '@react-navigation/native';
 import Participants from '../components/Participants'
+import Racecardtest from '../components/Racecard'
 
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
@@ -25,34 +25,70 @@ export default function PlacesScreen() {
 
   const [racesUp, setRacesUp] = useState([]);
 
-  if (!isFocused) {
-    return <View />;
-  } else {
-    fetch(`${BACKEND_ADDRESS}/users/add/${user.token}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('race dans racescreen',data)
-        data.result && setRaces(data.races);
-      })
+  useEffect(() => {
+    if (isFocused) {
+      fetch(`${BACKEND_ADDRESS}/users/add/${user.token}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setRacesUp(data.race);
+        });
+    }
+  }, [isFocused]);
 
-      
-   }
-
-
-
+  console.log(racesUp)
+ 
 
   const allRacesUp = racesUp.map((race, i) => {
+
+    const formatDate = (dateString) => {
+      const date = new Date(dateString);
+      const day = date.getDate();
+      const monthIndex = date.getMonth();
+      // const month = date.toLocaleString("default", { month: "long", locale: 'fr-FR' });
+      const year = date.getFullYear();
+      const hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+  
+      const months = [
+        "Janvier",
+        "Février",
+        "Mars",
+        "Avril",
+        "Mai",
+        "Juin",
+        "Juillet",
+        "Août",
+        "Septembre",
+        "Octobre",
+        "Novembre",
+        "Décembre",
+      ];
+  
+      const formattedDate = `${day} ${months[monthIndex]} ${year} à ${hours}:${minutes}`;
+      return `Le ${formattedDate}`;
+    };
     return (
-      <Participants
-        key={race._id}
-        coordinate={{ latitude: race.latitude, longitude: race.longitude }}
-        title={race.address}
-        onPress={() => handleMarkerPress(race)}
-        pinColor="#FF4800"
-      />
+      <Racecardtest
+      key={race._id}
+      author={race.author}
+      description={race.description}
+      date={formatDate(race.date)}
+      address={race.address}
+      duration={race.duration}
+      distance={race.distance}
+      level={race.level}
+        />
     );
   });
 
+  // key={race._id}
+  // author={race.author}
+  // description={race.description}
+  // date={formatDate(race.date)}
+  // address={race.address}
+  // duration={race.duration}
+  // distance={race.distance}
+  // level={race.level}
 
   return (
     <SafeAreaView style={styles.container}>
@@ -68,7 +104,8 @@ export default function PlacesScreen() {
       <Text style={styles.textRace}>Course 1</Text>
 
       <ScrollView contentContainerStyle={styles.scrollView}>
-        {/* {Race} */}
+
+        {allRacesUp}
       </ScrollView>
     </SafeAreaView>
   );
