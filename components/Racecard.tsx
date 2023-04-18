@@ -15,9 +15,6 @@ import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage,
 export default function Racecardtest(props) {
 
 
-  // const participants = props.participants.map((participant, index) => {
-  //   return index === props.participants.length - 1 ? participant : participant + ", ";
-  // })
 
   return (
     <View style={styles.container}>
