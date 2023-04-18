@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Slider} from '@miblanchard/react-native-slider';
+import { addFilter, addFilter2 } from '../reducers/filter';
 
 
 
@@ -28,6 +29,7 @@ function Link(props) {
 }
 
 const SliderContainer = (props) => {
+    const dispatch = useDispatch();
   const { caption, sliderValue, trackMarks } = props;
   const [value, setValue] = React.useState(
     sliderValue ? sliderValue : DEFAULT_VALUE
@@ -47,6 +49,7 @@ const SliderContainer = (props) => {
 
   const renderChildren = () => {
     console.log(value)
+    dispatch(addFilter(value))
     return React.Children.map(props.children, (child) => {
       if (!!child && child.type === Slider) {
         return React.cloneElement(child, {
@@ -59,6 +62,7 @@ const SliderContainer = (props) => {
 
       return child;
     });
+   
   };
 
   return (
@@ -77,6 +81,8 @@ const SliderContainer = (props) => {
 
 
 export default function Filter() {
+    const dispatch = useDispatch();
+
     let [dist, setDist] = useState(0);
     const navigation = useNavigation();
 
@@ -86,30 +92,14 @@ export default function Filter() {
       };
     const applyFilter = () => {
         console.log("apply filter")
-        dist = dist*1000
-        const data = {
-            start_date: '2023-05-01',
-            end_date: '2023-05-31',
-            lat: 48.8566,
-            lon: 2.3522,
-            distance: dist,       
-          };
-          
-          fetch(`${BACKEND_ADDRESS}/races/filter`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          })
-            .then(response => response.json())
-            .then(data => {
-              console.log(data);
-              // faire quelque chose avec les données filtrées
-            })
-            .catch(error => {
-              console.error(error);
-            });
+        
+
+      
+         dispatch(addFilter2(dist))
+
+         
+
+        navigation.navigate("TabNavigator", { screen: "Map" });
       };
 
 
@@ -123,12 +113,12 @@ export default function Filter() {
             <View style={styles.slider}>
             <SliderContainer
                 // default value on slider
-                sliderValue={[2, 8]}
+                sliderValue={[5, 60]}
             >
                 <Slider
                 
                 maximumTrackTintColor="#d3d3d3"
-                maximumValue={9}
+                maximumValue={72}
                 minimumTrackTintColor="#474CCC"
                 minimumValue={1}
                 step={1}
@@ -174,16 +164,9 @@ export default function Filter() {
         flexDirection: 'column',
         justifyContent: 'space-around',
         alignItems:'center',
-        
-        
-        
       },
       slider:{
-        width:Dimensions.get("window").width*2/3,
-        
-
-
-        
+        width:Dimensions.get("window").width*2/3,   
       },
       buttonProfileModif: {
    
