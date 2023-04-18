@@ -15,12 +15,13 @@ import { useDispatch, useSelector } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { addRaceByUser, delRaceByUser, udptadeIdRace, } from "../reducers/race";
-import { updateAge } from '../reducers/user'
+import { updateAge, updateImage } from '../reducers/user'
 import { useRoute } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import GestureRecognizer from 'react-native-swipe-gestures';
+import { addFilter, addFilter2 } from "../reducers/filter";
 
 
 const BACKEND_ADDRESS = "https://shareact-backend.vercel.app";
@@ -32,15 +33,18 @@ export default function MapScreen() {
   const [modalProfileVisible, setModalProfileVisible] = useState(false);
   const [newPlace, setNewPlace] = useState("");
   const [races, setRaces] = useState([]);
+  const [races2, setRaces2] = useState([]);
   const [selectedRace, setSelectedRace] = useState(null);
   const isFocused = useIsFocused();
   const [hasPermission, setHasPermission] = useState(false);
   const [idRace, setIdRace] = useState(null);
   const [modalFilterVisible, setModalFilterVisible] = useState(false);
 
+
   const dispatch = useDispatch();
   const race = useSelector((state) => state.race.value);
   const user = useSelector((state: { user: UserState }) => state.user.value);
+  const filter = useSelector((state) => state.filter.value);
 
   const handleMyLocationPress = () => {
     if (currentPosition) {
@@ -54,8 +58,10 @@ export default function MapScreen() {
 
 
 
-
   useEffect(() => {
+
+    dispatch(addFilter([null, null])),
+    dispatch(addFilter2(0)),
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       setHasPermission(status === 'granted');
@@ -65,24 +71,84 @@ export default function MapScreen() {
         });
       }
     })();
-  fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
-.then((response) => response.json())
-.then((data) => {
-  data.result && setRaces(data.races);
-})
+    console.log('mon filter: ', filter)
+
+          fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
+          .then((response) => response.json())
+          .then((data) => {
+            data.result && setRaces(data.races);
+            console.log('route all races', data.races)
+      })
+    //  }
+      
   }, []);
 
-  if (!hasPermission || !isFocused) {
-    return <View />;
-  } else {
-    fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
-      .then((response) => response.json())
-      .then((data) => {
-        data.result && setRaces(data.races);
-      })
 
+  useEffect(() => {
+    if (currentPosition) {
+      if (filter.distance !==0){
+    console.log('ma coord: ', currentPosition)
+        console.log(filter, filter.valeur[0])
+              let dist = filter.distance*1000
+              //let dist = 10000;
+              let maDate = new Date();
+              // Ajouter 2 heures à l'heure actuelle
+              let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
+              let end_date = maDate.setHours(maDate.getHours() + filter.valeur[1]);
+            
+                const data = {
+                    start_date: start_date ,
+                    end_date: end_date,
+                    lat: currentPosition.latitude,
+                    lon: currentPosition.longitude,
+                    distance: dist,       
+                  };
+                  
+                  fetch(`${BACKEND_ADDRESS}/races/filter`, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                  })
+                    .then(response => response.json())
+                    .then(data => {
+                      console.log('route filter',data.data);
+                      // faire quelque chose avec les données filtrées
+                      setRaces([...data.data]);
+                     
+                      
+                    })
+                    .catch(error => {
+                      console.error(error);
+                    });
+
+                  }
+                }
+                else{
+
+                  fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
+                  .then((response) => response.json())
+                  .then((data) => {
+                    data.result && setRaces(data.races);
+                    console.log('route all races', data.races)
+              })
+                }
+
+  }, [isFocused]);
+  console.log("mes races", races)
+  // if (!hasPermission || !isFocused) {
+  //   return <View />;
+  // } else {
+  //   fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     console.log('route all races')
+  //     data.result && setRaces(data.races);
       
-   }
+  //   })}
+
+ 
 
    
   const onChangeButtonPress = () => {
@@ -172,6 +238,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
   };
 
   //// map sur le tableau race qui viendra de la BDD
+ 
   const allRaces = races.map((race, i) => {
     return (
       <Marker
@@ -183,6 +250,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
       />
     );
   });
+
 
   const onSwipe = ({ event }) => {
     if (event.nativeEvent != null && event.nativeEvent.translationX != null) {
@@ -203,6 +271,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
   //     }
   //   }
   // }
+  // console.log(user.image)
 
   return (
    
@@ -219,7 +288,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
         style={styles.buttonProfileModale}
         onPress={() => setModalProfileVisible(true)}
       >
-        <Image source={require("../assets/user.png")} style={styles.profil} />
+        <Image source={require(`../assets/user.png`)} style={styles.profil} />
       </Pressable>
       <TouchableOpacity
         style={styles.button}

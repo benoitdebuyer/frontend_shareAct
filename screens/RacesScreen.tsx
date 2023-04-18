@@ -23,6 +23,11 @@ export default function PlacesScreen() {
   const isFocused = useIsFocused();
   const [racesUp, setRacesUp] = useState([]);
 
+  const [shouldUpdate, setShouldUpdate] = useState(false);
+
+function handleUpdate() {
+  setShouldUpdate(prev => !prev);
+}
 
 const token = user.token
   useEffect(() => {
@@ -35,40 +40,46 @@ const token = user.token
           setRacesUp(data.races);
         });
     }
-  }, [isFocused]);
+  }, [isFocused,shouldUpdate ]);
 
   
   console.log('raceUp',racesUp)
  
 
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
-    // const month = date.toLocaleString("default", { month: "long", locale: 'fr-FR' });
-    const year = date.getFullYear();
-    const hours = date.getHours();
-    const minutes = date.getMinutes().toString().padStart(2, '0');
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   const day = date.getDate();
+  //   const monthIndex = date.getMonth();
+  //   // const month = date.toLocaleString("default", { month: "long", locale: 'fr-FR' });
+  //   const year = date.getFullYear();
+  //   const hours = date.getHours();
+  //   const minutes = date.getMinutes().toString().padStart(2, '0');
 
-    const months = [
-      "Janvier",
-      "Février",
-      "Mars",
-      "Avril",
-      "Mai",
-      "Juin",
-      "Juillet",
-      "Août",
-      "Septembre",
-      "Octobre",
-      "Novembre",
-      "Décembre",
-    ];
+  //   const months = [
+  //     "Janvier",
+  //     "Février",
+  //     "Mars",
+  //     "Avril",
+  //     "Mai",
+  //     "Juin",
+  //     "Juillet",
+  //     "Août",
+  //     "Septembre",
+  //     "Octobre",
+  //     "Novembre",
+  //     "Décembre",
+  //   ];
     
-    const formattedDate = `${day} ${months[monthIndex]} ${year} à ${hours}:${minutes}`;
-    return `Le ${formattedDate}`;
-  };
+  //   const formattedDate = `${day} ${months[monthIndex]} ${year} à ${hours}:${minutes}`;
+  //   return `Le ${formattedDate}`;
+  // };
+
+  const formatDate = (date) => {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    const formattedDate = new Date(date).toLocaleString('fr-FR', options);
+    return formattedDate;
+  }
 
 
   const allRacesUp = racesUp.map((race, i) => {
@@ -78,6 +89,7 @@ const date = formatDate(race.date)
     console.log('date de race log',date)
     return (
       <Racecardtest 
+      onUpdate={handleUpdate}
       key={race._id}
       author={race.author.username}
       description={race.description}
@@ -86,7 +98,10 @@ const date = formatDate(race.date)
       duration={race.duration}
       distance={race.distance}
       level={race.level}
-      participants={race.participants}/>
+      participants={race.participants}
+      _idRace = {race._id}
+      />
+
     );
   });
 
@@ -113,7 +128,7 @@ console.log(allRacesUp)
 
       <ScrollView contentContainerStyle={styles.scrollView}>
        
-        <View styles={styles.viewcard}>
+        <View style={styles.viewcard}>
           {allRacesUp}
         </View>
       </ScrollView>
@@ -129,7 +144,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: 'center',
-    width:'70%',
+    width:'85%',
   },
   card: {
     alignItems: 'center',
@@ -141,8 +156,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   viewcard: {
-
-    height:200,
+   width: '100%',
   },
   name: {
     fontSize: 18,

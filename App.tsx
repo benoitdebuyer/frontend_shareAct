@@ -23,9 +23,10 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
 import race from './reducers/race';
+import filter from './reducers/filter';
 
 const store = configureStore({
-  reducer: { user, race },
+  reducer: { user, race, filter },
 });
 
 const Stack = createNativeStackNavigator();

@@ -28,6 +28,7 @@ export default function HomeScreen({ navigation }) {
   const [mdp2, setMdp2] = useState(null);
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [gender, setGender] = useState(null);
+  // const [image, setImage] = useState(null);
   const [age, setAge] = useState(null);
   const [connectionError, setConnectionError] = useState(null);
   const [showPassword, setShowPassword] = useState(true);
@@ -36,7 +37,7 @@ export default function HomeScreen({ navigation }) {
   const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
   const handleSubmit = () => {
     console.log(user)
-    console.log(`state firstane ${firstname}  username ${username} age ${age} pdw ${mdp} pd2 ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
+    console.log(`state firstname ${firstname}  username ${username} age ${age} mdp: ${mdp} mdp2: ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
     if (!EMAIL_REGEX.test(email)) {
       setConnectionError(true);
       return;
@@ -55,6 +56,7 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateAge(age))
           dispatch(updateGender(gender))
           dispatch(updateToken(data.token))
+          // dispatch(updateImage(image))
         });
 
       navigation.navigate("TabNavigator", { screen: "Map" });
@@ -194,11 +196,21 @@ export default function HomeScreen({ navigation }) {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Text style={styles.title}>Inscription</Text>
+{/* 
+      <View style={styles.avatarContainer}>
+        <TouchableOpacity onPress={() => setImage('user.png')} style={[styles.avatarButton, image === 'user.png' && styles.avatarButtonSelected]}>
+          <Image source={require("../assets/user.png")} style={styles.photoAvatar} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setImage('user1.png')} style={[styles.avatarButton, image === 'user1.png' && styles.avatarButtonSelected]}>
+          <Image source={require("../assets/user1.png")} style={styles.photoAvatar} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setImage('Shareact2.png')} style={[styles.avatarButton, image === 'Shareact2.png' && styles.avatarButtonSelected]}>
+          <Image source={require("../assets/Shareact2.png")} style={styles.photoAvatar} />
+        </TouchableOpacity>
+      </View> */}
 
       <TextInput placeholder="Prénom:" onChangeText={(value) => setFirstname(value)} value={firstname} style={styles.input} />
       <TextInput placeholder="Pseudo:" onChangeText={(value) => setUsername(value)} value={username} style={styles.input} />
-
-
 
 
       <TextInput placeholder="Email:" onChangeText={(value) => setEmail(value)} keyboardType="email-address" value={email} style={styles.input} />
@@ -222,11 +234,10 @@ export default function HomeScreen({ navigation }) {
       </View>
 
 
-
-
       <View style={styles.genderContainer}>
         <TouchableOpacity onPress={() => setGender('Homme')} style={[styles.genderButton, gender === 'Homme' && styles.genderButtonSelected]}>
           <Text style={styles.genderButtonText}>Homme</Text>
+
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setGender('Femme')} style={[styles.genderButton, gender === 'Femme' && styles.genderButtonSelected]}>
           <Text style={styles.genderButtonText}>Femme</Text>
@@ -235,6 +246,8 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.genderButtonText}>Autre</Text>
         </TouchableOpacity>
       </View>
+
+   
 
 
 
@@ -377,6 +390,29 @@ const styles = StyleSheet.create({
     color: '#474CCC',
   },
 
+// Avatar
+avatarContainer: {
+  flexDirection: 'row',
+  marginTop: 25,
+  width: '90%',
+  justifyContent: 'space-between',
+},
+avatarButtonSelected: {
+  backgroundColor: '#E2E2F3',
+  borderColor: '#474CCC',
+  borderWidth: 3,
+},
+
+
+  avatarButton: {
+    // borderBottomColor: 'red',
+    // borderWidth: 2,
+    // borderRadius: 100,
+  },
+  photoAvatar: {
+    width: 100,
+    height: 100,
+  },
 
   containercalandarm: {
     height: 35,

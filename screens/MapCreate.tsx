@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
+import { Modal, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatenewracelat, updatenewracelon, addNewAddress } from '../reducers/race';
 import MapView, { Marker } from 'react-native-maps';
@@ -22,6 +22,8 @@ export default function MapScreen() {
   const [newPlace, setNewPlace] = useState('');
   const [address, setAddress] = useState('');
 
+  
+  // API pour récupérer l'adresse du lieu cliqué, on récupère la latitude et la longitude pour que l'API détermine son adresse
   useEffect(() => {
     if (tempCoordinates) {
       const getCityFromCoordinates = async () => {
@@ -51,15 +53,10 @@ export default function MapScreen() {
       }
     })();
 
-    // fetch(`${BACKEND_ADDRESS}/races/${user.nickname}`)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     data.result && dispatch(importPlaces(data.places));
-    //   });
   }, []);
 
+  // Bouton pour centrer la page à notre localisation 
   const handleMyLocationPress = () => {
-    // console.log("hello")
     console.log(currentPosition)
     if (currentPosition) {
       mapRef.animateToRegion({
@@ -70,46 +67,31 @@ export default function MapScreen() {
     }
   };
 
-
+// Bouton retour en arrière
   const handleBackPage = () => {
     navigation.navigate("TabNavigator", { screen: "Map" });
   }
 
-
+// Permet de récupérer après un long clic la latitude et la longitude
  const handleLongPress = (e) => {
     setTempCoordinates(e.nativeEvent.coordinate);
     setModalVisible(true);
   };
 
-
+// Bouton de confirmation dans la modal
   const handleConfirm = () => {
     setModalVisible(false);
-    // console.log(tempCoordinates.latitude)
     dispatch(updatenewracelat(tempCoordinates.latitude));
     dispatch(updatenewracelon(tempCoordinates.longitude));
     dispatch(addNewAddress(address));
     navigation.navigate('CreateRace', { coord: tempCoordinates });
   }
 
-
+// Bouton pour quitter la modal
   const handleClose = () => {
     setModalVisible(false);
     setNewPlace('');
   };
-
-
-  // const getCityFromCoordinates = () => {
-  //   const apiUrl = `https://api-adresse.data.gouv.fr/reverse/?lon=${tempCoordinates.longitude}&lat=${tempCoordinates.latitude}`;
-
-  //   return fetch(apiUrl)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       // Récupère le nom de la ville à partir des données renvoyées par l'API
-  //       const cityName = data.features[0]?.properties?.label;
-
-  //       return cityName;
-  //     })
-  // };
 
 
 
@@ -118,8 +100,6 @@ export default function MapScreen() {
       <Modal visible={modalVisible} animationType="fade" transparent>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            {/* <Text style={styles.textAddress}>Latitude: {tempCoordinates ? tempCoordinates.latitude.toFixed(6) : ''}</Text> */}
-            {/* <Text style={styles.textAddress}>Longitude: {tempCoordinates ? tempCoordinates.longitude.toFixed(6) : ''}</Text> */}
             <Text style={styles.textAddress}>Lieu de départ : {address}</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={() => handleConfirm()} style={styles.button} activeOpacity={0.8}>
@@ -138,15 +118,11 @@ export default function MapScreen() {
         <Text style={styles.textInformation}>Appuie longuement sur la carte {"\n"} pour sélectionner ton lieu de départ </Text>
       </View>
 
-
-      {/* Bouton retour arrière */}
       <TouchableOpacity
         style={styles.backPage}
         onPress={handleBackPage}>
         <FontAwesome5 name="angle-left" size={50} color="#474CCC" />
       </TouchableOpacity>
-
-
 
 
       {currentPosition ? (
@@ -163,7 +139,6 @@ export default function MapScreen() {
           }}
           style={styles.map}>
           {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor="#474CCC" />}
-          {/* {markers} */}
         </MapView>
       ) : (
         <Text>Loading...</Text>
@@ -251,7 +226,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 50,
-    // borderWidth : 4,
   },
   myLocationButton: {
     flex: 1,
