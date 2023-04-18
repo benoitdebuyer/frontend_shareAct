@@ -61,7 +61,7 @@ export default function MapScreen() {
   useEffect(() => {
 
     dispatch(addFilter([null, null])),
-    dispatch(addFilter2(0)),
+    dispatch(addFilter2(10000)),
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       setHasPermission(status === 'granted');
@@ -79,52 +79,111 @@ export default function MapScreen() {
             data.result && setRaces(data.races);
             console.log('route all races', data.races)
       })
-    //  }
+ 
       
   }, []);
 
 
   useEffect(() => {
-    if (currentPosition) {
-      if (filter.distance !==0){
-    console.log('ma coord: ', currentPosition)
-        console.log(filter, filter.valeur[0])
-              let dist = filter.distance*1000
-              //let dist = 10000;
-              let maDate = new Date();
-              // Ajouter 2 heures à l'heure actuelle
-              let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
-              let end_date = maDate.setHours(maDate.getHours() + filter.valeur[1]);
-            
-                const data = {
-                    start_date: start_date ,
-                    end_date: end_date,
-                    lat: currentPosition.latitude,
-                    lon: currentPosition.longitude,
-                    distance: dist,       
-                  };
-                  
-                  fetch(`${BACKEND_ADDRESS}/races/filter`, {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                  })
-                    .then(response => response.json())
-                    .then(data => {
-                      console.log('route filter',data.data);
-                      // faire quelque chose avec les données filtrées
-                      setRaces([...data.data]);
-                     
-                      
-                    })
-                    .catch(error => {
-                      console.error(error);
-                    });
+    if (currentPosition && (filter.valeur[0]!==5 || filter.valeur[1]!==60 || filter.distance!==10000) ){
+         
+
+                   if (filter.distance!==10000){
+                          console.log('ma coord: ', currentPosition)
+                          console.log(filter, filter.valeur[0])
+                          let dist = filter.distance*1000
+                          //let dist = 10000;
+                          let maDate = new Date();
+                          // Ajouter 2 heures à l'heure actuelle
+                          let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
+                          let end_date = maDate.setHours(maDate.getHours() + filter.valeur[1]);
+
+                          const date = new Date(start_date);
+                          const date2= new Date(end_date);
+                          const isoDate_start = date.toISOString();
+                          const isoDate_end = date2.toISOString();
+
+                            const data = {
+                                start_date: isoDate_start ,
+                                end_date: isoDate_end,
+                                lat: currentPosition.latitude,
+                                lon: currentPosition.longitude,
+                                distance: dist,       
+                              };
+
+                              console.log('dates', isoDate_end, isoDate_start)
+                              
+                              fetch(`${BACKEND_ADDRESS}/races/filter`, {
+                                method: 'POST',
+                                headers: {
+                                  'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(data)
+                              })
+                                .then(response => response.json())
+                                .then(data => {
+                                  console.log('route filter',data.data);
+                                  // faire quelque chose avec les données filtrées
+                                  setRaces([...data.data]);
+                                
+                                  
+                                })
+                                .catch(error => {
+                                  console.error(error);
+                                });
+                              }
+                              else{
+                                console.log('ma coord: ', currentPosition)
+                          console.log(filter, filter.valeur[0])
+                          //let dist = filter.distance*1000
+                         let dist =10000
+                          let maDate = new Date();
+                          // Ajouter 2 heures à l'heure actuelle
+                          let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
+                          let end_date = maDate.setHours(maDate.getHours() + filter.valeur[1]);
+
+                          const date = new Date(start_date);
+                          const date2= new Date(end_date);
+                          const isoDate_start = date.toISOString();
+                          const isoDate_end = date2.toISOString();
+
+                            const data = {
+                                start_date: isoDate_start ,
+                                end_date: isoDate_end,
+                                lat: currentPosition.latitude,
+                                lon: currentPosition.longitude,
+                                distance: dist,       
+                              };
+
+                              console.log('dates', isoDate_end, isoDate_start)
+                              
+                              fetch(`${BACKEND_ADDRESS}/races/filter`, {
+                                method: 'POST',
+                                headers: {
+                                  'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(data)
+                              })
+                                .then(response => response.json())
+                                .then(data => {
+                                  console.log('route filter',data.data);
+                                  // faire quelque chose avec les données filtrées
+                                  setRaces([...data.data]);
+                                
+                                  
+                                })
+                                .catch(error => {
+                                  console.error(error);
+                                });
+                              }
+                              
+                              
 
                   }
-                }
+            
+
+                  
+                
                 else{
 
                   fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)

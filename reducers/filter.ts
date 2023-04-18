@@ -7,7 +7,7 @@ const initialState = {
     valeur: [],
     // start_date: null,
     // end_date: null,
-    distance: null,
+    distance: 10000,
    
   
 }}
