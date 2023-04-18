@@ -87,6 +87,7 @@ export default function MapScreen() {
 
   useEffect(() => {
     if (currentPosition) {
+      if (filter.distance !==0){
     console.log('ma coord: ', currentPosition)
         console.log(filter, filter.valeur[0])
               let dist = filter.distance*1000
@@ -124,6 +125,16 @@ export default function MapScreen() {
                     });
 
                   }
+                }
+                else{
+
+                  fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
+                  .then((response) => response.json())
+                  .then((data) => {
+                    data.result && setRaces(data.races);
+                    console.log('route all races', data.races)
+              })
+                }
 
   }, [isFocused]);
   console.log("mes races", races)
