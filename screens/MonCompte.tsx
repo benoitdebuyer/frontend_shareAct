@@ -90,22 +90,22 @@ export default function MonCompte() {
       })
 
   }
-   // Bouton "Annuler"
-   const handleReturn = () => {
+  // Bouton "Annuler"
+  const handleReturn = () => {
 
     navigation.navigate("TabNavigator", { screen: "Map" });
   }
 
   // let testimage = require('../assets/user.png')
-  let testimage = user.image 
+  let testimage = user.image
   return (
     <View style={styles.container}>
-<View>
+      <View>
 
-  
-      <Image source={{ uri : testimage}}
-        style={styles.imgProfile} />
-</View>
+
+        <Image source={{ uri: testimage }}
+          style={styles.imgProfile} />
+      </View>
       {/* <TouchableOpacity style={styles.buttonChangePhoto} activeOpacity={0.8}>
         <Text style={styles.textButtonChangePhoto} >Changer la photo</Text>
       </TouchableOpacity> */}

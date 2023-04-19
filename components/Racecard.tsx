@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
 
   nameunderpic: {
-    width: "80%",
+    width: "100%",
     fontSize: 16,
     paddingTop: 5,
     fontWeight: "600",

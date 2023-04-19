@@ -102,7 +102,7 @@ export default function JoinRaceScreen() {
         <View style={styles.containertop}>
           <View style={styles.containertopleft}>
             <Image style={styles.photo} source={require('../assets/user1.png')} />
-            <Text style={styles.nameunderpic}>{author}</Text>
+            <Text style={styles.nameunderpic}>@{author}</Text>
           </View>
 
           <View style={styles.containertopright}>
