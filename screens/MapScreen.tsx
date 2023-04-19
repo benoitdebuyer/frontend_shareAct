@@ -553,7 +553,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
           <View style={styles.containertop}>
 
               <TouchableOpacity style={styles.buttonrefreshetphoto}  onPress={()=>randomizePhoto()}>
-                <FontAwesome5 name="undo" size={35} color="#000000" />
+                <FontAwesome5 name="undo" size={35} color="#474CCC" />
               </TouchableOpacity>
 
                     <Image
@@ -562,7 +562,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
                     />
 
               <TouchableOpacity onPress={()=>takePhoto()} style={styles.buttonrefreshetphoto} activeOpacity={0.8}>
-                      <FontAwesome5 name="camera" size={35} color="#000000" />
+                      <FontAwesome5 name="camera" size={35} color="#474CCC" />
                     </TouchableOpacity> 
               </View>
 
@@ -664,7 +664,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderRadius: 100,
     marginBottom: 30,
-marginHorizontal: 60,
+marginHorizontal: 45,
     // shadowOpacity: 0.9,
     // shadowRadius: 4,
 

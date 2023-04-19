@@ -223,6 +223,7 @@ const styles = StyleSheet.create({
     borderColor: '#474CCC',
     borderWidth: 4,
     borderRadius: 100,
+    
   },
   textButtonChangePhoto: {
     textAlign: 'center',
