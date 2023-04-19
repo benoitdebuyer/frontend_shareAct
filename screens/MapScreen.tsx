@@ -520,9 +520,10 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
             />
 
             <View style={styles.infosProfile}>
-              <Text style={styles.textInfos}>{user.username}</Text>
-
               <Text style={styles.textInfos}>{user.firstname}</Text>
+
+              <Text style={styles.textInfos}>@{user.username}</Text>
+
 
               <Text style={styles.textInfos}>{user.email}</Text>
 
