@@ -714,7 +714,7 @@ const styles = StyleSheet.create({
 
   // la modal profil quand tu cliques sur l'image 
   modalView: {
-    marginTop: 180,
+    marginTop: 100,
     backgroundColor: 'white',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
