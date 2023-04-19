@@ -117,8 +117,7 @@ export default function MonCompte({navigation}) {
   let testimage = user.image 
 
   
-  
- 
+
     const randomizePhoto = () => {
       const newPhotoIndex = Math.floor(Math.random() * photosData.length);
       setCurrentPhotoIndex(newPhotoIndex);
@@ -258,7 +257,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   containertop: {
-    flex: 1,
+    // flex: 1,
     flexDirection: "row",
     alignItems: 'center',
     justifyContent: 'center',
