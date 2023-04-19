@@ -369,7 +369,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
   //   }
   // }
   // console.log(user.image)
-
+  let testimage = user.image 
   return (
 
     <View style={styles.container}>
@@ -385,7 +385,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
         style={styles.buttonProfileModale}
         onPress={() => setModalProfileVisible(true)}
       >
-        <Image source={require(`../assets/user.png`)} style={styles.profil} />
+        <Image source={{ uri : testimage}} style={styles.profil} />
       </Pressable>
       <TouchableOpacity
         style={styles.button}
@@ -515,7 +515,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
         >
           <View style={styles.modalView}>
             <Image
-              source={require("../assets/user.png")}
+              source={{ uri : testimage}}
               style={styles.imgProfileModal}
             />
 

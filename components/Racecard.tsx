@@ -63,7 +63,7 @@ export default function Racecardtest(props) {
     <View style={styles.container}>
       <View style={styles.containertop}>
         <View style={styles.containertopleft}>
-          <Image style={styles.photo} source={require("../assets/user1.png")} />
+          <Image style={styles.photo} source={{ uri : props.authorImage}} />
           <Text style={styles.nameunderpic}>@{props.author}</Text>
         </View>
 

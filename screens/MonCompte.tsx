@@ -1,17 +1,33 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, Image, TextInput, View, TouchableOpacity, Button, } from 'react-native';
+import { Dimensions, StyleSheet, Text, Image, TextInput, View, TouchableOpacity, Button,KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { updateUsername, updateFirstname, updateEmail } from '../reducers/user'
+import { updateUsername, updateFirstname, updateEmail,updateImage } from '../reducers/user'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
+const photosData: string[] = [
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar9_klrakg.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar8_mmnwko.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar7_brww9w.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar6_w4vlnj.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar5_hi07w6.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar4_szelyb.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar3_yynhe8.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar2_hposjh.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar1_wen2b2.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar13_ilydse.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar12_iwwzmk.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar11_hjd3pc.jpg",
+];
 
-export default function MonCompte() {
+export default function MonCompte({navigation}) {
   const dispatch = useDispatch();
   const user = useSelector((state: { user: UserState }) => state.user.value);
   let [email, setEmail] = useState(null);
@@ -23,9 +39,10 @@ export default function MonCompte() {
   const [showTextInputFirstname, setShowTextInputFirstname] = useState(false);
   const [showTextInputUsername, setShowTextInputUsername] = useState(false);
   const [showTextInputEmail, setShowTextInputEmail] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   // const [showTextInputImage, setShowTextInputImage] = useState(false);
 
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
 
 
   const handleButtonPressFirstname = () => {
@@ -98,17 +115,62 @@ export default function MonCompte() {
 
   // let testimage = require('../assets/user.png')
   let testimage = user.image 
-  return (
-    <View style={styles.container}>
-<View>
 
   
+  
+ 
+    const randomizePhoto = () => {
+      const newPhotoIndex = Math.floor(Math.random() * photosData.length);
+      setCurrentPhotoIndex(newPhotoIndex);
+      const selectedPhoto = photosData[newPhotoIndex];
+
+
+      const datas = {
+        image: selectedPhoto,
+        token: user.token,
+      };
+      console.log(selectedPhoto)
+      console.log(user.token)
+      fetch(`${BACKEND_ADDRESS}/users/changesimageprofil`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datas),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (!data.result) {
+            console.log(data.error)
+      
+          } else {
+      
+            dispatch(updateImage(selectedPhoto));
+            navigation.navigate("MonCompte");
+          }
+        })      };
+
+
+
+
+  return (
+<KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <View style={styles.container}>
+
+
+<View style={styles.containertop}>
+
+      <TouchableOpacity onPress={()=>randomizePhoto()}>
+        <FontAwesome5 name="undo" size={25} color="#000000" />
+      </TouchableOpacity>
+
       <Image source={{ uri : testimage}}
         style={styles.imgProfile} />
+
+     <TouchableOpacity style={styles.buttonChangePhoto} activeOpacity={0.8}>
+        <FontAwesome5 name="camera" size={25} color="#000000" />
+      </TouchableOpacity> 
+
 </View>
-      {/* <TouchableOpacity style={styles.buttonChangePhoto} activeOpacity={0.8}>
-        <Text style={styles.textButtonChangePhoto} >Changer la photo</Text>
-      </TouchableOpacity> */}
+
 
 
       <View style={styles.boolean}>
@@ -182,7 +244,7 @@ export default function MonCompte() {
       </TouchableOpacity>
 
     </View>
-
+    </KeyboardAvoidingView>
 
   );
 }
@@ -192,6 +254,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  containertop: {
+    flex: 1,
+    flexDirection: "row",
     alignItems: 'center',
     justifyContent: 'center',
   },

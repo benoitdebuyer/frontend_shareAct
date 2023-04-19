@@ -84,7 +84,7 @@ const token = user.token
 
   const allRacesUp = racesUp.map((race, i) => {
 
-    
+    console.log("/////////",race.author.image)
 const date = formatDate(race.date)
     // console.log('date de race log',date)
     return (
@@ -101,6 +101,7 @@ const date = formatDate(race.date)
       level={race.level}
       participants={race.participants}
       _idRace = {race._id}
+      authorImage = {race.author.image}
       />
 
     );
