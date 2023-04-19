@@ -55,6 +55,8 @@ export default function MapScreen() {
     }
   };
 
+ 
+
   useEffect(() => {
             (async () => {
         const { status } = await Location.requestForegroundPermissionsAsync();
@@ -305,6 +307,11 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
   //   }
   // }
   // console.log(user.image)
+  
+  if (!hasPermission || !isFocused) {
+    return <View />;
+  }
+
 
   return (
 
