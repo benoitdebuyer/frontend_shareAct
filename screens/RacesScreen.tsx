@@ -94,6 +94,7 @@ const date = formatDate(race.date)
       author={race.author.username}
       description={race.description}
       date={date}
+      dateTimer={race.date}
       address={race.address}
       duration={race.duration}
       distance={race.distance}
@@ -116,14 +117,7 @@ const date = formatDate(race.date)
 // console.log(allRacesUp)
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>En cours</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonFinish} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Terminés</Text>
-        </TouchableOpacity>
-      </View>
+          <Text style={styles.title}>Mes courses</Text>
 
 
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -141,6 +135,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f2f2f2',
     alignItems: 'center',
+  },
+  title: {
+    width: '80%',
+    marginTop: 20,
+    textAlign: 'center',
+    fontSize: 38,
+    fontWeight: '600',
+    color: '#474CCC',
   },
   scrollView: {
     alignItems: 'center',
