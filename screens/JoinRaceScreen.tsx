@@ -21,7 +21,7 @@ export default function JoinRaceScreen() {
   const [level, setLevel] = useState(null);
   const [address, setAddress] = useState(null);
   const [author, setAuthor] = useState(null);
-  // const [authorImage, setAuthorImage] = useState(null);
+  const [authorImage, setAuthorImage] = useState(null);
   const [participants, setParticipants] = useState(null);
   const [maxParticipants, setMaxParticipants] = useState(null);
 
@@ -34,6 +34,7 @@ export default function JoinRaceScreen() {
   // console.log(race.addracebyuser._id)
   // console.log(participants) 
   // console.log(user.username)
+  // console.log(authorImage)
 
   useEffect(() => {
     if (!user.token) {
@@ -51,7 +52,7 @@ export default function JoinRaceScreen() {
         setDate(data.race.date);
         setAuthor(data.race.author.username);
         setMaxParticipants(data.race.maxParticipants);
-        // setAuthorImage(data.race.author.image);
+        setAuthorImage(data.race.author.image);
         setParticipants(data.race.participants.map(participant => participant.username));
       });
   }, []);
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     backgroundColor: '#e2e2f3',
-    borderBottomColor: '#474CCC',
+    borderColor: '#474CCC',
     width: 200,
     height: 150,
     marginLeft: 20,
