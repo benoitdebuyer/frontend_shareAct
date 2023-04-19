@@ -11,11 +11,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { useDispatch, useSelector } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { addRaceByUser, delRaceByUser, udptadeIdRace, } from "../reducers/race";
-import { logout } from '../reducers/user'
+import { logout, updateImage } from '../reducers/user'
 import { useRoute } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
@@ -26,6 +27,44 @@ import { addFilter, addFilter2 } from "../reducers/filter";
 
 const BACKEND_ADDRESS = "https://shareact-backend.vercel.app";
 
+const photosDataall: string[] = [
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681915374/user_ap8cxl.png",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar9_klrakg.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar8_mmnwko.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar7_brww9w.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar6_w4vlnj.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar5_hi07w6.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar4_szelyb.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar3_yynhe8.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar2_hposjh.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar1_wen2b2.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar13_ilydse.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar12_iwwzmk.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar11_hjd3pc.jpg",
+];
+
+const photosDataman: string[] = [
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681915374/user_ap8cxl.png",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar8_mmnwko.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar7_brww9w.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar13_ilydse.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar3_yynhe8.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar2_hposjh.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar1_wen2b2.jpg",
+
+];
+
+const photosDatawoman: string[] = [
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar6_w4vlnj.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar5_hi07w6.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar4_szelyb.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar12_iwwzmk.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar11_hjd3pc.jpg",
+];
+
+
 export default function MapScreen() {
   const navigation = useNavigation();
   const [currentPosition, setCurrentPosition] = useState(null);
@@ -34,6 +73,7 @@ export default function MapScreen() {
   const [newPlace, setNewPlace] = useState("");
   const [races, setRaces] = useState([]);
   const [races2, setRaces2] = useState([]);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [selectedRace, setSelectedRace] = useState(null);
   const isFocused = useIsFocused();
   const [hasPermission, setHasPermission] = useState(false);
@@ -311,6 +351,60 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     return <View />;
   }
   let testimage = user.image 
+
+  ///generation aleatoir
+  const randomizePhoto = () => {
+
+    let genderdataphoto = []
+
+    switch (user.gender){
+    
+      case 'Femme': genderdataphoto = photosDatawoman
+      break;
+    
+      case 'Homme' : genderdataphoto = photosDataman
+      break;
+    
+      case 'other' : genderdataphoto = photosDataall
+      break;
+    
+      default : 
+      console.log('error gender')
+    }
+// switch case poru selectionné dasn quelle tableau le map random doit choisir la photo en rapport au genre de l utilisateur
+
+    const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length);
+    setCurrentPhotoIndex(newPhotoIndex);
+    const selectedPhoto = genderdataphoto[newPhotoIndex];
+
+
+    const datas = {
+      image: selectedPhoto,
+      token: user.token,
+    };
+    console.log(selectedPhoto)
+    console.log(user.token)
+    fetch(`${BACKEND_ADDRESS}/users/changesimageprofil`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datas),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.result) {
+          console.log(data.error)
+    
+        } else {
+    
+          dispatch(updateImage(selectedPhoto));
+          navigation.navigate("TabNavigator", { screen: "Map" });
+        }
+      })      };
+
+/// aller prendre la photo 
+      const takePhoto = () => {
+        navigation.navigate("SnapScreen");
+      };
   return (
 
     <View style={styles.container}>
@@ -455,10 +549,25 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
           }}
         >
           <View style={styles.modalView}>
-            <Image
-              source={{ uri : testimage}}
-              style={styles.imgProfileModal}
-            />
+
+          <View style={styles.containertop}>
+
+              <TouchableOpacity style={styles.buttonrefreshetphoto}  onPress={()=>randomizePhoto()}>
+                <FontAwesome5 name="undo" size={35} color="#000000" />
+              </TouchableOpacity>
+
+                    <Image
+                      source={{ uri : testimage}}
+                      style={styles.imgProfileModal}
+                    />
+
+              <TouchableOpacity onPress={()=>takePhoto()} style={styles.buttonrefreshetphoto} activeOpacity={0.8}>
+                      <FontAwesome5 name="camera" size={35} color="#000000" />
+                    </TouchableOpacity> 
+              </View>
+
+
+
 
             <View style={styles.infosProfile}>
               <Text style={styles.textInfos}>{user.firstname}</Text>
@@ -499,6 +608,8 @@ const styles = StyleSheet.create({
     color: 'white',
 
   },
+
+
   filter: {
     position: "absolute",
     left: "4%",
@@ -553,10 +664,21 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderRadius: 100,
     marginBottom: 30,
+marginHorizontal: 60,
+    // shadowOpacity: 0.9,
+    // shadowRadius: 4,
 
-    shadowOpacity: 0.9,
-    shadowRadius: 4,
+  },
+  buttonrefreshetphoto: {
+    alignItems: 'flex-start',
 
+  },
+
+  containertop: {
+    // flex: 1,
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   infosProfile: {
     justifyContent: "center",
@@ -760,8 +882,8 @@ const styles = StyleSheet.create({
     // backgroundColor: '#fff',
     borderColor: "#474CCC",
     alignItems: 'center',
-    // shadowOpacity: 0.4,
+    shadowOpacity: 0.4,
     shadowRadius: 5,
-    // elevation: 10,
+    elevation: 10,
   },
 });

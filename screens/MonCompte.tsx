@@ -11,44 +11,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
-const photosDataall: string[] = [
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681915374/user_ap8cxl.png",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar9_klrakg.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar8_mmnwko.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar7_brww9w.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar6_w4vlnj.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar5_hi07w6.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar4_szelyb.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar3_yynhe8.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar2_hposjh.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar1_wen2b2.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar13_ilydse.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar12_iwwzmk.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar11_hjd3pc.jpg",
-];
-
-const photosDataman: string[] = [
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681915374/user_ap8cxl.png",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar8_mmnwko.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar7_brww9w.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar13_ilydse.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar3_yynhe8.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar2_hposjh.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar1_wen2b2.jpg",
-
-];
-
-const photosDatawoman: string[] = [
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar6_w4vlnj.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar5_hi07w6.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar4_szelyb.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar9_klrakg.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar12_iwwzmk.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar11_hjd3pc.jpg",
-];
-
 export default function MonCompte({navigation}) {
   const dispatch = useDispatch();
   const user = useSelector((state: { user: UserState }) => state.user.value);
@@ -140,58 +102,7 @@ export default function MonCompte({navigation}) {
 
   
  ///generation aleatoir
-    const randomizePhoto = () => {
-
-      let genderdataphoto = []
-
-      switch (user.gender){
-      
-        case 'Femme': genderdataphoto = photosDatawoman
-        break;
-      
-        case 'Homme' : genderdataphoto = photosDataman
-        break;
-      
-        case 'other' : genderdataphoto = photosDataall
-        break;
-      
-        default : 
-        console.log('error gender')
-      }
-// switch case poru selectionné dasn quelle tableau le map random doit choisir la photo en rapport au genre de l utilisateur
-
-      const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length);
-      setCurrentPhotoIndex(newPhotoIndex);
-      const selectedPhoto = genderdataphoto[newPhotoIndex];
-
-
-      const datas = {
-        image: selectedPhoto,
-        token: user.token,
-      };
-      console.log(selectedPhoto)
-      console.log(user.token)
-      fetch(`${BACKEND_ADDRESS}/users/changesimageprofil`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(datas),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (!data.result) {
-            console.log(data.error)
-      
-          } else {
-      
-            dispatch(updateImage(selectedPhoto));
-            navigation.navigate("MonCompte");
-          }
-        })      };
-
-/// aller prendre la photo 
-        const takePhoto = () => {
-          navigation.navigate("SnapScreen");
-        };
+   
 
   return (
 <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -200,16 +111,16 @@ export default function MonCompte({navigation}) {
 
 <View style={styles.containertop}>
 
-      <TouchableOpacity onPress={()=>randomizePhoto()}>
+      {/* <TouchableOpacity onPress={()=>randomizePhoto()}>
         <FontAwesome5 name="undo" size={30} color="#000000" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <Image source={{ uri : testimage}}
         style={styles.imgProfile} />
 
-     <TouchableOpacity onPress={()=>takePhoto()} style={styles.buttonChangePhoto} activeOpacity={0.8}>
+     {/* <TouchableOpacity onPress={()=>takePhoto()} style={styles.buttonChangePhoto} activeOpacity={0.8}>
         <FontAwesome5 name="camera" size={30} color="#000000" />
-      </TouchableOpacity> 
+      </TouchableOpacity>  */}
 
 </View>
 

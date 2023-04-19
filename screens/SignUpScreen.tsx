@@ -51,7 +51,6 @@ const photosDatawoman: string[] = [
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar5_hi07w6.jpg",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar4_szelyb.jpg",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar9_klrakg.jpg",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar12_iwwzmk.jpg",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar11_hjd3pc.jpg",
 ];
