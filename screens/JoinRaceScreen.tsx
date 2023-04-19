@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 80,
     paddingHorizontal: 20,
+    marginBottom: 40,
   },
 
   // Photo et description 
@@ -293,7 +294,6 @@ const styles = StyleSheet.create({
     height: 30,
     fontSize: 16,
   },
-
 
 
 });
