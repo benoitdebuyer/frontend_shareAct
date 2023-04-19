@@ -107,8 +107,8 @@ export default function MonCompte({navigation}) {
       })
 
   }
-   // Bouton "Annuler"
-   const handleReturn = () => {
+  // Bouton "Annuler"
+  const handleReturn = () => {
 
     navigation.navigate("TabNavigator", { screen: "Map" });
   }

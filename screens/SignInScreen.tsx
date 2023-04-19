@@ -35,11 +35,6 @@ export default function HomeScreen({ navigation }) {
   const [hidePassword, setHidePassword] = useState(true);
 
 
-
-  if (user.token){
-    navigation.navigate("TabNavigator", { screen: "Map" });
-  }
-
   //   const handleSubmit = () => {
   // // dispatch pour test
   // dispatch(updateToken('U4t1K88SoTEvn5wHM08X5ASxfk4WYniw'))

@@ -101,7 +101,7 @@ export default function JoinRaceScreen() {
         <View style={styles.containertop}>
           <View style={styles.containertopleft}>
             <Image style={styles.photo} source={{ uri : authorImage}} />
-            <Text style={styles.nameunderpic}>{author}</Text>
+            <Text style={styles.nameunderpic}>@{author}</Text>
           </View>
 
           <View style={styles.containertopright}>
@@ -261,8 +261,8 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   photoParticipants: {
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 70,
     borderRadius: 100,
     borderColor: '#474CCC',
     borderWidth: 4,
