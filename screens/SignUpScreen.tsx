@@ -18,6 +18,43 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
+const photosDataall: string[] = [
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681915374/user_ap8cxl.png",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar9_klrakg.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar8_mmnwko.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar7_brww9w.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar6_w4vlnj.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar5_hi07w6.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar4_szelyb.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar3_yynhe8.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar2_hposjh.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar1_wen2b2.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar13_ilydse.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar12_iwwzmk.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar11_hjd3pc.jpg",
+];
+
+const photosDataman: string[] = [
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681915374/user_ap8cxl.png",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar8_mmnwko.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar7_brww9w.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar13_ilydse.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar3_yynhe8.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar2_hposjh.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar1_wen2b2.jpg",
+
+];
+
+const photosDatawoman: string[] = [
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar6_w4vlnj.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar5_hi07w6.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar4_szelyb.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar9_klrakg.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar12_iwwzmk.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar11_hjd3pc.jpg",
+];
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state: { user: UserState }) => state.user.value);
@@ -43,10 +80,31 @@ export default function HomeScreen({ navigation }) {
       return;
     }
     if (mdp == mdp2 && firstname && username && email && gender && age) {
+let genderdataphoto = []
+
+switch (gender){
+
+  case 'Femme': genderdataphoto = photosDatawoman
+  break;
+
+  case 'Homme' : genderdataphoto = photosDataman
+  break;
+
+  case 'other' : genderdataphoto = photosDataall
+  break;
+
+  default : 
+  console.log('error gender')
+}
+
+
+
+        const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length);
+        const selectedPhoto = genderdataphoto[newPhotoIndex];
       fetch('https://shareact-backend.vercel.app/users/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstname: firstname, username, email, password: mdp, age: dateOfBirth.toISOString(), gender }),
+        body: JSON.stringify({ firstname: firstname, username, email, password: mdp, age: dateOfBirth.toISOString(), gender, image : selectedPhoto }),
       }).then(response => response.json())
         .then(data => {
           dispatch(updateFirstname(firstname))
@@ -56,7 +114,7 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateAge(age))
           dispatch(updateGender(gender))
           dispatch(updateToken(data.token))
-          // dispatch(updateImage(image))
+          dispatch(updateImage(selectedPhoto))
         });
 
       navigation.navigate("TabNavigator", { screen: "Map" });
@@ -92,85 +150,6 @@ export default function HomeScreen({ navigation }) {
   // }
 
   ///////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-  // const handleCalendarClose = (dob) => {
-  //   console.log(dateOfBirth)
-  //   console.log(user.age)
-  //   setShowCalendar(false) 
-  //     const calculateAge = (dob) => {
-  //       const diff = Date.now() - dob.getTime();
-  //       const ageDate = new Date(diff);
-  //       return Math.abs(ageDate.getUTCFullYear() - 1970);
-  //     };
-  //     const age = calculateAge(dateOfBirth);
-  //     setAge(age);
-  //     dispatch(updateAge(age));
-  // };
-
-
-  // let calandar = <View style={styles.inputContainercalandar}>
-  // <TouchableOpacity 
-  //   onPress={() => setShowCalendar(!showCalendar)}
-  //   activeOpacity={0.8}
-  //   style={styles.inputcalandar}
-  // >
-  // <Text style={styles.inputcalandar}>{age ? `vous avez ${age} ans ` : 'Quel age avez vous.'}</Text>
-  // </TouchableOpacity>
-  // <TouchableOpacity 
-  //   onPress={() => setShowCalendar(!showCalendar)}
-  //   activeOpacity={0.8}
-
-  // >
-  //   <FontAwesome5 name="calendar-alt" size={20} color="#474CCC" />
-  //   {showCalendar && <DatePicker
-  //     style={{ width: 200 }}
-  //     value={new Date()}
-  //     date={dateOfBirth}
-  //     mode="date"
-  //     placeholder="Date de naissance"
-  //     format="YYYY-MM-DD"
-  //     minDate="1900-01-01"
-  //     maxDate="2023-04-11"
-  //     confirmBtnText="Confirmer"
-  //     cancelBtnText="Annuler"
-  //     customStyles={{
-  //       dateIcon: {
-  //         position: 'absolute',
-  //         left: 0,
-  //         top: 4,
-  //         marginLeft: 0,
-  //       },
-  //       dateInput: {
-  //         marginLeft: 36,
-  //       },}}
-  //     onDateChange={(date) => {
-  //       setDateOfBirth(new Date(date));}}
-  //     onConfirm={(e) => handleCalendarClose(e)}
-  //     onCancel={() => setShowCalendar(false)}
-
-  //   />}
-  //   </TouchableOpacity>
-  // </View>
-
-
-  // teste poru plus tard calandar bouton
-
-  // <View style={styles.inputContainercalandar}>
-
-  // <TouchableOpacity onPress={() => setGender('Femme')} style={[styles.genderButton, gender === 'Femme' && styles.genderButtonSelected]}>
-  //   <Text style={styles.genderButtonText}>Femme</Text>
-  // </TouchableOpacity>
-
-  // </View>
-
-  // save de texteinput age 
-  //<TextInput placeholder="Age:" onChangeText={(value) => setAge(value)} value={age} keyboardType="numeric" style={styles.input} />
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
