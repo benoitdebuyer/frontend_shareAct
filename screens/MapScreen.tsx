@@ -39,8 +39,7 @@ export default function MapScreen() {
   const [hasPermission, setHasPermission] = useState(false);
   const [idRace, setIdRace] = useState(null);
   const [modalFilterVisible, setModalFilterVisible] = useState(false);
-
-
+  const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const race = useSelector((state) => state.race.value);
   const user = useSelector((state: { user: UserState }) => state.user.value);
@@ -57,10 +56,7 @@ export default function MapScreen() {
   };
 
   useEffect(() => {
-
-    dispatch(addFilter([5, 60])),
-      dispatch(addFilter2(10000)),
-      (async () => {
+            (async () => {
         const { status } = await Location.requestForegroundPermissionsAsync();
         setHasPermission(status === 'granted');
         if (status === "granted") {
@@ -69,13 +65,11 @@ export default function MapScreen() {
           });
         }
       })();
-    console.log('mon filter: ', filter)
-
     fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
       .then((response) => response.json())
       .then((data) => {
         data.result && setRaces(data.races);
-        console.log('route all races', data.races)
+        console.log('route all races au mount, nb de races : ', data.races.length)
       })
 
 
@@ -84,45 +78,28 @@ export default function MapScreen() {
 
   useEffect(() => {
     if (currentPosition) {
-
+      console.log('filtre au update : ', filter)
+      // slider used and distance used
       if ((filter.valeur[0] !== 5 || filter.valeur[1] !== 60) && filter.distance !== 10000) {
-
-
-
-        console.log('ma coord: ', currentPosition)
-        console.log(filter, filter.valeur[0])
         let dist = filter.distance * 1000
-        //let dist = 10000;
         let maDate = new Date();
-        // Ajouter 2 heures à l'heure actuelle
+        let maDate2 = new Date()
         let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
-        let end_date = maDate.setHours(maDate.getHours() + filter.valeur[1]);
-
-        const date = new Date(start_date);
-        const date2 = new Date(end_date);
-
-
-        console.log('mes dates', date, date2)
-
-        const data = {
-          start_date: date,
-          end_date: date2,
+        let end_date = maDate2.setHours(maDate2.getHours() + filter.valeur[1]);
+         const data = {
+          start_date: start_date,
+          end_date: end_date,
           lat: currentPosition.latitude,
           lon: currentPosition.longitude,
           distance: dist,
         };
-
-
         fetch(`${BACKEND_ADDRESS}/races/filter`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)})
           .then(response => response.json())
           .then(data => {
-            console.log('route filter', data.data)
+            console.log('fetch n°1, nb de races : ', data.data.length)
             setRaces([...data.data]);
           })
           .catch(error => {
@@ -130,89 +107,53 @@ export default function MapScreen() {
           });
       }
 
+      //slider not used and distance used
       if ((filter.valeur[0] === 5 && filter.valeur[1] === 60) && filter.distance !== 10000) {
-
-
-
-        console.log('ma coord: ', currentPosition)
-        console.log(filter, filter.valeur[0])
         let dist = filter.distance * 1000
-        //let dist = 10000;
-        let maDate = new Date();
-        // Ajouter 2 heures à l'heure actuelle
-        //let start_date = maDate.setHours(maDate.getHours());
-        let end_date = maDate.setHours(maDate.getHours() + 30000);
-
-        const date = new Date(maDate);
-        const date2 = new Date(end_date);
-
-
-        console.log('mes dates', date, date2)
-
+        let start_date = new Date();
+        let maDate2 = new Date()
+        let end_date = maDate2.setHours(maDate2.getHours() + 30000);
         const data = {
-          start_date: date,
-          end_date: date2,
+          start_date: start_date,
+          end_date: end_date,
           lat: currentPosition.latitude,
           lon: currentPosition.longitude,
           distance: dist,
         };
-
-
         fetch(`${BACKEND_ADDRESS}/races/filter`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)})
           .then(response => response.json())
           .then(data => {
-            console.log('route filter', data.data)
+            console.log('fetch n°2, nb de races : ', data.data.length)
             setRaces([...data.data]);
           })
           .catch(error => {
             console.error(error);
           });
       }
-
+      // slider used et distance not used
       if ((filter.valeur[0] !== 5 || filter.valeur[1] !== 60) && filter.distance === 10000) {
-
-
-
-        console.log('ma coord: ', currentPosition)
-        console.log(filter, filter.valeur[0])
         let dist = filter.distance * 1000
-        //let dist = 10000;
         let maDate = new Date();
-        // Ajouter 2 heures à l'heure actuelle
+        let maDate2 = new Date()
         let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
-        let end_date = maDate.setHours(maDate.getHours() + filter.valeur[1]);
-
-        const date = new Date(start_date);
-        const date2 = new Date(end_date);
-
-
-        console.log('mes dates', date, date2)
-
-        const data = {
-          start_date: date,
-          end_date: date2,
+        let end_date = maDate2.setHours(maDate2.getHours() + filter.valeur[1]);
+         const data = {
+          start_date: start_date,
+          end_date: end_date,
           lat: currentPosition.latitude,
           lon: currentPosition.longitude,
           distance: dist,
         };
-
-
         fetch(`${BACKEND_ADDRESS}/races/filter`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)})
           .then(response => response.json())
           .then(data => {
-            console.log('route filter', data.data)
+            console.log('fetch n°3, nb de races : ', data.data.length)
             setRaces([...data.data]);
           })
           .catch(error => {
@@ -220,21 +161,16 @@ export default function MapScreen() {
           });
       }
 
-      else {
-
+       // slider not used et distance not used
+       if ((filter.valeur[0] === 5 || filter.valeur[1] === 60) && filter.distance === 10000) {
         fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
           .then((response) => response.json())
           .then((data) => {
             data.result && setRaces([...data.races]);
-            console.log('route all races', data.result)
+            console.log('all races au update, nb de races : ', data.races.length)
           })
       }
-
     }
-
-
-
-
   }, [isFocused]);
 
 

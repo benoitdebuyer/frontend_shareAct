@@ -48,8 +48,7 @@ const SliderContainer = (props) => {
   }
 
   const renderChildren = () => {
-    console.log(value)
-    dispatch(addFilter(value))
+       dispatch(addFilter(value))
     return React.Children.map(props.children, (child) => {
       if (!!child && child.type === Slider) {
         return React.cloneElement(child, {
@@ -132,13 +131,17 @@ export default function Filter() {
             </SliderContainer>
             </View>
             <View style={styles.distance}>
-            <TextInput
-                placeholder='Entrez la distance max ...'
-                onChangeText={(value) => setDist(value)}
-                value={dist}
-                style={styles.input}
-            />
-            <Text >km</Text>
+            <Text style={styles.textFilter}>Distance du point de RDV depuis ma géolocalisation :</Text>
+            <View style={styles.dist}>
+                <TextInput
+                  keyboardType="number-pad"
+                  placeholder='Distance'
+                  onChangeText={(value) => setDist(value)}
+                  value={dist}
+                  style={styles.input}
+              />
+              <Text >km</Text>
+            </View>
             </View>
             
             <View style={styles.buttons}>
@@ -164,16 +167,24 @@ export default function Filter() {
       container: {
         flex:1,
         flexDirection: 'column',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         alignItems:'center',
       },
       slider:{
         width:Dimensions.get("window").width*2/3,   
+        padding: 40,
+        justifyContent:'space-between',
+        backgroundColor:'#E2E8F3',
+        borderRadius:30, 
+        borderColor: '#474CCC',
+        borderWidth:3,
+        margin:50,
+
       },
       buttonProfileModif: {
    
 
-        margin :15,
+        margin :50,
         paddingTop: 12,
         paddingLeft: 20, 
         paddingRight:20, 
@@ -203,9 +214,26 @@ export default function Filter() {
         
       },
       distance:{
-        flexDirection:'row',
+        padding: 40,
+        flexDirection:'column',
         justifyContent:'space-between',
+        backgroundColor:'#E2E8F3',
+        borderRadius:30, 
+        borderColor: '#474CCC',
+        borderWidth:3,
+        
+        
+
+      },
+      dist:{
+        flexDirection:'row',
+        justifyContent:'center',
         alignItems:'flex-end',
+        
+       
+
+        
+        
 
       },
       textStyle: {
@@ -214,6 +242,7 @@ export default function Filter() {
         height: 30,
         fontWeight: '600',
         fontSize: 15,
+       
       },
       textStyleAnnuler: {
         textAlign:'center',
@@ -228,12 +257,11 @@ export default function Filter() {
         
       },
       textFilter:{
-        fontSize:20,
-        
-        justifyContent:'center',
-        alignItems:'center',
         textAlign:'center',
         color: '#474CCC',
+        height: 30,
+        fontWeight: '600',
+        fontSize: 15,
 
       },
       buttons:{
@@ -269,7 +297,7 @@ export default function Filter() {
         width:40,
       },
       input :{
-    width: Dimensions.get("window").width/2,
+    
       textAlign: 'center',
       borderBottomColor: '#474CCC',
       borderBottomWidth: 1,
