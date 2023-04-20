@@ -54,7 +54,7 @@ const TabNavigator = () => {
     })}>
       <Tab.Screen name="Courses" component={RacesScreen} />
       <Tab.Screen name="Map" component={MapScreen} />
-      <Tab.Screen name="Chat" component={ChatScreen} />
+      {/* <Tab.Screen name="Chat" component={ChatScreen} /> */}
     </Tab.Navigator>
   );
 };
@@ -75,7 +75,7 @@ export default function App() {
           <Stack.Screen name="JoinRaceScreen" component={JoinRaceScreen} />
           <Stack.Screen name="MonCompte" component={MonCompte} />
           <Stack.Screen name="Filter" component={Filter} />
-      
+
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>

@@ -30,18 +30,18 @@ export default function CreateRace() {
     setDescription(text);
   };
 
-    // Pour la sélection de la date et de l'heure
-    const showDatePicker = () => {
-      setDatePickerVisibility(true);
-    };
-    const hideDatePicker = () => {
-      setDatePickerVisibility(false);
-    };
-    const handleConfirm = (date) => {
-      setDateRace(date);
-      hideDatePicker();
-      setDateInput(true)
-    };
+  // Pour la sélection de la date et de l'heure
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+  const handleConfirm = (date) => {
+    setDateRace(date);
+    hideDatePicker();
+    setDateInput(true)
+  };
 
   // Durée
   const handleDurationChange = (text) => {
@@ -53,14 +53,14 @@ export default function CreateRace() {
     setDistance(text.replace(/[^0-9]/g, '').slice(0, 2));
   };
 
-// Bouton créer ma course
+  // Bouton créer ma course
   const handleCreate = () => {
     const date = new Date(dateRace);
     const durationNumber = Number(duration);
     const distanceNumber = Number(distance);
     const nbrParticipantsNumber = Number(nbrParticipants);
     const data = { token: user.token, description: description, date: date, address: race.newAddress, latitude: race.newracelat, longitude: race.newracelon, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber };
-    console.log(data); 
+    console.log(data);
 
     fetch(`${BACKEND_ADDRESS}/races`, {
       method: 'POST',

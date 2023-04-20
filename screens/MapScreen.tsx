@@ -89,18 +89,18 @@ export default function MapScreen() {
     }
   };
 
- 
+
 
   useEffect(() => {
-            (async () => {
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        setHasPermission(status === 'granted');
-        if (status === "granted") {
-          Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
-            setCurrentPosition(location.coords);
-          });
-        }
-      })();
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      setHasPermission(status === 'granted');
+      if (status === "granted") {
+        Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
+          setCurrentPosition(location.coords);
+        });
+      }
+    })();
     fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
       .then((response) => response.json())
       .then((data) => {
@@ -122,7 +122,7 @@ export default function MapScreen() {
         let maDate2 = new Date()
         let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
         let end_date = maDate2.setHours(maDate2.getHours() + filter.valeur[1]);
-         const data = {
+        const data = {
           start_date: start_date,
           end_date: end_date,
           lat: currentPosition.latitude,
@@ -131,8 +131,9 @@ export default function MapScreen() {
         };
         fetch(`${BACKEND_ADDRESS}/races/filter`, {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(data)})
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
           .then(response => response.json())
           .then(data => {
             console.log('fetch n°1, nb de races : ', data.data.length)
@@ -158,8 +159,9 @@ export default function MapScreen() {
         };
         fetch(`${BACKEND_ADDRESS}/races/filter`, {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(data)})
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
           .then(response => response.json())
           .then(data => {
             console.log('fetch n°2, nb de races : ', data.data.length)
@@ -176,7 +178,7 @@ export default function MapScreen() {
         let maDate2 = new Date()
         let start_date = maDate.setHours(maDate.getHours() + filter.valeur[0]);
         let end_date = maDate2.setHours(maDate2.getHours() + filter.valeur[1]);
-         const data = {
+        const data = {
           start_date: start_date,
           end_date: end_date,
           lat: currentPosition.latitude,
@@ -185,8 +187,9 @@ export default function MapScreen() {
         };
         fetch(`${BACKEND_ADDRESS}/races/filter`, {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(data)})
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
           .then(response => response.json())
           .then(data => {
             console.log('fetch n°3, nb de races : ', data.data.length)
@@ -197,8 +200,8 @@ export default function MapScreen() {
           });
       }
 
-       // slider not used et distance not used
-       if ((filter.valeur[0] === 5 || filter.valeur[1] === 60) && filter.distance === 10000) {
+      // slider not used et distance not used
+      if ((filter.valeur[0] === 5 || filter.valeur[1] === 60) && filter.distance === 10000) {
         fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
           .then((response) => response.json())
           .then((data) => {
@@ -344,28 +347,28 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
   if (!hasPermission || !isFocused) {
     return <View />;
   }
-  let testimage = user.image 
+  let testimage = user.image
 
   ///generation aleatoir
   const randomizePhoto = () => {
 
     let genderdataphoto = []
 
-    switch (user.gender){
-    
+    switch (user.gender) {
+
       case 'Femme': genderdataphoto = photosDatawoman
-      break;
-    
-      case 'Homme' : genderdataphoto = photosDataman
-      break;
-    
-      case 'other' : genderdataphoto = photosDataall
-      break;
-    
-      default : 
-      console.log('error gender')
+        break;
+
+      case 'Homme': genderdataphoto = photosDataman
+        break;
+
+      case 'Autre': genderdataphoto = photosDataall
+        break;
+
+      default:
+        console.log('error gender')
     }
-// switch case poru selectionné dasn quelle tableau le map random doit choisir la photo en rapport au genre de l utilisateur
+    // switch case poru selectionné dasn quelle tableau le map random doit choisir la photo en rapport au genre de l utilisateur
 
     const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length);
     setCurrentPhotoIndex(newPhotoIndex);
@@ -387,18 +390,19 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
       .then((data) => {
         if (!data.result) {
           console.log(data.error)
-    
+
         } else {
-    
+
           dispatch(updateImage(selectedPhoto));
           navigation.navigate("TabNavigator", { screen: "Map" });
         }
-      })      };
+      })
+  };
 
-/// aller prendre la photo 
-      const takePhoto = () => {
-        navigation.navigate("SnapScreen");
-      };
+  /// aller prendre la photo 
+  const takePhoto = () => {
+    navigation.navigate("SnapScreen");
+  };
   return (
 
     <View style={styles.container}>
@@ -414,7 +418,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
         style={styles.buttonProfileModale}
         onPress={() => setModalProfileVisible(true)}
       >
-        <Image source={{ uri : testimage}} style={styles.profil} />
+        <Image source={{ uri: testimage }} style={styles.profil} />
       </Pressable>
       <TouchableOpacity
         style={styles.button}
@@ -544,21 +548,21 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
         >
           <View style={styles.modalView}>
 
-          <View style={styles.containertop}>
+            <View style={styles.containertop}>
 
-              <TouchableOpacity style={styles.buttonrefreshetphoto}  onPress={()=>randomizePhoto()}>
+              <TouchableOpacity style={styles.buttonrefreshetphoto} onPress={() => randomizePhoto()}>
                 <FontAwesome5 name="undo" size={35} color="#474CCC" />
               </TouchableOpacity>
 
-                    <Image
-                      source={{ uri : testimage}}
-                      style={styles.imgProfileModal}
-                    />
+              <Image
+                source={{ uri: testimage }}
+                style={styles.imgProfileModal}
+              />
 
-              <TouchableOpacity onPress={()=>takePhoto()} style={styles.buttonrefreshetphoto} activeOpacity={0.8}>
-                      <FontAwesome5 name="camera" size={35} color="#474CCC" />
-                    </TouchableOpacity> 
-              </View>
+              <TouchableOpacity onPress={() => takePhoto()} style={styles.buttonrefreshetphoto} activeOpacity={0.8}>
+                <FontAwesome5 name="camera" size={35} color="#474CCC" />
+              </TouchableOpacity>
+            </View>
 
 
 
@@ -658,7 +662,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderRadius: 100,
     marginBottom: 30,
-marginHorizontal: 45,
+    marginHorizontal: 45,
     // shadowOpacity: 0.9,
     // shadowRadius: 4,
 

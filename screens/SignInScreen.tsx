@@ -67,48 +67,48 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateDatebirth(data.age));
           dispatch(updateImage(data.image));
           //  appel de la fonction calculateAge qui calcule l'age par rapport a la date de naissance.
-        const agecalculated = calculateAge(new Date(data.age)); 
-        dispatch(updateAge(agecalculated))
+          const agecalculated = calculateAge(new Date(data.age));
+          dispatch(updateAge(agecalculated))
 
-      navigation.navigate("TabNavigator", { screen: "Map" });
-       }
-    })
-}
+          navigation.navigate("TabNavigator", { screen: "Map" });
+        }
+      })
+  }
 
-//   const handleSubmit = () => {
-//     fetch(`${BACKEND_ADDRESS}/users/signin`, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ email, password }),
-//     })
-//     .then((response) => response.json())
-//     .then((data) => {
-//       if (!data.result) {
-//         setEmailError(true);
-//       } else {
-       
-       
-//         dispatch(updateFirstname(data.username));
-//         dispatch(updateUsername(data.firstname));
-//         dispatch(updateToken(data.token));
-//         dispatch(updateEmail(email));
-//         dispatch(updateGender(data.gender));
-//         dispatch(updateDatebirth(data.age));
-
-//         // appel de la fonction calculateAge qui calcule l'age par rapport a la date de naissance.
-//         const agecalculated = calculateAge(new Date(data.age)); 
-//         dispatch(updateAge(agecalculated))
-//         navigation.navigate("TabNavigator", { screen: "Map" });
-//       }
-//     })
-// }
+  //   const handleSubmit = () => {
+  //     fetch(`${BACKEND_ADDRESS}/users/signin`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ email, password }),
+  //     })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       if (!data.result) {
+  //         setEmailError(true);
+  //       } else {
 
 
-const calculateAge = (dateOfBirth) => {
-  const diff = Date.now() - dateOfBirth.getTime();
-  const ageDate = new Date(diff);
-  return Math.abs(ageDate.getUTCFullYear() - 1970);
-};
+  //         dispatch(updateFirstname(data.username));
+  //         dispatch(updateUsername(data.firstname));
+  //         dispatch(updateToken(data.token));
+  //         dispatch(updateEmail(email));
+  //         dispatch(updateGender(data.gender));
+  //         dispatch(updateDatebirth(data.age));
+
+  //         // appel de la fonction calculateAge qui calcule l'age par rapport a la date de naissance.
+  //         const agecalculated = calculateAge(new Date(data.age)); 
+  //         dispatch(updateAge(agecalculated))
+  //         navigation.navigate("TabNavigator", { screen: "Map" });
+  //       }
+  //     })
+  // }
+
+
+  const calculateAge = (dateOfBirth) => {
+    const diff = Date.now() - dateOfBirth.getTime();
+    const ageDate = new Date(diff);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

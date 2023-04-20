@@ -25,11 +25,11 @@ export default function PlacesScreen() {
   const [author, setAuthor] = useState(null);
   const [shouldUpdate, setShouldUpdate] = useState(false);
 
-function handleUpdate() {
-  setShouldUpdate(prev => !prev);
-}
+  function handleUpdate() {
+    setShouldUpdate(prev => !prev);
+  }
 
-const token = user.token
+  const token = user.token
   useEffect(() => {
     // console.log('usertoken debut de l use effetc',token)
     if (isFocused) {
@@ -38,12 +38,12 @@ const token = user.token
         .then((data) => {
           // console.log('data dans le fetch //////',data)
           setRacesUp(data.races);
-    
+
         });
     }
-  }, [isFocused,shouldUpdate ]);
+  }, [isFocused, shouldUpdate]);
 
-  
+
   // console.log('raceUp',racesUp)
 
 
@@ -70,7 +70,7 @@ const token = user.token
   //     "Novembre",
   //     "Décembre",
   //   ];
-    
+
   //   const formattedDate = `${day} ${months[monthIndex]} ${year} à ${hours}:${minutes}`;
   //   return `Le ${formattedDate}`;
   // };
@@ -84,24 +84,24 @@ const token = user.token
 
   const allRacesUp = racesUp.map((race, i) => {
 
-    console.log("/////////",race.author.image)
-const date = formatDate(race.date)
+    console.log("/////////", race.author.image)
+    const date = formatDate(race.date)
     // console.log('date de race log',date)
     return (
-      <Racecardtest 
-      onUpdate={handleUpdate}
-      key={race._id}
-      author={race.author.username}
-      description={race.description}
-      date={date}
-      dateTimer={race.date}
-      address={race.address}
-      duration={race.duration}
-      distance={race.distance}
-      level={race.level}
-      participants={race.participants}
-      _idRace = {race._id}
-      authorImage = {race.author.image}
+      <Racecardtest
+        onUpdate={handleUpdate}
+        key={race._id}
+        author={race.author.username}
+        description={race.description}
+        date={date}
+        dateTimer={race.date}
+        address={race.address}
+        duration={race.duration}
+        distance={race.distance}
+        level={race.level}
+        participants={race.participants}
+        _idRace={race._id}
+        authorImage={race.author.image}
       />
 
     );
@@ -115,14 +115,14 @@ const date = formatDate(race.date)
   // duration={race.duration}
   // distance={race.distance}
   // level={race.level}
-// console.log(allRacesUp)
+  // console.log(allRacesUp)
   return (
     <SafeAreaView style={styles.container}>
-          <Text style={styles.title}>Mes courses</Text>
+      <Text style={styles.title}>Mes courses</Text>
 
 
       <ScrollView contentContainerStyle={styles.scrollView}>
-       
+
         <View style={styles.viewcard}>
           {allRacesUp}
         </View>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: 'center',
-    width:'85%',
+    width: '85%',
   },
   card: {
     alignItems: 'center',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   viewcard: {
-   width: '100%',
+    width: '100%',
   },
   name: {
     fontSize: 18,
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
   },
-  textRace : {
+  textRace: {
     fontSize: 28,
     color: '#474CCC',
     padding: 20,

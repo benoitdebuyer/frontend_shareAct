@@ -100,7 +100,7 @@ export default function JoinRaceScreen() {
 
         <View style={styles.containertop}>
           <View style={styles.containertopleft}>
-            <Image style={styles.photo} source={{ uri : authorImage}} />
+            <Image style={styles.photo} source={{ uri: authorImage }} />
             <Text style={styles.nameunderpic}>@{author}</Text>
           </View>
 
