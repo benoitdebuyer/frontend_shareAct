@@ -79,31 +79,31 @@ export default function HomeScreen({ navigation }) {
       return;
     }
     if (mdp == mdp2 && firstname && username && email && gender && age) {
-let genderdataphoto = []
+      let genderdataphoto = []
 
-switch (gender){
+      switch (gender) {
 
-  case 'Femme': genderdataphoto = photosDatawoman
-  break;
+        case 'Femme': genderdataphoto = photosDatawoman
+          break;
 
-  case 'Homme' : genderdataphoto = photosDataman
-  break;
+        case 'Homme': genderdataphoto = photosDataman
+          break;
 
-  case 'other' : genderdataphoto = photosDataall
-  break;
+        case 'Autre': genderdataphoto = photosDataall
+          break;
 
-  default : 
-  console.log('error gender')
-}
+        default:
+          console.log('error gender')
+      }
 
 
 
-        const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length);
-        const selectedPhoto = genderdataphoto[newPhotoIndex];
+      const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length);
+      const selectedPhoto = genderdataphoto[newPhotoIndex];
       fetch('https://shareact-backend.vercel.app/users/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstname: firstname, username, email, password: mdp, age: dateOfBirth.toISOString(), gender, image : selectedPhoto }),
+        body: JSON.stringify({ firstname: firstname, username, email, password: mdp, age: dateOfBirth.toISOString(), gender, image: selectedPhoto }),
       }).then(response => response.json())
         .then(data => {
           dispatch(updateFirstname(firstname))
@@ -174,7 +174,7 @@ switch (gender){
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Text style={styles.title}>Inscription</Text>
-{/* 
+      {/* 
       <View style={styles.avatarContainer}>
         <TouchableOpacity onPress={() => setImage('user.png')} style={[styles.avatarButton, image === 'user.png' && styles.avatarButtonSelected]}>
           <Image source={require("../assets/user.png")} style={styles.photoAvatar} />
@@ -225,7 +225,7 @@ switch (gender){
         </TouchableOpacity>
       </View>
 
-   
+
 
 
 
@@ -368,18 +368,18 @@ const styles = StyleSheet.create({
     color: '#474CCC',
   },
 
-// Avatar
-avatarContainer: {
-  flexDirection: 'row',
-  marginTop: 25,
-  width: '90%',
-  justifyContent: 'space-between',
-},
-avatarButtonSelected: {
-  backgroundColor: '#E2E2F3',
-  borderColor: '#474CCC',
-  borderWidth: 3,
-},
+  // Avatar
+  avatarContainer: {
+    flexDirection: 'row',
+    marginTop: 25,
+    width: '90%',
+    justifyContent: 'space-between',
+  },
+  avatarButtonSelected: {
+    backgroundColor: '#E2E2F3',
+    borderColor: '#474CCC',
+    borderWidth: 3,
+  },
 
 
   avatarButton: {

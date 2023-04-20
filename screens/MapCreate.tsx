@@ -22,7 +22,7 @@ export default function MapScreen() {
   const [newPlace, setNewPlace] = useState('');
   const [address, setAddress] = useState('');
 
-  
+
   // API pour récupérer l'adresse du lieu cliqué, on récupère la latitude et la longitude pour que l'API détermine son adresse
   useEffect(() => {
     if (tempCoordinates) {
@@ -67,18 +67,18 @@ export default function MapScreen() {
     }
   };
 
-// Bouton retour en arrière
+  // Bouton retour en arrière
   const handleBackPage = () => {
     navigation.navigate("TabNavigator", { screen: "Map" });
   }
 
-// Permet de récupérer après un long clic la latitude et la longitude
- const handleLongPress = (e) => {
+  // Permet de récupérer après un long clic la latitude et la longitude
+  const handleLongPress = (e) => {
     setTempCoordinates(e.nativeEvent.coordinate);
     setModalVisible(true);
   };
 
-// Bouton de confirmation dans la modal
+  // Bouton de confirmation dans la modal
   const handleConfirm = () => {
     setModalVisible(false);
     dispatch(updatenewracelat(tempCoordinates.latitude));
@@ -87,7 +87,7 @@ export default function MapScreen() {
     navigation.navigate('CreateRace', { coord: tempCoordinates });
   }
 
-// Bouton pour quitter la modal
+  // Bouton pour quitter la modal
   const handleClose = () => {
     setModalVisible(false);
     setNewPlace('');

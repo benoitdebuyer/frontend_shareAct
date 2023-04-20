@@ -13,7 +13,8 @@ export default function HomeScreen({ navigation }) {
 
 
 
-  const handleSignUp = () => {;
+  const handleSignUp = () => {
+    ;
     navigation.navigate('SignUp');
   };
 
@@ -23,19 +24,19 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-     <View style={styles.logobox} >
-     <Image style={styles.image} source={require('../assets/shareact3.png')} />
-    
-      {/* <Text style={styles.title}>Welcome to Share Act</Text> */}
+      <View style={styles.logobox} >
+        <Image style={styles.image} source={require('../assets/shareact3.png')} />
+
+        {/* <Text style={styles.title}>Welcome to Share Act</Text> */}
 
 
-      <TouchableOpacity onPress={() => handleSignIn()} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>Connexion</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSignIn()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Connexion</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => handleSignUp()} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>Inscription</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSignUp()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Inscription</Text>
+        </TouchableOpacity>
 
       </View>
     </KeyboardAvoidingView>
@@ -48,21 +49,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#474CCC',
     alignItems: 'center',
     justifyContent: 'center',
- 
+
   },
-  logobox:{
+  logobox: {
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    
+
   },
   image: {
     width: '70%',
     height: '40%',
-    marginTop:90,
-    marginBottom:70,
-    
-    
+    marginTop: 90,
+    marginBottom: 70,
+
+
   },
   title: {
     width: '80%',

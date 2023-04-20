@@ -16,7 +16,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const BACKEND_ADDRESS = 'http://BACKEND_IP:3000';
 
-export default function PlacesScreen( {navigation}) {
+export default function PlacesScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const [city, setCity] = useState('');
@@ -28,52 +28,52 @@ export default function PlacesScreen( {navigation}) {
   const gotoParticipants = () => {
     navigation.navigate("Participants");
   }
-  
+
   const gotoJoin = () => {
     navigation.navigate("JoinRaceScreen");
   }
   const gotoSnapScreen = () => {
     navigation.navigate("SnapScreen");
   }
-  
 
-const handleSubmit = () => {
 
-  // if (city.length === 0) {
-  //   return;
-  // }
+  const handleSubmit = () => {
 
-  // // 1st request: get geographic data from API
-  // fetch(`https://api-adresse.data.gouv.fr/search/?q=${city}`)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     // Nothing is done if no city is found by API
-  //     if (data.features.length === 0) {
-  //       return;
-  //     }
+    // if (city.length === 0) {
+    //   return;
+    // }
 
-  //     const firstCity = data.features[0];
-  //     const newPlace = {
-  //       name: firstCity.properties.city,
-  //       latitude: firstCity.geometry.coordinates[1],
-  //       longitude: firstCity.geometry.coordinates[0],
-  //     };
+    // // 1st request: get geographic data from API
+    // fetch(`https://api-adresse.data.gouv.fr/search/?q=${city}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     // Nothing is done if no city is found by API
+    //     if (data.features.length === 0) {
+    //       return;
+    //     }
 
-  //     // 2nd request : send new place to backend to register it in database
-  //     fetch(`${BACKEND_ADDRESS}/places`, {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ nickname: user.nickname, name: newPlace.name, latitude: newPlace.latitude, longitude: newPlace.longitude }),
-  //     }).then((response) => response.json())
-  //       .then((data) => {
-  //         // Dispatch in Redux store if the new place have been registered in database
-  //         if (data.result) {
-  //           dispatch(addPlace(newPlace));
-  //           setCity('');
-  //         }
-  //       });
-  //   });
-};
+    //     const firstCity = data.features[0];
+    //     const newPlace = {
+    //       name: firstCity.properties.city,
+    //       latitude: firstCity.geometry.coordinates[1],
+    //       longitude: firstCity.geometry.coordinates[0],
+    //     };
+
+    //     // 2nd request : send new place to backend to register it in database
+    //     fetch(`${BACKEND_ADDRESS}/places`, {
+    //       method: 'POST',
+    //       headers: { 'Content-Type': 'application/json' },
+    //       body: JSON.stringify({ nickname: user.nickname, name: newPlace.name, latitude: newPlace.latitude, longitude: newPlace.longitude }),
+    //     }).then((response) => response.json())
+    //       .then((data) => {
+    //         // Dispatch in Redux store if the new place have been registered in database
+    //         if (data.result) {
+    //           dispatch(addPlace(newPlace));
+    //           setCity('');
+    //         }
+    //       });
+    //   });
+  };
 
   const handleDelete = (placeName) => {
     fetch(`${BACKEND_ADDRESS}/places`, {
@@ -108,25 +108,25 @@ const handleSubmit = () => {
       <View style={styles.inputContainer}>
         <TextInput placeholder="Message" onChangeText={(value) => setCity(value)} value={city} style={styles.input} />
         <TouchableOpacity onPress={gotoracecard} style={styles.buttonSend} activeOpacity={0.8}>
-        <Text><FontAwesome5 name="paper-plane" size={20} color="white" /></Text>
+          <Text><FontAwesome5 name="paper-plane" size={20} color="white" /></Text>
         </TouchableOpacity>
       </View>
 
       <TouchableOpacity onPress={gotoracecard} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Racecard</Text>
-        </TouchableOpacity>
+        <Text style={styles.textButton}>Racecard</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity onPress={gotoParticipants} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Participants </Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={gotoParticipants} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>Participants </Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity onPress={gotoSnapScreen} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Participants </Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={gotoSnapScreen} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>Participants </Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity onPress={gotoJoin} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Join race</Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={gotoJoin} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>Join race</Text>
+      </TouchableOpacity>
 
       <ScrollView contentContainerStyle={styles.scrollView}>
         {/* {places} */}

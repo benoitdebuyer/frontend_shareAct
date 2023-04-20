@@ -9,9 +9,6 @@ import { addFilter, addFilter2 } from '../reducers/filter';
 
 
 
-
-
-
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 

@@ -1,17 +1,17 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, Image, TextInput, View, TouchableOpacity, Button,KeyboardAvoidingView } from 'react-native';
+import { Dimensions, StyleSheet, Text, Image, TextInput, View, TouchableOpacity, Button, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { updateUsername, updateFirstname, updateEmail,updateImage } from '../reducers/user'
+import { updateUsername, updateFirstname, updateEmail, updateImage } from '../reducers/user'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
-export default function MonCompte({navigation}) {
+export default function MonCompte({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state: { user: UserState }) => state.user.value);
   let [email, setEmail] = useState(null);
@@ -98,105 +98,105 @@ export default function MonCompte({navigation}) {
   }
 
   // aller prendre une photo ou generation aleatoir d image/////////////
-  let testimage = user.image 
+  let testimage = user.image
 
-  
- ///generation aleatoir
-   
+
+  ///generation aleatoir
+
 
   return (
-<KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <View style={styles.container}>
 
 
-<View style={styles.containertop}>
+        <View style={styles.containertop}>
 
-      {/* <TouchableOpacity onPress={()=>randomizePhoto()}>
+          {/* <TouchableOpacity onPress={()=>randomizePhoto()}>
         <FontAwesome5 name="undo" size={30} color="#000000" />
       </TouchableOpacity> */}
 
-      <Image source={{ uri : testimage}}
-        style={styles.imgProfile} />
+          <Image source={{ uri: testimage }}
+            style={styles.imgProfile} />
 
-     {/* <TouchableOpacity onPress={()=>takePhoto()} style={styles.buttonChangePhoto} activeOpacity={0.8}>
+          {/* <TouchableOpacity onPress={()=>takePhoto()} style={styles.buttonChangePhoto} activeOpacity={0.8}>
         <FontAwesome5 name="camera" size={30} color="#000000" />
       </TouchableOpacity>  */}
 
-</View>
+        </View>
 
 
 
-      <View style={styles.boolean}>
-        {showTextInputFirstname ? (
-          <TextInput
-            placeholder='Prénom'
-            onChangeText={(value) => setFirstname(value)}
-            value={firstname}
-            style={styles.input}
-          />
-        ) : (
-          <View style={styles.changeField}>
-            <Text style={styles.textInfos}>{user.firstname}</Text>
-            <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressFirstname} activeOpacity={0.8}>
-              {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
-              <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
-            </TouchableOpacity>
-          </View>
-        )}
-
-      </View>
-
-      <View style={styles.boolean}>
-        {showTextInputUsername ? (
-          <TextInput
-            placeholder='Pseudo'
-            onChangeText={(value) => setUsername(value)}
-            value={username}
-            style={styles.input}
-          />
-        ) : (
-          <View style={styles.changeField}>
-            <Text style={styles.textInfos}>{user.username}</Text>
-            <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressUsername} activeOpacity={0.8}>
-              {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
-              <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
-            </TouchableOpacity>
-          </View>
-        )}
-
-      </View>
-
-      <View style={styles.boolean}>
-        {showTextInputEmail ? (
-          <View style={styles.changeField}>
+        <View style={styles.boolean}>
+          {showTextInputFirstname ? (
             <TextInput
-              placeholder='Email'
-              onChangeText={(value) => setEmail(value)}
-              value={email}
+              placeholder='Prénom'
+              onChangeText={(value) => setFirstname(value)}
+              value={firstname}
               style={styles.input}
             />
-          </View>
-        ) : (
-          <View style={styles.changeField}>
-            <Text style={styles.textInfos}>{user.email}</Text>
-            <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressEmail} activeOpacity={0.8}>
-              {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
-              <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
-            </TouchableOpacity>
-          </View>
-        )}
+          ) : (
+            <View style={styles.changeField}>
+              <Text style={styles.textInfos}>{user.firstname}</Text>
+              <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressFirstname} activeOpacity={0.8}>
+                {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
+                <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+        </View>
+
+        <View style={styles.boolean}>
+          {showTextInputUsername ? (
+            <TextInput
+              placeholder='Pseudo'
+              onChangeText={(value) => setUsername(value)}
+              value={username}
+              style={styles.input}
+            />
+          ) : (
+            <View style={styles.changeField}>
+              <Text style={styles.textInfos}>{user.username}</Text>
+              <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressUsername} activeOpacity={0.8}>
+                {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
+                <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+        </View>
+
+        <View style={styles.boolean}>
+          {showTextInputEmail ? (
+            <View style={styles.changeField}>
+              <TextInput
+                placeholder='Email'
+                onChangeText={(value) => setEmail(value)}
+                value={email}
+                style={styles.input}
+              />
+            </View>
+          ) : (
+            <View style={styles.changeField}>
+              <Text style={styles.textInfos}>{user.email}</Text>
+              <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressEmail} activeOpacity={0.8}>
+                {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
+                <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+
+
+        <TouchableOpacity style={styles.button} onPress={handleSendBdd} activeOpacity={0.8}>
+          <Text style={styles.textButton} >Envoyer les modifications</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.buttonQuit} onPress={handleReturn} activeOpacity={0.8}>
+          <Text style={styles.textButton} >Annuler</Text>
+        </TouchableOpacity>
+
       </View>
-
-
-      <TouchableOpacity style={styles.button} onPress={handleSendBdd} activeOpacity={0.8}>
-        <Text style={styles.textButton} >Envoyer les modifications</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.buttonQuit} onPress={handleReturn} activeOpacity={0.8}>
-        <Text style={styles.textButton} >Annuler</Text>
-      </TouchableOpacity>
-
-    </View>
     </KeyboardAvoidingView>
 
   );
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     borderColor: '#474CCC',
     borderWidth: 4,
     borderRadius: 100,
-    
+
   },
   textButtonChangePhoto: {
     textAlign: 'center',

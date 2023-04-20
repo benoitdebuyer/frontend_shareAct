@@ -75,7 +75,7 @@ export default function App() {
           <Stack.Screen name="JoinRaceScreen" component={JoinRaceScreen} />
           <Stack.Screen name="MonCompte" component={MonCompte} />
           <Stack.Screen name="Filter" component={Filter} />
-      
+
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
