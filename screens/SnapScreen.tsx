@@ -42,6 +42,9 @@ export default function SnapScreen({ navigation }) {
 
   }, []);
 
+  if (!hasPermission || !isFocused) {
+    return <View />;
+  }
   // const dispatchurlimage = ()=> {
   //   console.log('dispatche de image dans user apres le fetch etc ..',imagetmp)
 
@@ -143,9 +146,6 @@ export default function SnapScreen({ navigation }) {
 
   console.log('console.log hors de des fonction direct sur la page de USER.image', user.image)
 
-  if (!hasPermission || !isFocused) {
-    return <View />;
-  }
 
   let colorflashmode = '#000000'
 
