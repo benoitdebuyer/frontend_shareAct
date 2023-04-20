@@ -28,40 +28,34 @@ import { addFilter, addFilter2 } from "../reducers/filter";
 const BACKEND_ADDRESS = "https://shareact-backend.vercel.app";
 
 const photosDataall: string[] = [
+  'https://res.cloudinary.com/dhydrphov/image/upload/v1681980918/woman2_botq5a.jpg',
+  'https://res.cloudinary.com/dhydrphov/image/upload/v1681980918/man2_pcigrd.png',
+  'https://res.cloudinary.com/dhydrphov/image/upload/v1681980918/woman1_vl6o6d.png',
+  'https://res.cloudinary.com/dhydrphov/image/upload/v1681980918/man1_yt6hju.png',
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681915374/user_ap8cxl.png",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar9_klrakg.jpg",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar8_mmnwko.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar7_brww9w.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar6_w4vlnj.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar5_hi07w6.jpg",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar4_szelyb.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar3_yynhe8.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar12_iwwzmk.jpg",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar2_hposjh.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar1_wen2b2.jpg",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar13_ilydse.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar12_iwwzmk.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar11_hjd3pc.jpg",
 ];
 
 const photosDataman: string[] = [
+  'https://res.cloudinary.com/dhydrphov/image/upload/v1681980918/man2_pcigrd.png',
+  'https://res.cloudinary.com/dhydrphov/image/upload/v1681980918/man1_yt6hju.png',
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681915374/user_ap8cxl.png",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar8_mmnwko.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar7_brww9w.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar13_ilydse.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar3_yynhe8.jpg",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar2_hposjh.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar1_wen2b2.jpg",
-
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar13_ilydse.jpg",
 ];
 
 const photosDatawoman: string[] = [
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar6_w4vlnj.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar5_hi07w6.jpg",
+  'https://res.cloudinary.com/dhydrphov/image/upload/v1681980918/woman2_botq5a.jpg',
+  'https://res.cloudinary.com/dhydrphov/image/upload/v1681980918/woman1_vl6o6d.png',
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar4_szelyb.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar12_iwwzmk.jpg",
-  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898001/avatar11_hjd3pc.jpg",
+  "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
 ];
 
 
