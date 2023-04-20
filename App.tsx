@@ -54,7 +54,7 @@ const TabNavigator = () => {
     })}>
       <Tab.Screen name="Courses" component={RacesScreen} />
       <Tab.Screen name="Map" component={MapScreen} />
-      <Tab.Screen name="Chat" component={ChatScreen} />
+      {/* <Tab.Screen name="Chat" component={ChatScreen} /> */}
     </Tab.Navigator>
   );
 };

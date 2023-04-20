@@ -170,7 +170,7 @@ export default function MonCompte({navigation}) {
         {showTextInputEmail ? (
           <View style={styles.changeField}>
             <TextInput
-              placeholder='email'
+              placeholder='Email'
               onChangeText={(value) => setEmail(value)}
               value={email}
               style={styles.input}
