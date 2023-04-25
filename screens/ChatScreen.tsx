@@ -9,9 +9,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useDispatch, useSelector } from 'react-redux';
-import { addPlace, removePlace } from '../reducers/user';
+
+import { useDispatch} from 'react-redux';
+import {removePlace } from '../reducers/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const BACKEND_ADDRESS = 'http://BACKEND_IP:3000';

@@ -1,22 +1,11 @@
 import React from "react";
-import { useState } from 'react';
 import {
     Image,
-    KeyboardAvoidingView,
-    Platform,
     StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
+    Text,,
     View,
-    UserState,
-    Modal,
     ScrollView
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import DatePicker from '@react-native-community/datetimepicker';
 
 
 

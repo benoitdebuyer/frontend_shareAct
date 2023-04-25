@@ -27,8 +27,6 @@ export const userSlice = createSlice({
     udptadeIdRace: (state, action) => {
       state.value.idRace = action.payload;
     },
-    
-
     addNewAddress: (state, action) => {
       state.value.newAddress = action.payload;
     },

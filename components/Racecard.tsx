@@ -1,31 +1,20 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  updateFirstname,
-  updateToken,
-  updateUsername,
-  updateEmail,
-  updateImage,
-  updateAge,
-  updateGender,
-  updateDatebirth,
-} from "../reducers/user";
-import Timer from "./Timer";
+import {useSelector } from "react-redux";
+import Timer from "./Timer"; // import du composant timer
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 
 export default function Racecardtest(props) {
-  // const participants = props.participants.map((participant, index) => {
-  //   return index === props.participants.length - 1 ? participant : participant + ", ";
-  // })
+
   const [isAuthor, setIsAuthor] = useState(false);
 
 
   const user = useSelector((state) => state.user.value);
 
+  //Verifie si un user est l'author d'une racecard pour pouvoir lui afficher le bouton suprimmer à la place de quitter
   useEffect(() => {
     if (props.author === user.username) {
       setIsAuthor(true);
@@ -33,6 +22,7 @@ export default function Racecardtest(props) {
   }, [props.author, user.username]);
 
 
+  //action quitté le groupe de la card participant, quand on n'est pas l author
   const handleLeaveGroupe = (idRace) => {
 
     fetch(`${BACKEND_ADDRESS}/races/participants`, {
@@ -45,7 +35,7 @@ export default function Racecardtest(props) {
         // data.result;
       });
   };
-
+ //action suprimer le groupe de la card participant, quand on est l'author
   const handleDeleteRace = (idRace) => {
     fetch(`${BACKEND_ADDRESS}/races`, {
       method: 'DELETE',
@@ -108,7 +98,9 @@ export default function Racecardtest(props) {
           activeOpacity={0.8}
         >
           <Text style={styles.textButton}>Quitter le groupe</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity> */
+        // bouton pour le chat de group en vu de la V2
+        }
         {isAuthor ?
           <TouchableOpacity
             onPress={() => handleDeleteRace(props._idRace)}
