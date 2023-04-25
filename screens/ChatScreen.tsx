@@ -9,13 +9,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
 import { useDispatch} from 'react-redux';
-import {removePlace } from '../reducers/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const BACKEND_ADDRESS = 'http://BACKEND_IP:3000';
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////   PAGE DE TEST DES COMPOSANTS   ///////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 export default function PlacesScreen({ navigation }) {
   const dispatch = useDispatch();
 
@@ -36,71 +38,6 @@ export default function PlacesScreen({ navigation }) {
     navigation.navigate("SnapScreen");
   }
 
-
-  const handleSubmit = () => {
-
-    // if (city.length === 0) {
-    //   return;
-    // }
-
-    // // 1st request: get geographic data from API
-    // fetch(`https://api-adresse.data.gouv.fr/search/?q=${city}`)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     // Nothing is done if no city is found by API
-    //     if (data.features.length === 0) {
-    //       return;
-    //     }
-
-    //     const firstCity = data.features[0];
-    //     const newPlace = {
-    //       name: firstCity.properties.city,
-    //       latitude: firstCity.geometry.coordinates[1],
-    //       longitude: firstCity.geometry.coordinates[0],
-    //     };
-
-    //     // 2nd request : send new place to backend to register it in database
-    //     fetch(`${BACKEND_ADDRESS}/places`, {
-    //       method: 'POST',
-    //       headers: { 'Content-Type': 'application/json' },
-    //       body: JSON.stringify({ nickname: user.nickname, name: newPlace.name, latitude: newPlace.latitude, longitude: newPlace.longitude }),
-    //     }).then((response) => response.json())
-    //       .then((data) => {
-    //         // Dispatch in Redux store if the new place have been registered in database
-    //         if (data.result) {
-    //           dispatch(addPlace(newPlace));
-    //           setCity('');
-    //         }
-    //       });
-    //   });
-  };
-
-  const handleDelete = (placeName) => {
-    fetch(`${BACKEND_ADDRESS}/places`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nickname: user.nickname, name: placeName }),
-    }).then(response => response.json())
-      .then(data => {
-        data.result && dispatch(removePlace(placeName));
-      });
-  };
-
-  // const places = user.places.map((data, i) => {
-  //   return (
-  //     <View key={i} style={styles.card}>
-  //       <View>
-  //         <Text style={styles.name}>{data.name}</Text>
-  //         <Text>LAT : {Number(data.latitude).toFixed(3)} LON : {Number(data.longitude).toFixed(3)}</Text>
-  //       </View>
-  //       <FontAwesome name='trash-o' onPress={() => handleDelete(data.name)} size={25} color='#ec6e5b' />
-  //     </View>
-  //   );
-  // });
-
-
-  // de camille , j ai fait un emodif sur la ligne 95 pour revenir avant ma modif recolle le texte de la ligne 87
-  /*<TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>*/
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Chat</Text>
@@ -121,7 +58,7 @@ export default function PlacesScreen({ navigation }) {
       </TouchableOpacity>
 
       <TouchableOpacity onPress={gotoSnapScreen} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>Participants </Text>
+        <Text style={styles.textButton}>Join SnapScreen </Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={gotoJoin} style={styles.button} activeOpacity={0.8}>
