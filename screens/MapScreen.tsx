@@ -58,6 +58,7 @@ const photosDatawoman: string[] = [
 export default function MapScreen() {
   const navigation = useNavigation();
   const [currentPosition, setCurrentPosition] = useState(null);
+
   const [modalProfileVisible, setModalProfileVisible] = useState(false);
   const [races, setRaces] = useState([]);
   const [selectedRace, setSelectedRace] = useState(null);
@@ -97,7 +98,7 @@ export default function MapScreen() {
       .then((response) => response.json())
       .then((data) => {
         data.result && setRaces(data.races);
-        console.log('route all races au mount, nb de races : ', data.races.length)
+       // console.log('route all races au mount, nb de races : ', data.races.length)
       })
 
 
@@ -106,7 +107,7 @@ export default function MapScreen() {
 
   useEffect(() => {
     if (currentPosition) {
-      console.log('filtre au update : ', filter)
+     // console.log('filtre au update : ', filter)
       // slider used and distance used
       if ((filter.valeur[0] !== 5 || filter.valeur[1] !== 60) && filter.distance !== 10000) {
         let dist = filter.distance * 1000
@@ -128,7 +129,7 @@ export default function MapScreen() {
         })
           .then(response => response.json())
           .then(data => {
-            console.log('fetch n°1, nb de races : ', data.data.length)
+           // console.log('fetch n°1, nb de races : ', data.data.length)
             setRaces([...data.data]);
           })
           .catch(error => {
@@ -198,7 +199,7 @@ export default function MapScreen() {
           .then((response) => response.json())
           .then((data) => {
             data.result && setRaces([...data.races]);
-            console.log('all races au update, nb de races : ', data.races.length)
+           // console.log('all races au update, nb de races : ', data.races.length)
           })
       }
     }
@@ -350,7 +351,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     // switch case pour selectionné dans quelle tableau le map random doit choisir la photo en rapport au genre de l utilisateur
     
     const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length); 
-    setCurrentPhotoIndex(newPhotoIndex);
+    
     const selectedPhoto = genderdataphoto[newPhotoIndex];
 //genere un index aleatoire pour prendre dans le tableau d url des avatars une nouvelle image
 
