@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  TouchableWithoutFeedback,
   Modal,
   Image,
   StyleSheet,
   Dimensions,
   Pressable,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -17,10 +15,8 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { addRaceByUser, delRaceByUser, udptadeIdRace, } from "../reducers/race";
 import { logout, updateImage } from '../reducers/user'
-import { useRoute } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
-import { PanGestureHandler } from 'react-native-gesture-handler';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { addFilter, addFilter2 } from "../reducers/filter";
 
@@ -309,8 +305,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     setModalFilterVisible(!modalFilterVisible);
   };
 
-  //// map sur le tableau race qui viendra de la BDD
-
+  //// map sur le tableau race qui viendra de la BDD pour afficher les marqueurs sur la MAP
   const allRaces = races.map((race, i) => {
     return (
       <Marker
@@ -332,18 +327,6 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     }
   }
 
-  //   const onSwipe = ({nativeEvent}) => {
-  //     console.log('nativeEvent', nativeEvent);
-  //   console.log('translationY', nativeEvent?.translationY);
-  //   console.log('modalProfileVisible', modalProfileVisible);
-  //   if (nativeEvent && nativeEvent.translationY != null && nativeEvent.translationY < 100) {
-  //     // fermeture de la modale si elle est visible
-  //     if (modalProfileVisible != null) {
-  //       setModalProfileVisible(!modalProfileVisible);
-  //     }
-  //   }
-  // }
-  // console.log(user.image)
   if (!hasPermission || !isFocused) {
     return <View />;
   }

@@ -2,9 +2,9 @@ import React from "react";
 import { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux';
-import RNPickerSelect from 'react-native-picker-select';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useSelector} from 'react-redux';
+import RNPickerSelect from 'react-native-picker-select'; // boite de selection à choix multiple
+import DateTimePickerModal from "react-native-modal-datetime-picker"; // modal avec le calendrier
 
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
@@ -53,14 +53,14 @@ export default function CreateRace() {
     setDistance(text.replace(/[^0-9]/g, '').slice(0, 2));
   };
 
-  // Bouton créer ma course
+  // Bouton de validation créer ma course
   const handleCreate = () => {
     const date = new Date(dateRace);
     const durationNumber = Number(duration);
     const distanceNumber = Number(distance);
     const nbrParticipantsNumber = Number(nbrParticipants);
     const data = { token: user.token, description: description, date: date, address: race.newAddress, latitude: race.newracelat, longitude: race.newracelon, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber };
-    console.log(data);
+    //console.log('verification de la date qui sera envoyé au back et presente ',data);
 
     fetch(`${BACKEND_ADDRESS}/races`, {
       method: 'POST',

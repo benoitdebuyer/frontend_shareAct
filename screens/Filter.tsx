@@ -1,8 +1,8 @@
 import React from "react";
-import { useEffect, useState } from 'react';
-import { Dimensions, AppRegistry, StyleSheet, Text, KeyboardAvoidingView, Image, TextInput, View, TouchableOpacity, Button, } from 'react-native';
+import {useState} from 'react';
+import { Dimensions,StyleSheet, Text, KeyboardAvoidingView, Image, TextInput, View, TouchableOpacity,} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch,} from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Slider } from '@miblanchard/react-native-slider';
 import { addFilter, addFilter2 } from '../reducers/filter';
@@ -85,18 +85,13 @@ export default function Filter() {
   const navigation = useNavigation();
 
   const quitFilterPage = () => {
-    console.log("quit filter")
+    //console.log("quit filter")
     //navigation.navigate("TabNavigator", { screen: "Map" });
   };
+  
   const applyFilter = () => {
-    console.log("apply filter")
-
-
-
+    //console.log("apply filter")
     dispatch(addFilter2(dist))
-
-
-
     navigation.navigate("TabNavigator", { screen: "Map" });
   };
 
