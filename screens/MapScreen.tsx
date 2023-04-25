@@ -524,7 +524,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
               <Text style={styles.test}>        </Text>
 
               <TouchableOpacity onPress={() => handleCloseModalmarker()}>
-                <Text style={styles.modalbtnReturn}>Close</Text>
+                <Text style={styles.modalbtnReturn}>Fermer</Text>
               </TouchableOpacity>
 
             </View>
@@ -860,8 +860,6 @@ const styles = StyleSheet.create({
 
   viewmodalbtn: {
     flexDirection: "row",
-
-
   },
   modalbtngotorace: {
     padding: 10,
@@ -880,8 +878,8 @@ const styles = StyleSheet.create({
     // backgroundColor: '#fff',
     borderColor: "#474CCC",
     alignItems: 'center',
-    shadowOpacity: 0.4,
-    shadowRadius: 5,
-    elevation: 10,
+    // shadowOpacity: 0.4,
+    // shadowRadius: 5,
+    // elevation: 10,
   },
 });
