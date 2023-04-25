@@ -12,8 +12,7 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { login } from '../reducers/user';
-import { autoBatchEnhancer } from "@reduxjs/toolkit";
+
 import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
 
 // Grabbed from emailregex.com
@@ -26,28 +25,13 @@ const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 export default function HomeScreen({ navigation }) {
 
   const dispatch = useDispatch();
-  const user = useSelector((state: { user: UserState }) => state.user.value);
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
   // pour cacher ou afficher le mot de passe
   const [hidePassword, setHidePassword] = useState(true);
 
-
-  //   const handleSubmit = () => {
-  // // dispatch pour test
-  // dispatch(updateToken('U4t1K88SoTEvn5wHM08X5ASxfk4WYniw'))
-  // dispatch(updateFirstname('Test'))
-  // dispatch(updateUsername('Test'))
-  // dispatch(updateEmail('Test@Test.Test'))
-  // dispatch(updateAge('20'))
-  // dispatch(updateGender('Autre'))
-
-  //     navigation.navigate("TabNavigator", { screen: "Map" });
-  //   }
-
-
+/// envois vers la BDD pour verifier si le mdp et l'email sont valide
   const handleSubmit = () => {
     fetch(`${BACKEND_ADDRESS}/users/signin`, {
       method: "POST",
@@ -59,6 +43,7 @@ export default function HomeScreen({ navigation }) {
         if (!data.result) {
           setEmailError(true);
         } else {
+          //rechargement des reducers une fois les information possitive de la BDD recu
           dispatch(updateFirstname(data.firstname));
           dispatch(updateUsername(data.username));
           dispatch(updateToken(data.token));
@@ -66,7 +51,7 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateGender(data.gender));
           dispatch(updateDatebirth(data.age));
           dispatch(updateImage(data.image));
-          //  appel de la fonction calculateAge qui calcule l'age par rapport a la date de naissance.
+          //  appel de la fonction calculateAge qui calcule l'age par rapport à la date de naissance.
           const agecalculated = calculateAge(new Date(data.age));
           dispatch(updateAge(agecalculated))
 
@@ -75,35 +60,8 @@ export default function HomeScreen({ navigation }) {
       })
   }
 
-  //   const handleSubmit = () => {
-  //     fetch(`${BACKEND_ADDRESS}/users/signin`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ email, password }),
-  //     })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (!data.result) {
-  //         setEmailError(true);
-  //       } else {
 
-
-  //         dispatch(updateFirstname(data.username));
-  //         dispatch(updateUsername(data.firstname));
-  //         dispatch(updateToken(data.token));
-  //         dispatch(updateEmail(email));
-  //         dispatch(updateGender(data.gender));
-  //         dispatch(updateDatebirth(data.age));
-
-  //         // appel de la fonction calculateAge qui calcule l'age par rapport a la date de naissance.
-  //         const agecalculated = calculateAge(new Date(data.age)); 
-  //         dispatch(updateAge(agecalculated))
-  //         navigation.navigate("TabNavigator", { screen: "Map" });
-  //       }
-  //     })
-  // }
-
-
+// fonction calculateAge qui calcule l'age par rapport à la date de naissance.
   const calculateAge = (dateOfBirth) => {
     const diff = Date.now() - dateOfBirth.getTime();
     const ageDate = new Date(diff);
@@ -112,7 +70,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      {/* <Image style={styles.image} source={require('../assets/home-image.jpg')} /> */}
+    
       <Text style={styles.title}>Connexion</Text>
       <Image style={styles.image} source={require('../assets/shareact-white.png')} />
 

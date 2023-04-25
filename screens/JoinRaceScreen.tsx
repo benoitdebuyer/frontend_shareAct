@@ -56,7 +56,7 @@ export default function JoinRaceScreen() {
       });
   }, []);
 
-
+// mise en forme de la Date
   const formatDate = (date) => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     const formattedDate = new Date(date).toLocaleString('fr-FR', options);
@@ -67,7 +67,7 @@ export default function JoinRaceScreen() {
   // Appel de la fonction pour formater la date
   const formattedDate = formatDate(date);
 
-
+// validation de l'ajout de l utilisateur a la course et verification en cas de presence dans la liste des participants
   const handleSubmit = () => {
     if (participants && participants.includes(user.username)) {
       alert('Vous êtes déjà inscrit à cette course.');
@@ -86,7 +86,6 @@ export default function JoinRaceScreen() {
       body: JSON.stringify({ token: user.token, raceId: race.addracebyuser._id }),
     }).then(response => response.json())
       .then(data => {
-        // data.result;
         navigation.navigate('TabNavigator', { screen: 'Courses' });
       });
   };
@@ -193,14 +192,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     padding: 10,
   },
-
-  containertopusername: {
-    borderColor: 'green',
-    borderWidth: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
   nameunderpic: {
     width: '80%',
     fontSize: 16,

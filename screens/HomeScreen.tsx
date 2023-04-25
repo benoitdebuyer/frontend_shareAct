@@ -27,9 +27,6 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.logobox} >
         <Image style={styles.image} source={require('../assets/shareact3.png')} />
 
-        {/* <Text style={styles.title}>Welcome to Share Act</Text> */}
-
-
         <TouchableOpacity onPress={() => handleSignIn()} style={styles.button} activeOpacity={0.8}>
           <Text style={styles.textButton}>Connexion</Text>
         </TouchableOpacity>
@@ -64,18 +61,6 @@ const styles = StyleSheet.create({
     marginBottom: 70,
 
 
-  },
-  title: {
-    width: '80%',
-    fontSize: 38,
-    fontWeight: '600',
-  },
-  input: {
-    width: '80%',
-    marginTop: 25,
-    borderBottomColor: '#ec6e5b',
-    borderBottomWidth: 1,
-    fontSize: 18,
   },
   button: {
     alignItems: 'center',

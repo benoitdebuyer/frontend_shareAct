@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from 'react';
 import {
-  Image,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -15,7 +14,6 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import DatePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const photosDataall: string[] = [
@@ -49,6 +47,7 @@ const photosDatawoman: string[] = [
   "https://res.cloudinary.com/dhydrphov/image/upload/v1681898002/avatar14_l82t8z.jpg",
 ];
 export default function HomeScreen({ navigation }) {
+
   const dispatch = useDispatch();
   const user = useSelector((state: { user: UserState }) => state.user.value);
   const [firstname, setFirstname] = useState(null);
@@ -58,16 +57,21 @@ export default function HomeScreen({ navigation }) {
   const [mdp2, setMdp2] = useState(null);
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [gender, setGender] = useState(null);
-  // const [image, setImage] = useState(null);
   const [age, setAge] = useState(null);
   const [connectionError, setConnectionError] = useState(null);
   const [showPassword, setShowPassword] = useState(true);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [ageaddinput, setageaddinput] = useState(false);
   const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
+  
+
+  /* a la validation verifie la forme du mail sinon error
+  apres il verifie que les differents argument sont bien rempli ( name, age etc. )
+
+  */
   const handleSubmit = () => {
-    console.log(user)
-    console.log(`state firstname ${firstname}  username ${username} age ${age} mdp: ${mdp} mdp2: ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
+    // console.log(user)
+    // console.log(`state firstname ${firstname}  username ${username} age ${age} mdp: ${mdp} mdp2: ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
     if (!EMAIL_REGEX.test(email)) {
       setConnectionError(true);
       return;
@@ -87,13 +91,16 @@ export default function HomeScreen({ navigation }) {
           break;
 
         default:
-          console.log('error gender')
+          // console.log('error gender')
       }
-
+// en rapport au genre selectionné via le switch case va selectionné le tableau d url a utilisé
+// et prend un index aleatoir pour appliqué l irl en photo de profils
 
 
       const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length);
       const selectedPhoto = genderdataphoto[newPhotoIndex];
+
+      // envois des differente information en BDD 
       fetch('https://shareact-backend.vercel.app/users/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -109,47 +116,23 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateToken(data.token))
           dispatch(updateImage(selectedPhoto))
         });
-
+// remplis les reducers 
       navigation.navigate("TabNavigator", { screen: "Map" });
 
     } else {
       setConnectionError(!connectionError)
     }
   }
-
-
-  // en cas de lien vers snap
-
-  ///////////////////////////////////////////////////////////////
-
-  // const handleSubmit = () => {
-  //   console.log(`state firstane ${firstname}  username ${username} age ${age} pdw ${mdp} pd2 ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
-  //   if (!EMAIL_REGEX.test(email)) {
-  //     setConnectionError(true);
-  //       return;
-  //     }
-  // if ( mdp == mdp2 && firstname && username && email && gender && age){
-
-  //   dispatch(updateFirstname(firstname))
-  //   dispatch(updateUsername(username))
-  //   dispatch(updateEmail(email))
-  //   dispatch(updateDatebirth(dateOfBirth.toISOString()))
-  //   dispatch(updateAge(age))
-  //   dispatch(updateGender(gender))
-  //   navigation.navigate("SnapScreen");
-  // }else{
-  //   setConnectionError(!connectionError)
-  // }
-  // }
-
-  ///////////////////////////////////////////////////////////////////////
+// affiche de calandrier
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
+  //masque le calandrier
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
 
+  // quand on ferme le calandrier recupere la date et la transforme en age
   const handleConfirm = (date) => {
     const seleteddate = date
     const calculateAge = (date) => {
@@ -158,8 +141,8 @@ export default function HomeScreen({ navigation }) {
       return Math.abs(ageDate.getUTCFullYear() - 1970);
     };
     const ageadd = calculateAge(seleteddate);
-    dispatch(updateAge(ageadd))
-    setDateOfBirth(date)
+    dispatch(updateAge(ageadd)) // une fois l'age calculé le reducer et rempli
+    setDateOfBirth(date)// la date brute et save dans l etat pour l envoyé en BDD  au moment du fetch
     setAge(ageadd)
     setageaddinput(true)
     hideDatePicker();
@@ -168,25 +151,10 @@ export default function HomeScreen({ navigation }) {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Text style={styles.title}>Inscription</Text>
-      {/* 
-      <View style={styles.avatarContainer}>
-        <TouchableOpacity onPress={() => setImage('user.png')} style={[styles.avatarButton, image === 'user.png' && styles.avatarButtonSelected]}>
-          <Image source={require("../assets/user.png")} style={styles.photoAvatar} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setImage('user1.png')} style={[styles.avatarButton, image === 'user1.png' && styles.avatarButtonSelected]}>
-          <Image source={require("../assets/user1.png")} style={styles.photoAvatar} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setImage('Shareact2.png')} style={[styles.avatarButton, image === 'Shareact2.png' && styles.avatarButtonSelected]}>
-          <Image source={require("../assets/Shareact2.png")} style={styles.photoAvatar} />
-        </TouchableOpacity>
-      </View> */}
 
       <TextInput placeholder="Prénom:" onChangeText={(value) => setFirstname(value)} value={firstname} style={styles.input} />
       <TextInput placeholder="Pseudo:" onChangeText={(value) => setUsername(value)} value={username} style={styles.input} />
-
-
       <TextInput placeholder="Email:" onChangeText={(value) => setEmail(value)} keyboardType="email-address" value={email} style={styles.input} />
-
       <View style={styles.inputContainer}>
         <TextInput placeholder="Password" onChangeText={(value) => setMdp(value)} value={mdp} style={styles.inputPassword} secureTextEntry={showPassword} />
 
@@ -201,7 +169,7 @@ export default function HomeScreen({ navigation }) {
           activeOpacity={0.8}
           style={styles.iconButton}
         >
-          <FontAwesome5 name={showPassword ? "eye" : "eye-slash"} size={20} color="#474CCC" />
+          <FontAwesome5 name={showPassword ? "eye" : "eye-slash"} size={20} color="#474CCC" /> 
         </TouchableOpacity>
       </View>
 

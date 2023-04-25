@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Camera, CameraType, FlashMode,WhiteBalance } from "expo-camera";
 import { useDispatch, useSelector } from "react-redux";
-import { updateImage, updateToken, updateFirstname, updateUsername, updateEmail  } from "../reducers/user";
+import { updateImage} from "../reducers/user";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useIsFocused } from "@react-navigation/native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -21,19 +21,15 @@ export default function SnapScreen({navigation}) {
   const user = useSelector((state) => state.user.value);
   const isFocused = useIsFocused();
 
-  const [urlimage, setUrlImage] = useState(null)
-  let [firstname, setFirstname] = useState(null);
-  let [username, setUserName] = useState(null);
-  let [email, setEmail] = useState(null);
   const [hasPermission, setHasPermission] = useState(false);
   const [type, setType] = useState(CameraType.front);
   const [flashMode, setFlashMode] = useState(FlashMode.off);
   const [cloudoMode, setCloudoMode] = useState(WhiteBalance.auto);
   const [cerclecolor,setcerclecolor] = useState('#fff');
-let imagetmp = ''
 
   let cameraRef: any = useRef(null);
 
+  //////////////  demande et attent l autorisation d utiliser la camera
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -42,65 +38,27 @@ let imagetmp = ''
     
   }, []);
 
+  // si il il n'a pas la permition et si il n'est pas sur la page, affiche une page blanche 
   if (!hasPermission || !isFocused) {
     return <View />;
   }
-  // const dispatchurlimage = ()=> {
-  //   console.log('dispatche de image dans user apres le fetch etc ..',imagetmp)
- 
 
-  //   if (firstname === null) {
-  //     firstname = user.firstname
-  //     //setFirstname(user.firstname)
-
-  //   }
-    
-  //   if (username === null) {
-  //     username = user.username
-  //   }
-  //   if (email === null) {
-  //     email = user.email
-  //   }
-  //   // console.log(firstname, username, email, image, user.token)
-
-  //   const datas = {
-  //     image: urlimage,
-  //     token: user.token,
-  //   };
-
-  //   fetch(`${BACKEND_ADDRESS}/users/changesprofil`, {
-  //     method: "PUT",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(datas),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (!data.result) {
-  //         console.log(data.error)
-
-  //       } else {
-  //         dispatch(updateFirstname(firstname));
-  //         dispatch(updateUsername(username));
-  //         dispatch(updateEmail(email));
-  //         // console.log("Hello BDD")
-  //         // navigation.navigate("TabNavigator", { screen: "Map" });
-        
-  //       }
-  //     })
-
-  // } 
-
+  // prise de la photo
   const takePicture = async () => {
     const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
     const formData = new FormData();
-    setcerclecolor('#e8be4b')
+    setcerclecolor('#e8be4b') // setter pour que quand il click sur la prise de photo la couleur du cercle change
+// c'est un indicateur d'action pour l utilisateur 
 
+// crée un formdata avec les données de l'image prise
     formData.append("photoFromFront", {
       uri: photo.uri,
       name: "photo.jpg",
       type: "image/jpeg",
     });
-    console.log('log arrivé sur sbeffor SNAP', user)
+   // console.log('log arrivé SNAP', user)
+
+   // envois du formData au backend 
     fetch(`${BACKEND_ADDRESS}/users/upload`, {
       method: "POST",
       body: formData,
@@ -108,19 +66,17 @@ let imagetmp = ''
       .then((response) => response.json())
       .then((data) => {
 
-        imagetmp = data.image
-        // dispatchurlimage()
+        //rempli le reducer image de l utilisateur
+        // quand on a recu le retour de cloudinary ( nouvelle url)
         dispatch(updateImage(data.image))
         if (data.result){
-//           console.log('userimage apres la prise de photo et data result',urlimage)
-//           dispatch(updateImage(urlimage));
-//           console.log(user,'console log de user apres le dispatch de urlimage')
-//      navigation.navigate("TabNavigator", { screen: "Map" });
+
+          // cloudinary nous a envoyé l url on va preparer le fichier a envoyé en BDD 
 const datas = {
   image: data.image,
   token: user.token,
 };
-
+// fetch a la BDD de l'url et le token pour pouvoir retrouvé à qui attribué l'url 
 fetch(`${BACKEND_ADDRESS}/users/changesprofil`, {
   method: "PUT",
   headers: { "Content-Type": "application/json" },
@@ -143,10 +99,9 @@ fetch(`${BACKEND_ADDRESS}/users/changesprofil`, {
      
   };
 
+  //console.log('console.log hors de des fonction direct sur la page de USER.image',user.image)
 
-  console.log('console.log hors de des fonction direct sur la page de USER.image',user.image)
-
-
+//////// diverse modification de couleur des icons de la camera
   let colorflashmode = '#000000'
   
   if (flashMode === FlashMode.off) {

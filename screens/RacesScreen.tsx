@@ -29,6 +29,7 @@ export default function PlacesScreen() {
     setShouldUpdate(prev => !prev);
   }
 
+  // usefeect qui permet quand on revient sur la page 'isFocused' de fech  les course add par l utilisateur 
   const token = user.token
   useEffect(() => {
     // console.log('usertoken debut de l use effetc',token)
@@ -43,48 +44,17 @@ export default function PlacesScreen() {
     }
   }, [isFocused, shouldUpdate]);
 
-
-  // console.log('raceUp',racesUp)
-
-
-  // const formatDate = (dateString) => {
-  //   const date = new Date(dateString);
-  //   const day = date.getDate();
-  //   const monthIndex = date.getMonth();
-  //   // const month = date.toLocaleString("default", { month: "long", locale: 'fr-FR' });
-  //   const year = date.getFullYear();
-  //   const hours = date.getHours();
-  //   const minutes = date.getMinutes().toString().padStart(2, '0');
-
-  //   const months = [
-  //     "Janvier",
-  //     "Février",
-  //     "Mars",
-  //     "Avril",
-  //     "Mai",
-  //     "Juin",
-  //     "Juillet",
-  //     "Août",
-  //     "Septembre",
-  //     "Octobre",
-  //     "Novembre",
-  //     "Décembre",
-  //   ];
-
-  //   const formattedDate = `${day} ${months[monthIndex]} ${year} à ${hours}:${minutes}`;
-  //   return `Le ${formattedDate}`;
-  // };
-
+///// mise en forme de la date
   const formatDate = (date) => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     const formattedDate = new Date(date).toLocaleString('fr-FR', options);
     return formattedDate;
   }
 
-
+///// map des course pour remplir les props qui viennent du composants racecard"test" ! 
   const allRacesUp = racesUp.map((race, i) => {
 
-    console.log("/////////", race.author.image)
+   // console.log("/////////", race.author.image)
     const date = formatDate(race.date)
     // console.log('date de race log',date)
     return (
@@ -107,15 +77,6 @@ export default function PlacesScreen() {
     );
   });
 
-  // key={race._id}
-  // author={race.author}
-  // description={race.description}
-  // date={formatDate(race.date)}
-  // address={race.address}
-  // duration={race.duration}
-  // distance={race.distance}
-  // level={race.level}
-  // console.log(allRacesUp)
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Mes courses</Text>
@@ -149,60 +110,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '85%',
   },
-  card: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '80%',
-    backgroundColor: '#ffffff',
-    padding: 20,
-    marginTop: 20,
-    borderRadius: 10,
-  },
+ 
   viewcard: {
     width: '100%',
   },
-  name: {
-    fontSize: 18,
-  },
-  menuContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '80%',
-    padding: 20,
-    marginTop: 20,
-    borderRadius: 10,
-  },
-  button: {
-    width: '40%',
-    alignItems: 'center',
-    paddingTop: 8,
-    backgroundColor: '#E2E2F3',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderBottomColor: '#474CCC',
-  },
-  buttonFinish: {
-    width: '40%',
-    alignItems: 'center',
-    paddingTop: 8,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderBottomColor: '#474CCC',
-  },
-  textButton: {
-    color: 'black',
-    height: 30,
-    fontWeight: '600',
-    fontSize: 16,
-  },
-  textRace: {
-    fontSize: 28,
-    color: '#474CCC',
-    padding: 20,
-    borderBottomColor: '#474CCC',
-    borderWidth: 1,
-    backgroundColor: '#fff',
-  }
+
 });

@@ -1,11 +1,10 @@
 import React from "react";
-import { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, Image, TextInput, View, TouchableOpacity, Button, KeyboardAvoidingView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import { Dimensions, StyleSheet, Text, Image, TextInput, View, TouchableOpacity, KeyboardAvoidingView } from 'react-native';;
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { updateUsername, updateFirstname, updateEmail, updateImage } from '../reducers/user'
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { updateUsername, updateFirstname, updateEmail, } from '../reducers/user'
+
 
 
 
@@ -17,20 +16,14 @@ export default function MonCompte({ navigation }) {
   let [email, setEmail] = useState(null);
   let [firstname, setFirstname] = useState(null);
   let [username, setUsername] = useState(null);
-  // const [dateOfBirth, setDateOfBirth] = useState(new Date());
-  // const [age, setAge] = useState(null);
-  // const [image, setImage] = useState(null);
+
   const [showTextInputFirstname, setShowTextInputFirstname] = useState(false);
   const [showTextInputUsername, setShowTextInputUsername] = useState(false);
   const [showTextInputEmail, setShowTextInputEmail] = useState(false);
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-  // const [showTextInputImage, setShowTextInputImage] = useState(false);
-
-  //const navigation = useNavigation();
 
 
   const handleButtonPressFirstname = () => {
-    onPress = { handleButtonPressFirstname }
+    onPress = { handleButtonPressFirstname }  ////////////////////////////////////////////  ?????????
     setShowTextInputFirstname(true);
   };
 
@@ -42,9 +35,6 @@ export default function MonCompte({ navigation }) {
     setShowTextInputEmail(true);
   };
 
-  // const handleButtonPressImage = () => {
-  //   setShowTextInputImage(true);
-  // };
 
   // Bouton "Envoyer les modifications"
   const handleSendBdd = () => {
@@ -52,7 +42,6 @@ export default function MonCompte({ navigation }) {
     // console.log(firstname, username, email, image, user.token)
     if (firstname === null) {
       firstname = user.firstname
-      //setFirstname(user.firstname)
 
     }
     if (username === null) {
@@ -67,7 +56,6 @@ export default function MonCompte({ navigation }) {
       firstname: firstname,
       username: username,
       email: email,
-      // image: image,
       token: user.token,
     };
 
@@ -111,16 +99,8 @@ export default function MonCompte({ navigation }) {
 
         <View style={styles.containertop}>
 
-          {/* <TouchableOpacity onPress={()=>randomizePhoto()}>
-        <FontAwesome5 name="undo" size={30} color="#000000" />
-      </TouchableOpacity> */}
-
           <Image source={{ uri: testimage }}
             style={styles.imgProfile} />
-
-          {/* <TouchableOpacity onPress={()=>takePhoto()} style={styles.buttonChangePhoto} activeOpacity={0.8}>
-        <FontAwesome5 name="camera" size={30} color="#000000" />
-      </TouchableOpacity>  */}
 
         </View>
 
@@ -138,7 +118,6 @@ export default function MonCompte({ navigation }) {
             <View style={styles.changeField}>
               <Text style={styles.textInfos}>{user.firstname}</Text>
               <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressFirstname} activeOpacity={0.8}>
-                {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
                 <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
               </TouchableOpacity>
             </View>
@@ -158,7 +137,6 @@ export default function MonCompte({ navigation }) {
             <View style={styles.changeField}>
               <Text style={styles.textInfos}>{user.username}</Text>
               <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressUsername} activeOpacity={0.8}>
-                {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
                 <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
               </TouchableOpacity>
             </View>
@@ -180,7 +158,6 @@ export default function MonCompte({ navigation }) {
             <View style={styles.changeField}>
               <Text style={styles.textInfos}>{user.email}</Text>
               <TouchableOpacity style={styles.buttonChangeOne} onPress={handleButtonPressEmail} activeOpacity={0.8}>
-                {/* <Text style={styles.textButtonChangeOne}>x</Text> */}
                 <Text><FontAwesome5 name="edit" size={20} color="#474CCC" /></Text>
               </TouchableOpacity>
             </View>
@@ -211,7 +188,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   containertop: {
-    // flex: 1,
     flexDirection: "row",
     alignItems: 'center',
     justifyContent: 'center',
@@ -224,15 +200,6 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderRadius: 100,
 
-  },
-  textButtonChangePhoto: {
-    textAlign: 'center',
-    alignItems: 'center',
-    color: 'black',
-    height: 30,
-    fontWeight: '600',
-    fontSize: 15,
-    width: Dimensions.get("window").width / 3,
   },
   input: {
     width: '50%',
@@ -254,22 +221,6 @@ const styles = StyleSheet.create({
     height: 30,
     fontWeight: '600',
   },
-  // buttonChangePhoto: {
-  //   margin: 15,
-  //   paddingTop: 12,
-  //   paddingLeft: 20,
-  //   paddingRight: 20,
-  //   color: '#474CCC',
-  //   borderWidth: 1,
-  //   backgroundColor: '#fff',
-  //   borderRadius: 100,
-  //   borderColor: "#474CCC",
-  //   alignItems: 'center',
-  //   shadowOpacity: 0.4,
-  //   shadowRadius: 5,
-  //   elevation: 10,
-  // }
-
   boolean: {
     display: 'flex',
     flexDirection: 'row',
@@ -277,12 +228,6 @@ const styles = StyleSheet.create({
     alignItems: 'baseline',
     margin: 15,
 
-  },
-  text: {
-    fontSize: 30,
-    color: '#474CCC',
-    fontWeight: "bold",
-    marginBottom: 20,
   },
   changeField: {
     flex: 1,

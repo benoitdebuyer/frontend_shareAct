@@ -13,12 +13,12 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { useDispatch, useSelector } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
-import { addRaceByUser, delRaceByUser, udptadeIdRace, } from "../reducers/race";
+import { addRaceByUser, delRaceByUser,} from "../reducers/race";
 import { logout, updateImage } from '../reducers/user'
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
 import GestureRecognizer from 'react-native-swipe-gestures';
-import { addFilter, addFilter2 } from "../reducers/filter";
+
 
 
 const BACKEND_ADDRESS = "https://shareact-backend.vercel.app";
@@ -58,18 +58,12 @@ const photosDatawoman: string[] = [
 export default function MapScreen() {
   const navigation = useNavigation();
   const [currentPosition, setCurrentPosition] = useState(null);
-  const [tempCoordinates, setTempCoordinates] = useState(null);
   const [modalProfileVisible, setModalProfileVisible] = useState(false);
-  const [newPlace, setNewPlace] = useState("");
   const [races, setRaces] = useState([]);
-  const [races2, setRaces2] = useState([]);
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [selectedRace, setSelectedRace] = useState(null);
   const isFocused = useIsFocused();
   const [hasPermission, setHasPermission] = useState(false);
-  const [idRace, setIdRace] = useState(null);
   const [modalFilterVisible, setModalFilterVisible] = useState(false);
-  const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const race = useSelector((state) => state.race.value);
   const user = useSelector((state: { user: UserState }) => state.user.value);
@@ -86,7 +80,9 @@ export default function MapScreen() {
   };
 
 
-
+// fetch de a liste de toutes les courses dans un useeffect, lancement au chargement de la page,
+// a la mie a jour de l'argument situé dasn le tableau de l'useeffect ( pas dans ce cas) ou a la destruction du composant
+// quand il y a un return ( pas dans ce cas)
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -211,7 +207,7 @@ export default function MapScreen() {
 
 
 
-
+// changement de parge et ferme la modal de profil
   const onChangeButtonPress = () => {
     navigation.navigate("MonCompte");
     setModalProfileVisible(!modalProfileVisible);
@@ -332,7 +328,7 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
   }
   let testimage = user.image
 
-  ///generation aleatoir
+  ///generation aleatoir des photos de profils
   const randomizePhoto = () => {
 
     let genderdataphoto = []
@@ -351,20 +347,21 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
       default:
         console.log('error gender')
     }
-    // switch case poru selectionné dasn quelle tableau le map random doit choisir la photo en rapport au genre de l utilisateur
-
-    const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length);
+    // switch case pour selectionné dans quelle tableau le map random doit choisir la photo en rapport au genre de l utilisateur
+    
+    const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length); 
     setCurrentPhotoIndex(newPhotoIndex);
     const selectedPhoto = genderdataphoto[newPhotoIndex];
+//genere un index aleatoire pour prendre dans le tableau d url des avatars une nouvelle image
 
-
+//////// mise en forme de data avant d'envoyé la nouvelle url aleatoir en BDD
     const datas = {
       image: selectedPhoto,
       token: user.token,
     };
-    console.log(selectedPhoto)
-    console.log(user.token)
-    fetch(`${BACKEND_ADDRESS}/users/changesimageprofil`, {
+    //console.log(selectedPhoto)
+    // console.log(user.token)
+    fetch(`${BACKEND_ADDRESS}/users/changesimageprofil`, { // envois de l'url en BDD
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(datas),
@@ -372,10 +369,9 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
       .then((response) => response.json())
       .then((data) => {
         if (!data.result) {
-          console.log(data.error)
+          // console.log(data.error)
 
         } else {
-
           dispatch(updateImage(selectedPhoto));
           navigation.navigate("TabNavigator", { screen: "Map" });
         }
@@ -391,7 +387,6 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     <View style={styles.container}>
       <Pressable
         style={styles.filter}
-        //onPress={() => setModalFilterVisible(true)}
         onPress={changePage}
       >
         <Image source={require("../assets/filter.png")} style={styles.icon} />
