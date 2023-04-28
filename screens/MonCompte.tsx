@@ -23,7 +23,6 @@ export default function MonCompte({ navigation }) {
 
 
   const handleButtonPressFirstname = () => {
-    onPress = { handleButtonPressFirstname }  ////////////////////////////////////////////  ?????????
     setShowTextInputFirstname(true);
   };
 
