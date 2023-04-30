@@ -15,11 +15,27 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
 
+
+
 // Grabbed from emailregex.com
 const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
+
+
+
+const calculateAge = (dateOfBirth)  =>{
+  console.log(dateOfBirth)
+  const diff = Date.now() - dateOfBirth.getTime();
+  const ageDate = new Date(diff);
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
+export const exportedForTesting = {
+  calculateAge
+    
+  }
 
 
 export default function HomeScreen({ navigation }) {
@@ -62,11 +78,13 @@ export default function HomeScreen({ navigation }) {
 
 
 // fonction calculateAge qui calcule l'age par rapport à la date de naissance.
-  const calculateAge = (dateOfBirth) => {
-    const diff = Date.now() - dateOfBirth.getTime();
-    const ageDate = new Date(diff);
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-  };
+
+  // const calculateAge = (dateOfBirth) => {
+  //   const diff = Date.now() - dateOfBirth.getTime();
+  //   const ageDate = new Date(diff);
+  //   return Math.abs(ageDate.getUTCFullYear() - 1970);
+  // };
+  
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -99,6 +117,8 @@ export default function HomeScreen({ navigation }) {
     </KeyboardAvoidingView>
   )
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
