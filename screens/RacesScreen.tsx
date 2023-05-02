@@ -4,13 +4,9 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPlace, removePlace } from '../reducers/user';
 import { useIsFocused } from '@react-navigation/native';
 import Racecardtest from '../components/Racecard'
 
