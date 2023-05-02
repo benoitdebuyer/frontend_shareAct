@@ -10,23 +10,19 @@ describe('Test sur la fonction calculateAge de SignInScreen.tsx : ', () => {
 });
 
 test('Test inscription avec la route signup', async () => {
-  const userData = {
-    firstname: 'Camille',
-    username: 'Trinity0077',
-    email: 'kam@trinity0077.com',
-    password: '1234supercode',
-    age: '1986-02-02',
-    gender: 'Femme'
-  };
-
-  const response = await fetch(`${API_URL}/users/signup`, {
+  const response = await fetch('https://shareact-backend.vercel.app/users/signup', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(userData)
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstname: 'John',
+      username: 'john123',
+      email: 'john@gmail.com',
+      password: 'secret',
+      age: '1990-01-01T00:00:00.000Z',
+      gender: 'male',
+      image: 'https://example.com/image.jpg'
+    }),
   });
-
   const data = await response.json();
   expect(response.status).toEqual(200);
   expect(data.result).toBe(true);
