@@ -280,16 +280,6 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 
 
 
-  const formatDate2 = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
-    const hours = date.getHours();
-    const minutes = date.getMinutes().toString().padStart(2, '0'); // Ajout de cette ligne
-
-    return `à ${hours}:${minutes}`;
-  };
 
   const changePage = () => {
     navigation.navigate("Filter");
