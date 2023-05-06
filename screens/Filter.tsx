@@ -7,7 +7,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Slider } from '@miblanchard/react-native-slider';
 import { addFilter, addFilter2 } from '../reducers/filter';
 
-// slider créé par @miblanchard/react-native-slider (lien utile :  https://codesandbox.io/s/confident-bush-nfc3jm?file=/src/App.js:121-153)
+// slider créé par @miblanchard/react-native-slider (lien utile :  https://github.com/miblanchard/react-native-slider)
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
@@ -21,14 +21,19 @@ const SliderContainer = (props) => {
   // sliderValue est une valeur numérique représentant la position actuelle du curseur et trackMarks est un tableau d'entiers représentant les positions marquées sur la piste du curseur.
   const [value, setValue] = React.useState(sliderValue ? sliderValue : DEFAULT_VALUE); //hook qui permet de déclarer un état local pour le composant
  
+//Rappel thérorique : En React, un composant enfant est un composant React qui est déclaré et utilisé à l'intérieur d'un autre composant parent. 
+//Les composants enfants sont des éléments React que l'on peut ajouter à un composant parent pour créer une interface utilisateur complexe.
+//Un composant enfant peut recevoir des données du composant parent sous forme de propriétés (props) et les utiliser pour afficher une partie de l'interface utilisateur. 
+
   const renderChildren = () => {
     dispatch(addFilter(value))
-    console.log(value) // valeur qui m'intéresse (=> (date min, date max))
-    return React.Children.map(props.children, (child) => {
-      if (!!child && child.type === Slider) {
-        return React.cloneElement(child, {
-          onValueChange: setValue,
-          trackMarks,
+    console.log("les valeurs sélectionnées par l'utilisateur : ", value) // valeur qui nous intéresse (=> [date min, date max])
+    return React.Children.map(props.children, (child) => { // la fonction parcourt les éléments enfants de Slider Container
+      console.log("éléments retournés par la fonction map : ", child)
+      if (!!child && child.type === Slider) { // l'expression !!child permet de vérifier si la variable child est définie et non nulle. Si c'est le cas, !!child renvoie true, sinon il renvoie false.
+        return React.cloneElement(child, { // Si c'est le cas, on crée un nouveau composant Slider en utilisant la méthode React.cloneElement, qui permet de cloner un élément React et de modifier certaines de ses propriétés.
+          onValueChange: setValue, // on passe la fonction setValue en tant que gestionnaire d'événement pour la modification de la valeur du curseur (onValueChange)
+          trackMarks, // trackMarks et value sont des propriétés passées au composant SliderContainer
           value
         });       
       }
@@ -39,7 +44,7 @@ const SliderContainer = (props) => {
   return (
     <View >
       <View style={styles.filter}>
-        <Text style={styles.textFilter}>Départ d'ici {Array.isArray(value) ? value.join(" à ") : value} heures</Text>
+        <Text style={styles.textFilter}>Départ d'ici {value.join(" à ")} heures</Text>
       </View>
       {renderChildren()}
     </View>
