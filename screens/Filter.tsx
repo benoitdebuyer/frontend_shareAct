@@ -7,75 +7,45 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Slider } from '@miblanchard/react-native-slider';
 import { addFilter, addFilter2 } from '../reducers/filter';
 
-
+// slider créé par @miblanchard/react-native-slider (lien utile :  https://codesandbox.io/s/confident-bush-nfc3jm?file=/src/App.js:121-153)
 
 const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
 
 
-/////////////////Slider horaire///////////////////////////////////////////
-
+//--------------------------------------Slider-----------------------------------------------------------
 const DEFAULT_VALUE = 0.2;
-function Link(props) {
-  return (
-    <Text
-      {...props}
-      accessibilityRole="link"
-      style={StyleSheet.compose(styles.link, props.style)}
-    />
-  );
-}
 
 const SliderContainer = (props) => {
-  const dispatch = useDispatch();
-  const { caption, sliderValue, trackMarks } = props;
-  const [value, setValue] = React.useState(
-    sliderValue ? sliderValue : DEFAULT_VALUE
-  );
-  let renderTrackMarkComponent;
-
-  if (trackMarks?.length && (!Array.isArray(value) || value?.length === 1)) {
-    renderTrackMarkComponent = (index) => {
-      const currentMarkValue = trackMarks[index];
-      const currentSliderValue =
-        value || (Array.isArray(value) && value[0]) || 0;
-      const style = currentMarkValue > Math.max(currentSliderValue);
-
-      return <View />;
-    };
-  }
-
+  const dispatch = useDispatch(); //hook de redux qui permet de dispatcher une action pour mettre à jour l'état global de l'application.
+  const { sliderValue, trackMarks } = props; // Le composant SliderContainer prend plusieurs propriétés (props), sliderValue et trackMarks.
+  // sliderValue est une valeur numérique représentant la position actuelle du curseur et trackMarks est un tableau d'entiers représentant les positions marquées sur la piste du curseur.
+  const [value, setValue] = React.useState(sliderValue ? sliderValue : DEFAULT_VALUE); //hook qui permet de déclarer un état local pour le composant
+ 
   const renderChildren = () => {
     dispatch(addFilter(value))
+    console.log(value) // valeur qui m'intéresse (=> (date min, date max))
     return React.Children.map(props.children, (child) => {
       if (!!child && child.type === Slider) {
         return React.cloneElement(child, {
           onValueChange: setValue,
-          renderTrackMarkComponent,
           trackMarks,
           value
-        });
+        });       
       }
-
       return child;
     });
-
   };
 
   return (
     <View >
-      {/* <Text style={styles.textFilter}>Sélectionner par horaire de départ :</Text>
-       */}
       <View style={styles.filter}>
-        {/* <Text >{caption}</Text> */}
-
         <Text style={styles.textFilter}>Départ d'ici {Array.isArray(value) ? value.join(" à ") : value} heures</Text>
-
       </View>
       {renderChildren()}
     </View>
   );
 };
-/////////////////////////////////////////////////////////////////////
+//--------------------------------------fin slider------------------------------------------------
 
 
 export default function Filter() {
@@ -84,11 +54,6 @@ export default function Filter() {
   let [dist, setDist] = useState(10000);
   const navigation = useNavigation();
 
-  const quitFilterPage = () => {
-    //console.log("quit filter")
-    //navigation.navigate("TabNavigator", { screen: "Map" });
-  };
-  
   const applyFilter = () => {
     //console.log("apply filter")
     dispatch(addFilter2(dist))
@@ -270,9 +235,7 @@ const styles = StyleSheet.create({
     marginVertical: "1em",
     textAlign: "center"
   },
-  link: {
-    color: "#1B95E0"
-  },
+
   code: {
     fontFamily: "monospace, monospace"
   },
