@@ -11,7 +11,7 @@ import { useIsFocused } from '@react-navigation/native';
 import Racecardtest from '../components/Racecard'
 
 
-const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
 
 export default function PlacesScreen() {
   const dispatch = useDispatch();

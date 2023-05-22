@@ -20,7 +20,7 @@ import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage,
 // Grabbed from emailregex.com
 const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
 
 
 

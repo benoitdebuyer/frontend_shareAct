@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {useSelector } from "react-redux";
 import Timer from "./Timer"; // import du composant timer
 
-const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
 
 
 export default function Racecardtest(props) {

@@ -21,7 +21,7 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 
 
 
-const BACKEND_ADDRESS = "https://shareact-backend.vercel.app";
+const BACKEND_ADDRESS = "https://backend-share-act.vercel.app/";
 
 const photosDataall: string[] = [
   'https://res.cloudinary.com/dhydrphov/image/upload/v1681980918/woman2_botq5a.jpg',

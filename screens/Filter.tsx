@@ -9,7 +9,7 @@ import { addFilter, addFilter2 } from '../reducers/filter';
 
 // slider créé par @miblanchard/react-native-slider (lien utile :  https://github.com/miblanchard/react-native-slider)
 
-const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
 
 
 //--------------------------------------Slider-----------------------------------------------------------

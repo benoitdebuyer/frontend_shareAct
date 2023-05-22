@@ -28,7 +28,7 @@ export default function JoinRaceScreen() {
 
 
   // const BACKEND_ADDRESS = 'http://192.168.0.18:3000';
-  const BACKEND_ADDRESS = "https://shareact-backend.vercel.app";
+  const BACKEND_ADDRESS = "https://backend-share-act.vercel.app/";
 
   // console.log(user.token)
   // console.log(race.addracebyuser._id)

@@ -8,7 +8,7 @@ import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
 //const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
 export default function MapScreen() {

@@ -7,7 +7,7 @@ import RNPickerSelect from 'react-native-picker-select'; // boite de selection Ã
 import DateTimePickerModal from "react-native-modal-datetime-picker"; // modal avec le calendrier
 
 
-const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
 // const BACKEND_ADDRESS = 'http://10.6.23.18:3000';
 
 export default function CreateRace() {

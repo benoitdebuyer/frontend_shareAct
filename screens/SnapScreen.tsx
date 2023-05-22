@@ -11,7 +11,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 
 export default function SnapScreen({navigation}) {
-  const BACKEND_ADDRESS = "https://shareact-backend.vercel.app";
+  const BACKEND_ADDRESS = "https://backend-share-act.vercel.app/";
   // const BACKEND_ADDRESS = "http://localhost:3000";
   // mettre a jour localhost avec expo
 

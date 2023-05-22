@@ -101,7 +101,7 @@ export default function HomeScreen({ navigation }) {
       const selectedPhoto = genderdataphoto[newPhotoIndex];
 
       // envois des differente information en BDD 
-      fetch('https://shareact-backend.vercel.app/users/signup', {
+      fetch('https://backend-share-act.vercel.app//users/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ firstname: firstname, username, email, password: mdp, age: dateOfBirth.toISOString(), gender, image: selectedPhoto }),

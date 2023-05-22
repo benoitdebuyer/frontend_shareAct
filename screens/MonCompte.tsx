@@ -8,7 +8,7 @@ import { updateUsername, updateFirstname, updateEmail, } from '../reducers/user'
 
 
 
-const BACKEND_ADDRESS = 'https://shareact-backend.vercel.app';
+const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
 
 export default function MonCompte({ navigation }) {
   const dispatch = useDispatch();
