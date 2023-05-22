@@ -1,10 +1,9 @@
 # shareact-frontend
 
-Projet de fin de formation réalisé avec 2 collaborateurs, qui a été présenté devant le jury 
-pour obtenir le titre de Chef de projet de développement d'applications web et mobile.
+Projet de fin de formation réalisé avec 2 collaborateurs, qui a été présenté devant jury 
+pour obtenir le titre de Chef de projet de développement d'applications web et mobile (RNCP6).
 
-Il s'agit d'une application de mise en relation de personnes désirant aller courir avec d'autres personnes, 
-dans le but de créer des points de départ pour pratiquer le sport en ville.
+Il s'agit d'une application de mise en relation de coureurs désirant aller courir avec d'autres coureurs.
 
-L'application utilise JS, Express (backend) et React Native (frontend), 
-hébergés sur Vercel pour le backend et Expo Go pour le frontend.
+L'application est développée en Node.JS, Express.JS et React Native, 
+hébergée sur Vercel pour le backend et Expo Go pour le frontend.
