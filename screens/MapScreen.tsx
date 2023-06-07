@@ -19,8 +19,6 @@ import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
 import GestureRecognizer from 'react-native-swipe-gestures';
 
-
-
 const BACKEND_ADDRESS = "https://backend-share-act.vercel.app/";
 
 const photosDataall: string[] = [
@@ -80,10 +78,6 @@ export default function MapScreen() {
     }
   };
 
-
-// fetch de a liste de toutes les courses dans un useeffect, lancement au chargement de la page,
-// a la mie a jour de l'argument situé dasn le tableau de l'useeffect ( pas dans ce cas) ou a la destruction du composant
-// quand il y a un return ( pas dans ce cas)
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -98,7 +92,6 @@ export default function MapScreen() {
       .then((response) => response.json())
       .then((data) => {
         data.result && setRaces(data.races);
-       // console.log('route all races au mount, nb de races : ', data.races.length)
       })
 
 
@@ -107,8 +100,6 @@ export default function MapScreen() {
 
   useEffect(() => {
     if (currentPosition) {
-     // console.log('filtre au update : ', filter)
-      // slider used and distance used
       if ((filter.valeur[0] !== 5 || filter.valeur[1] !== 60) && filter.distance !== 10000) {
         let dist = filter.distance * 1000
         let maDate = new Date();
@@ -129,7 +120,6 @@ export default function MapScreen() {
         })
           .then(response => response.json())
           .then(data => {
-           // console.log('fetch n°1, nb de races : ', data.data.length)
             setRaces([...data.data]);
           })
           .catch(error => {
@@ -137,7 +127,6 @@ export default function MapScreen() {
           });
       }
 
-      //slider not used and distance used
       if ((filter.valeur[0] === 5 && filter.valeur[1] === 60) && filter.distance !== 10000) {
         let dist = filter.distance * 1000
         let start_date = new Date();
@@ -164,7 +153,6 @@ export default function MapScreen() {
             console.error(error);
           });
       }
-      // slider used et distance not used
       if ((filter.valeur[0] !== 5 || filter.valeur[1] !== 60) && filter.distance === 10000) {
         let dist = filter.distance * 1000
         let maDate = new Date();
@@ -192,23 +180,16 @@ export default function MapScreen() {
             console.error(error);
           });
       }
-
-      // slider not used et distance not used
       if ((filter.valeur[0] === 5 || filter.valeur[1] === 60) && filter.distance === 10000) {
         fetch(`${BACKEND_ADDRESS}/races/all/${user.token}`)
           .then((response) => response.json())
           .then((data) => {
             data.result && setRaces([...data.races]);
-           // console.log('all races au update, nb de races : ', data.races.length)
           })
       }
     }
   }, [isFocused]);
 
-
-
-
-// changement de parge et ferme la modal de profil
   const onChangeButtonPress = () => {
     navigation.navigate("MonCompte");
     setModalProfileVisible(!modalProfileVisible);
@@ -225,7 +206,6 @@ export default function MapScreen() {
     navigation.navigate("MapCreate");
   };
 
-  // desous  function pour la modal des marquer de race
   const handleCloseModalmarker = () => {
     setSelectedRace(null);
     dispatch(delRaceByUser());
@@ -234,52 +214,30 @@ export default function MapScreen() {
   const handleMarkerPress = (race) => {
     setSelectedRace(race);
     dispatch(addRaceByUser(race));
-    // console.log(race);
-    // console.log(race._id)
   };
 
 
   const handleCloseModalgotorace = (race) => {
-    /* 
-    navigation.navigate('Details', { courseId: data.id });
-Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.params.courseId. */
     navigation.navigate("JoinRaceScreen");
     setSelectedRace(null);
   };
 
 
-  ////////////////
-  /// transforme la date iso en lisible
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
     const monthIndex = date.getMonth();
-    // const month = date.toLocaleString("default", { month: "long", locale: 'fr-FR' });
     const year = date.getFullYear();
     const hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, '0');
 
     const months = [
-      "Janvier",
-      "Février",
-      "Mars",
-      "Avril",
-      "Mai",
-      "Juin",
-      "Juillet",
-      "Août",
-      "Septembre",
-      "Octobre",
-      "Novembre",
-      "Décembre",
+      "Janvier","Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre",
     ];
 
     const formattedDate = `${day} ${months[monthIndex]} ${year} à ${hours}:${minutes}`;
     return `Le ${formattedDate}`;
   };
-
-
-
 
   const changePage = () => {
     navigation.navigate("Filter");
@@ -292,7 +250,6 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     setModalFilterVisible(!modalFilterVisible);
   };
 
-  //// map sur le tableau race qui viendra de la BDD pour afficher les marqueurs sur la MAP
   const allRaces = races.map((race, i) => {
     return (
       <Marker
@@ -305,21 +262,11 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
     );
   });
 
-
-  const onSwipe = ({ event }) => {
-    if (event.nativeEvent != null && event.nativeEvent.translationX != null) {
-      // Accessing the doubleValue() method on a non-null object reference
-      const translationX = event.nativeEvent.translationX.doubleValue();
-      // ...
-    }
-  }
-
   if (!hasPermission || !isFocused) {
     return <View />;
   }
   let testimage = user.image
 
-  ///generation aleatoir des photos de profils
   const randomizePhoto = () => {
 
     let genderdataphoto = []
@@ -338,21 +285,17 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
       default:
         console.log('error gender')
     }
-    // switch case pour selectionné dans quelle tableau le map random doit choisir la photo en rapport au genre de l utilisateur
     
     const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length); 
     
     const selectedPhoto = genderdataphoto[newPhotoIndex];
-//genere un index aleatoire pour prendre dans le tableau d url des avatars une nouvelle image
 
-//////// mise en forme de data avant d'envoyé la nouvelle url aleatoir en BDD
     const datas = {
       image: selectedPhoto,
       token: user.token,
     };
-    //console.log(selectedPhoto)
-    // console.log(user.token)
-    fetch(`${BACKEND_ADDRESS}/users/changesimageprofil`, { // envois de l'url en BDD
+   
+    fetch(`${BACKEND_ADDRESS}/users/changesimageprofil`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(datas),
@@ -361,7 +304,6 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
       .then((data) => {
         if (!data.result) {
           // console.log(data.error)
-
         } else {
           dispatch(updateImage(selectedPhoto));
           navigation.navigate("TabNavigator", { screen: "Map" });
@@ -369,34 +311,28 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
       })
   };
 
-  /// aller prendre la photo 
   const takePhoto = () => {
     navigation.navigate("SnapScreen");
   };
   return (
-
     <View style={styles.container}>
       <Pressable
         style={styles.filter}
-        onPress={changePage}
-      >
+        onPress={changePage}>
         <Image source={require("../assets/filter.png")} style={styles.icon} />
       </Pressable>
-
       <Pressable
         style={styles.buttonProfileModale}
-        onPress={() => setModalProfileVisible(true)}
-      >
+        onPress={() => setModalProfileVisible(true)}>
         <Image source={{ uri: testimage }} style={styles.profil} />
       </Pressable>
       <TouchableOpacity
         style={styles.button}
         onPress={() => handleCreateRace()}
-        activeOpacity={0.8}
-      >
+        activeOpacity={0.8}>
         <Text style={styles.textButton}>Créer une course</Text>
       </TouchableOpacity>
-
+      
       {currentPosition ? (
         <MapView
           ref={(map) => (mapRef = map)}
@@ -410,69 +346,51 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
             latitudeDelta: 0.0922,
             longitudeDelta: 0.021,
           }}
-          style={styles.map}
-        >
+          style={styles.map} >
           {currentPosition && (
             <Marker
               coordinate={currentPosition}
               title="Ma position"
-              pinColor="#474CCC"
-            />
-          )}
+              pinColor="#474CCC" />
+              )}
           {allRaces}
         </MapView>
       ) : (
         <View style={styles.load}>
           <Text style={styles.loadText}>Loading...</Text>
-        </View>
-      )}
+        </View>)}
       <TouchableOpacity
         style={styles.myLocationButton}
-        onPress={handleMyLocationPress}
-      >
-        {/* <Text style={styles.myLocationButtonText}>My Location</Text> */}
+        onPress={handleMyLocationPress}>
         <Image
           source={require("../assets/localisation.jpg")}
-          style={styles.localisation_icon}
-        />
+          style={styles.localisation_icon}/>
       </TouchableOpacity>
-
       <GestureRecognizer onSwipeDown={onSwipeDownFilter}>
         <Modal
           animationType="slide"
           transparent={true}
           visible={modalFilterVisible}
           onRequestClose={() => {
-            setModalFilterVisible(!modalFilterVisible);
-          }}
-        >
+            setModalFilterVisible(!modalFilterVisible)}}>
           <View style={styles.modalFilterView}>
             <Image
               source={require("../assets/user.png")}
-              style={styles.imgProfileModal}
-            />
+              style={styles.imgProfileModal}/>
           </View>
         </Modal>
       </GestureRecognizer>
-
-
       <Modal
         visible={selectedRace !== null}
         animationType="slide"
         transparent={true}
-        onRequestClose={handleCloseModalmarker}
-
-      >
-
+        onRequestClose={handleCloseModalmarker}>
         <View onPress={handleCloseModalmarker}
-          style={styles.centeredViewmarker}
-        >
+          style={styles.centeredViewmarker}>
           <View
-            style={styles.modalViewmarker}
-          >
+            style={styles.modalViewmarker}>
             <Text
-              style={{ fontSize: 18, fontWeight: "bold", margin: 8, }}
-            >
+              style={{ fontSize: 18, fontWeight: "bold", margin: 8, }}>
               {formatDate(selectedRace?.date)}
             </Text>
             <View style={{ flexDirection: "column" }}>
@@ -483,85 +401,52 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
                 Temps : {selectedRace?.duration} min
               </Text>
             </View>
-
             <View style={styles.viewmodalbtn}>
-
               <TouchableOpacity onPress={() => handleCloseModalgotorace(race)}>
                 <Text style={styles.modalbtngotorace}>Voir la course</Text>
               </TouchableOpacity>
-
-              <Text style={styles.test}>        </Text>
-
               <TouchableOpacity onPress={() => handleCloseModalmarker()}>
                 <Text style={styles.modalbtnReturn}>Fermer</Text>
               </TouchableOpacity>
-
             </View>
-
-
           </View>
         </View>
-
-
-
       </Modal>
-
       <GestureRecognizer onSwipeDown={onSwipeDown}>
         <Modal
           animationType="slide"
           transparent={true}
           visible={modalProfileVisible}
           onRequestClose={() => {
-            setModalProfileVisible(!modalProfileVisible);
-          }}
-        >
+            setModalProfileVisible(!modalProfileVisible)}} >
           <View style={styles.modalView}>
-
             <View style={styles.containertop}>
-
               <TouchableOpacity style={styles.buttonrefreshetphoto} onPress={() => randomizePhoto()}>
                 <FontAwesome5 name="undo" size={35} color="#474CCC" />
               </TouchableOpacity>
-
               <Image
                 source={{ uri: testimage }}
-                style={styles.imgProfileModal}
-              />
-
+                style={styles.imgProfileModal}/>
               <TouchableOpacity onPress={() => takePhoto()} style={styles.buttonrefreshetphoto} activeOpacity={0.8}>
                 <FontAwesome5 name="camera" size={35} color="#474CCC" />
               </TouchableOpacity>
             </View>
-
-
-
-
             <View style={styles.infosProfile}>
               <Text style={styles.textInfos}>{user.firstname}</Text>
-
               <Text style={styles.textInfos}>@{user.username}</Text>
-
-
               <Text style={styles.textInfos}>{user.email}</Text>
-
               <Text style={styles.textInfos}>{user.age} ans  </Text>
             </View>
-
             <TouchableOpacity
               style={styles.buttonProfileModif}
-              onPress={onChangeButtonPress}
-            >
+              onPress={() => onChangeButtonPress}>
               <Text style={styles.textStyle}>Changez votre profil</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
               style={styles.buttonLogout}
-              onPress={buttonLogout}
-            >
+              onPress={buttonLogout}>
               <Text style={styles.textStyle}>Déconnexion</Text>
             </TouchableOpacity>
-
-
           </View>
         </Modal>
       </GestureRecognizer>
@@ -570,12 +455,9 @@ Vous pouvez ensuite accéder à l'ID dans la nouvelle page en utilisant route.pa
 }
 
 const styles = StyleSheet.create({
-
   test: {
     color: 'white',
-
   },
-
 
   filter: {
     position: "absolute",
@@ -585,11 +467,12 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginLeft: 30,
-
   },
+
   container: {
     flex: 1,
   },
+
   buttons: {
     flex: 1,
     zIndex: 1,
@@ -597,21 +480,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+
   images: {
     flex: 1,
     width: Dimensions.get("window").width,
     paddingTop: 70,
   },
+
   buttonClose: {
     paddingTop: 30,
     margin: 15,
-
     backgroundColor: "red",
     borderRadius: 100,
     alignContent: "center",
     justifyContent: "center",
     height: Dimensions.get("window").height / 15,
   },
+
   button: {
     position: "absolute",
     width: Dimensions.get("window").width / 2,
@@ -624,6 +509,7 @@ const styles = StyleSheet.create({
     left: "25%",
     bottom: "2%",
   },
+
   imgProfileModal: {
     width: Dimensions.get("window").width / 3,
     height: Dimensions.get("window").width / 3,
@@ -632,29 +518,26 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     marginBottom: 30,
     marginHorizontal: 45,
-    // shadowOpacity: 0.9,
-    // shadowRadius: 4,
+    },
 
-  },
   buttonrefreshetphoto: {
     alignItems: 'flex-start',
-
   },
 
   containertop: {
-    // flex: 1,
     flexDirection: "row",
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   infosProfile: {
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
   },
+
   textInfos: {
     width: "70%",
-
     textAlign: "center",
     borderBottomColor: "#474CCC",
     borderBottomWidth: 1,
@@ -663,6 +546,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 15,
   },
+
   buttonProfileModif: {
     margin: 15,
     paddingTop: 12,
@@ -676,6 +560,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 10,
   },
+
   textStyle: {
     textAlign: 'center',
     color: '#ffffff',
@@ -683,20 +568,20 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 15,
   },
+
   textButton: {
     color: "#ffffff",
     height: 30,
     fontWeight: "600",
     fontSize: 15,
   },
-  // Bouton "Déconnexion"
+  
   buttonLogout: {
     margin: 15,
     paddingTop: 12,
     paddingLeft: 20,
     paddingRight: 20,
     backgroundColor: "red",
-    // backgroundColor: "#FF4800",
     borderRadius: 20,
     alignContent: 'center',
     justifyContent: 'center',
@@ -704,16 +589,19 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 10,
   },
+
   buttonProfileModale: {
     zIndex: 1,
     position: "absolute",
     top: "9%",
     right: "2%",
   },
+
   icon: {
     width: 50,
     height: 50,
   },
+
   profil: {
     width: 90,
     height: 90,
@@ -734,16 +622,17 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
   },
+
   map: {
     flex: 1,
   },
+
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
 
-  // la modal profil quand tu cliques sur l'image 
   modalView: {
     marginTop: 100,
     backgroundColor: 'white',
@@ -781,6 +670,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+
   input: {
     width: 150,
     borderBottomColor: "#474CCC",
@@ -792,6 +682,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 50,
   },
+
   myLocationButton: {
     flex: 1,
     justifyContent: "center",
@@ -806,6 +697,7 @@ const styles = StyleSheet.create({
     right: "4%",
     zIndex: 1,
   },
+
   centeredViewmarker: {
     flex: 1,
     justifyContent: 'center',
@@ -820,8 +712,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
-    },
+      height: 2,},
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
@@ -830,6 +721,7 @@ const styles = StyleSheet.create({
   viewmodalbtn: {
     flexDirection: "row",
   },
+
   modalbtngotorace: {
     padding: 10,
     color: 'white',
@@ -839,16 +731,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden',
   },
+
   modalbtnReturn: {
     padding: 10,
     color: '#474CCC',
     borderRadius: 10,
     borderWidth: 1,
-    // backgroundColor: '#fff',
     borderColor: "#474CCC",
     alignItems: 'center',
-    // shadowOpacity: 0.4,
-    // shadowRadius: 5,
-    // elevation: 10,
-  },
+     },
 });

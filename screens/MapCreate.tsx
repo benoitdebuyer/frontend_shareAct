@@ -9,7 +9,6 @@ import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
-//const BACKEND_ADDRESS = 'http://10.6.240.95:3000';
 
 export default function MapScreen() {
   const navigation = useNavigation();
@@ -23,8 +22,7 @@ export default function MapScreen() {
   const [address, setAddress] = useState('');
 
 
-  // API pour récupérer l'adresse du lieu cliqué, on récupère la latitude et la longitude pour que l'API détermine son adresse
-  useEffect(() => {
+useEffect(() => {
     if (tempCoordinates) {
       const getCityFromCoordinates = async () => {
         const apiUrl = `https://api-adresse.data.gouv.fr/reverse/?lon=${tempCoordinates.longitude}&lat=${tempCoordinates.latitude}`;
@@ -54,8 +52,7 @@ export default function MapScreen() {
     })();
 
   }, []);
-
-  // Bouton pour centrer la page à notre localisation 
+ 
   const handleMyLocationPress = () => {
     console.log(currentPosition)
     if (currentPosition) {
@@ -67,18 +64,15 @@ export default function MapScreen() {
     }
   };
 
-  // Bouton retour en arrière
   const handleBackPage = () => {
     navigation.navigate("TabNavigator", { screen: "Map" });
   }
 
-  // Permet de récupérer après un long clic la latitude et la longitude
   const handleLongPress = (e) => {
     setTempCoordinates(e.nativeEvent.coordinate);
     setModalVisible(true);
   };
 
-  // Bouton de confirmation dans la modal
   const handleConfirm = () => {
     setModalVisible(false);
     dispatch(updatenewracelat(tempCoordinates.latitude));
@@ -87,7 +81,6 @@ export default function MapScreen() {
     navigation.navigate('CreateRace', { coord: tempCoordinates });
   }
 
-  // Bouton pour quitter la modal
   const handleClose = () => {
     setModalVisible(false);
     setNewPlace('');
@@ -109,21 +102,17 @@ export default function MapScreen() {
                 <Text style={styles.textButton}>Annuler</Text>
               </TouchableOpacity>
             </View>
-
           </View>
         </View>
       </Modal>
-
       <View style={styles.information}>
         <Text style={styles.textInformation}>Appuie longuement sur la carte {"\n"} pour sélectionner ton lieu de départ </Text>
       </View>
-
       <TouchableOpacity
         style={styles.backPage}
         onPress={handleBackPage}>
         <FontAwesome5 name="angle-left" size={50} color="#474CCC" />
       </TouchableOpacity>
-
 
       {currentPosition ? (
         <MapView onLongPress={(e) => handleLongPress(e)}
@@ -159,14 +148,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  
   map: {
     flex: 1,
   },
+
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   modalView: {
     backgroundColor: 'white',
     borderRadius: 20,
@@ -181,15 +173,18 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+
   textAddress: {
     width: 150,
     fontSize: 18,
     textAlign: 'center',
   },
+
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
+
   button: {
     width: '40%',
     alignItems: 'center',
@@ -199,6 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#474CCC',
     borderRadius: 50,
   },
+
   textButton: {
     color: '#ffffff',
     height: 30,
@@ -206,6 +202,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingHorizontal: 15,
   },
+
   information: {
     position: 'absolute',
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -216,17 +213,20 @@ const styles = StyleSheet.create({
     zIndex: 1,
     bottom: '10%',
   },
+
   textInformation: {
     color: '#ffffff',
     fontSize: 18,
     padding: 5,
     textAlign: 'center',
   },
+
   localisation_icon: {
     width: 40,
     height: 40,
     borderRadius: 50,
   },
+
   myLocationButton: {
     flex: 1,
     justifyContent: 'center',
@@ -241,6 +241,7 @@ const styles = StyleSheet.create({
     right: '4%',
     zIndex: 1,
   },
+
   backPage: {
     flex: 1,
     justifyContent: 'center',

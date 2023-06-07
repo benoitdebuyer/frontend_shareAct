@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState} from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -6,15 +6,14 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 import Racecardtest from '../components/Racecard'
-
 
 const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
 
 export default function PlacesScreen() {
-  const dispatch = useDispatch();
+  
   const user = useSelector((state) => state.user.value);
   const isFocused = useIsFocused();
   const [racesUp, setRacesUp] = useState([]);
@@ -25,34 +24,27 @@ export default function PlacesScreen() {
     setShouldUpdate(prev => !prev);
   }
 
-  // usefeect qui permet quand on revient sur la page 'isFocused' de fech  les course add par l utilisateur 
   const token = user.token
   useEffect(() => {
-    // console.log('usertoken debut de l use effetc',token)
     if (isFocused) {
       fetch(`${BACKEND_ADDRESS}/users/add/${token}`)
         .then((response) => response.json())
         .then((data) => {
-          // console.log('data dans le fetch //////',data)
           setRacesUp(data.races);
 
         });
     }
   }, [isFocused, shouldUpdate]);
 
-///// mise en forme de la date
   const formatDate = (date) => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     const formattedDate = new Date(date).toLocaleString('fr-FR', options);
     return formattedDate;
   }
 
-///// map des course pour remplir les props qui viennent du composants racecard"test" ! 
   const allRacesUp = racesUp.map((race, i) => {
 
-   // console.log("/////////", race.author.image)
     const date = formatDate(race.date)
-    // console.log('date de race log',date)
     return (
       <Racecardtest
         onUpdate={handleUpdate}
@@ -69,17 +61,13 @@ export default function PlacesScreen() {
         _idRace={race._id}
         authorImage={race.author.image}
       />
-
     );
   });
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Mes courses</Text>
-
-
+      <Text style={styles.title}>Let's go !</Text>
       <ScrollView contentContainerStyle={styles.scrollView}>
-
         <View style={styles.viewcard}>
           {allRacesUp}
         </View>
@@ -91,24 +79,27 @@ export default function PlacesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#474CCC',
     alignItems: 'center',
+    marginTop: 35,
   },
+
   title: {
     width: '80%',
-    marginTop: 20,
+    margin: 20,
     textAlign: 'center',
     fontSize: 38,
     fontWeight: '600',
-    color: '#474CCC',
+    color: '#E1ECF4',
+    fontStyle:"italic",
   },
+
   scrollView: {
     alignItems: 'center',
     width: '85%',
   },
  
   viewcard: {
-    width: '100%',
+    width: '100%',  
   },
-
 });

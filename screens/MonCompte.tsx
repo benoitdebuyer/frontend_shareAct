@@ -5,9 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { updateUsername, updateFirstname, updateEmail, } from '../reducers/user'
 
-
-
-
 const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
 
 export default function MonCompte({ navigation }) {
@@ -35,13 +32,9 @@ export default function MonCompte({ navigation }) {
   };
 
 
-  // Bouton "Envoyer les modifications"
   const handleSendBdd = () => {
-
-    // console.log(firstname, username, email, image, user.token)
     if (firstname === null) {
       firstname = user.firstname
-
     }
     if (username === null) {
       username = user.username
@@ -49,7 +42,6 @@ export default function MonCompte({ navigation }) {
     if (email === null) {
       email = user.email
     }
-    // console.log(firstname, username, email, image, user.token)
 
     const datas = {
       firstname: firstname,
@@ -72,39 +64,24 @@ export default function MonCompte({ navigation }) {
           dispatch(updateFirstname(firstname));
           dispatch(updateUsername(username));
           dispatch(updateEmail(email));
-          // console.log("Hello BDD")
           navigation.navigate("TabNavigator", { screen: "Map" });
         }
       })
 
   }
-  // Bouton "Annuler"
   const handleReturn = () => {
-
     navigation.navigate("TabNavigator", { screen: "Map" });
   }
 
-  // aller prendre une photo ou generation aleatoir d image/////////////
   let testimage = user.image
-
-
-  ///generation aleatoir
-
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.container}>
-
-
         <View style={styles.containertop}>
-
           <Image source={{ uri: testimage }}
             style={styles.imgProfile} />
-
         </View>
-
-
-
         <View style={styles.boolean}>
           {showTextInputFirstname ? (
             <TextInput
@@ -121,9 +98,7 @@ export default function MonCompte({ navigation }) {
               </TouchableOpacity>
             </View>
           )}
-
         </View>
-
         <View style={styles.boolean}>
           {showTextInputUsername ? (
             <TextInput
@@ -140,9 +115,7 @@ export default function MonCompte({ navigation }) {
               </TouchableOpacity>
             </View>
           )}
-
         </View>
-
         <View style={styles.boolean}>
           {showTextInputEmail ? (
             <View style={styles.changeField}>
@@ -162,19 +135,14 @@ export default function MonCompte({ navigation }) {
             </View>
           )}
         </View>
-
-
         <TouchableOpacity style={styles.button} onPress={handleSendBdd} activeOpacity={0.8}>
           <Text style={styles.textButton} >Envoyer les modifications</Text>
         </TouchableOpacity>
-
         <TouchableOpacity style={styles.buttonQuit} onPress={handleReturn} activeOpacity={0.8}>
           <Text style={styles.textButton} >Annuler</Text>
         </TouchableOpacity>
-
       </View>
     </KeyboardAvoidingView>
-
   );
 }
 
@@ -186,11 +154,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   containertop: {
     flexDirection: "row",
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   imgProfile: {
     margin: 10,
     width: 140,
@@ -209,6 +179,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     marginRight: 31,
   },
+
   textInfos: {
     width: '50%',
     textAlign: 'center',
@@ -220,28 +191,27 @@ const styles = StyleSheet.create({
     height: 30,
     fontWeight: '600',
   },
+
   boolean: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'baseline',
     margin: 15,
-
   },
+
   changeField: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
   },
 
-  // Icon Fontawesome5
   buttonChangeOne: {
     width: Dimensions.get("window").width / 13,
     height: Dimensions.get("window").width / 13,
     paddingLeft: 7,
     paddingTop: 8,
   },
-
 
   button: {
     margin: 15,

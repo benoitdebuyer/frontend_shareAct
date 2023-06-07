@@ -12,10 +12,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export default function SnapScreen({navigation}) {
   const BACKEND_ADDRESS = "https://backend-share-act.vercel.app/";
-  // const BACKEND_ADDRESS = "http://localhost:3000";
-  // mettre a jour localhost avec expo
-
-
+  
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.value);
@@ -29,8 +26,7 @@ export default function SnapScreen({navigation}) {
 
   let cameraRef: any = useRef(null);
 
-  //////////////  demande et attent l autorisation d utiliser la camera
-  useEffect(() => {
+   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");
@@ -38,27 +34,21 @@ export default function SnapScreen({navigation}) {
     
   }, []);
 
-  // si il il n'a pas la permition et si il n'est pas sur la page, affiche une page blanche 
   if (!hasPermission || !isFocused) {
     return <View />;
   }
 
-  // prise de la photo
   const takePicture = async () => {
     const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
     const formData = new FormData();
-    setcerclecolor('#e8be4b') // setter pour que quand il click sur la prise de photo la couleur du cercle change
-// c'est un indicateur d'action pour l utilisateur 
+    setcerclecolor('#e8be4b') 
 
-// crée un formdata avec les données de l'image prise
     formData.append("photoFromFront", {
       uri: photo.uri,
       name: "photo.jpg",
       type: "image/jpeg",
     });
-   // console.log('log arrivé SNAP', user)
 
-   // envois du formData au backend 
     fetch(`${BACKEND_ADDRESS}/users/upload`, {
       method: "POST",
       body: formData,
@@ -66,17 +56,14 @@ export default function SnapScreen({navigation}) {
       .then((response) => response.json())
       .then((data) => {
 
-        //rempli le reducer image de l utilisateur
-        // quand on a recu le retour de cloudinary ( nouvelle url)
         dispatch(updateImage(data.image))
         if (data.result){
 
-          // cloudinary nous a envoyé l url on va preparer le fichier a envoyé en BDD 
 const datas = {
   image: data.image,
   token: user.token,
 };
-// fetch a la BDD de l'url et le token pour pouvoir retrouvé à qui attribué l'url 
+
 fetch(`${BACKEND_ADDRESS}/users/changesprofil`, {
   method: "PUT",
   headers: { "Content-Type": "application/json" },
@@ -99,9 +86,6 @@ fetch(`${BACKEND_ADDRESS}/users/changesprofil`, {
      
   };
 
-  //console.log('console.log hors de des fonction direct sur la page de USER.image',user.image)
-
-//////// diverse modification de couleur des icons de la camera
   let colorflashmode = '#000000'
   
   if (flashMode === FlashMode.off) {
@@ -122,7 +106,6 @@ fetch(`${BACKEND_ADDRESS}/users/changesprofil`, {
     colorwhitebalance = '#e8be4b'
   };
 
-
   return (
     <Camera
       type={type}
@@ -130,34 +113,22 @@ fetch(`${BACKEND_ADDRESS}/users/changesprofil`, {
       ref={(ref) => (cameraRef = ref)}
       style={styles.camera}
       pictureSize='640x480' 
-      whiteBalance={cloudoMode}
-    >
+      whiteBalance={cloudoMode}>
       <View style={styles.buttonsContainer}>
-      
-      <TouchableOpacity
-         onPress={() => setCloudoMode(
+        <TouchableOpacity
+          onPress={() => setCloudoMode(
           cloudoMode === WhiteBalance.auto ? WhiteBalance.fluorescent : WhiteBalance.auto)}>
-         
-
-        <FontAwesome5 name={nameicone} size={40} color={cloudoMode === WhiteBalance.auto ? "#ffffff" : "#e8be4b"}
-        
-              />
+            <FontAwesome5 name={nameicone} size={40} color={cloudoMode === WhiteBalance.auto ? "#ffffff" : "#e8be4b"}/>
         </TouchableOpacity>
-        
-
         <TouchableOpacity
           onPress={() =>
             setFlashMode(
-              flashMode === FlashMode.off ? FlashMode.torch : FlashMode.off
-            )
-          }
-          style={styles.button}
-        >
+              flashMode === FlashMode.off ? FlashMode.torch : FlashMode.off)}
+          style={styles.button}>
           <FontAwesome
             name="flash"
             size={40}
-            color={flashMode === FlashMode.off ? "#ffffff" : "#e8be4b"}
-          />
+            color={flashMode === FlashMode.off ? "#ffffff" : "#e8be4b"}/>
         </TouchableOpacity>
       </View>
 

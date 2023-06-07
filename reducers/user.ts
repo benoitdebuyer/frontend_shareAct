@@ -37,7 +37,6 @@ export const userSlice = createSlice({
       state.value.firstname = action.payload;
       state.value.username = action.payload;
       state.value.email = action.payload;
-     // state.value.image = action.payload;
       state.value.age = action.payload;
       state.value.gender = action.payload;
       state.value.datebirth = action.payload;

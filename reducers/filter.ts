@@ -1,14 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
-  
 const initialState = {
     value: {
     valeur: [5,60],
     distance: 10000,
-    modale:true,
-   
-  
+    modale:true, 
 }}
 
 export const filterSlice = createSlice({
@@ -17,19 +13,14 @@ export const filterSlice = createSlice({
   reducers: {
     addFilter: (state, action) => {
       state.value.valeur = action.payload;
-      //console.log('filter',state.value.valeur)
       
     },
     addFilter2: (state, action) => {
         state.value.distance = action.payload;
-        //console.log('filter2',state.value.distance)
     
   },
   addModale:(state, action) => {
-    state.value.modale = action.payload;
-    //console.log('modale',state.value.modale)
-
-},
+    state.value.modale = action.payload },
 }
 });
 

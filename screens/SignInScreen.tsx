@@ -12,18 +12,12 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-
 import { updateFirstname, updateToken, updateUsername, updateEmail, updateImage, updateAge, updateGender, updateDatebirth } from '../reducers/user';
-
-
 
 // Grabbed from emailregex.com
 const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
-
-
-
 
 const calculateAge = (dateOfBirth)  =>{
   console.log(dateOfBirth)
@@ -34,20 +28,16 @@ const calculateAge = (dateOfBirth)  =>{
 
 export const exportedForTesting = {
   calculateAge
-    
   }
 
-
 export default function HomeScreen({ navigation }) {
-
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
-  // pour cacher ou afficher le mot de passe
   const [hidePassword, setHidePassword] = useState(true);
 
-/// envois vers la BDD pour verifier si le mdp et l'email sont valide
+// bdd check
   const handleSubmit = () => {
     fetch(`${BACKEND_ADDRESS}/users/signin`, {
       method: "POST",
@@ -59,7 +49,7 @@ export default function HomeScreen({ navigation }) {
         if (!data.result) {
           setEmailError(true);
         } else {
-          //rechargement des reducers une fois les information possitive de la BDD recu
+          // reducers
           dispatch(updateFirstname(data.firstname));
           dispatch(updateUsername(data.username));
           dispatch(updateToken(data.token));
@@ -67,7 +57,7 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateGender(data.gender));
           dispatch(updateDatebirth(data.age));
           dispatch(updateImage(data.image));
-          //  appel de la fonction calculateAge qui calcule l'age par rapport à la date de naissance.
+
           const agecalculated = calculateAge(new Date(data.age));
           dispatch(updateAge(agecalculated))
 
@@ -76,49 +66,29 @@ export default function HomeScreen({ navigation }) {
       })
   }
 
-
-// fonction calculateAge qui calcule l'age par rapport à la date de naissance.
-
-  // const calculateAge = (dateOfBirth) => {
-  //   const diff = Date.now() - dateOfBirth.getTime();
-  //   const ageDate = new Date(diff);
-  //   return Math.abs(ageDate.getUTCFullYear() - 1970);
-  // };
-  
-
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-    
       <Text style={styles.title}>Connexion</Text>
       <Image style={styles.image} source={require('../assets/shareact-white.png')} />
-
-
       <TextInput placeholder="Email" onChangeText={(value) => setEmail(value)} value={email} keyboardType="email-address" style={styles.input} />
-
-
       <View style={styles.inputContainer}>
         <TextInput placeholder="Password" onChangeText={(value) => setPassword(value)} value={password} style={styles.inputPassword} secureTextEntry={hidePassword} />
         <TouchableOpacity
           onPress={() => setHidePassword(!hidePassword)}
           activeOpacity={0.8}
-          style={styles.iconButton}
-        >
+          style={styles.iconButton}>
           <FontAwesome5 name={hidePassword ? "eye-slash" : "eye"} size={20} color="#474CCC" />
         </TouchableOpacity>
       </View>
 
-
       {emailError && <Text style={styles.error}>L'adresse e-mail ou le mot de passe est incorrect</Text>}
-
-
+      
       <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>Se connecter</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   )
 }
-
-
 
 const styles = StyleSheet.create({
   container: {

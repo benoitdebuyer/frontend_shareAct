@@ -64,43 +64,27 @@ export default function HomeScreen({ navigation }) {
   const [ageaddinput, setageaddinput] = useState(false);
   const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
   
-
-  /* a la validation verifie la forme du mail sinon error
-  apres il verifie que les differents argument sont bien rempli ( name, age etc. )
-
-  */
   const handleSubmit = () => {
-    // console.log(user)
-    // console.log(`state firstname ${firstname}  username ${username} age ${age} mdp: ${mdp} mdp2: ${mdp2} gender ${gender} email ${email} dateof ${dateOfBirth} `)
     if (!EMAIL_REGEX.test(email)) {
       setConnectionError(true);
       return;
     }
     if (mdp == mdp2 && firstname && username && email && gender && age) {
       let genderdataphoto = []
-
       switch (gender) {
-
         case 'Femme': genderdataphoto = photosDatawoman
           break;
-
         case 'Homme': genderdataphoto = photosDataman
           break;
-
         case 'Autre': genderdataphoto = photosDataall
           break;
-
         default:
-          // console.log('error gender')
       }
-// en rapport au genre selectionné via le switch case va selectionné le tableau d url a utilisé
-// et prend un index aleatoir pour appliqué l irl en photo de profils
-
 
       const newPhotoIndex = Math.floor(Math.random() * genderdataphoto.length);
       const selectedPhoto = genderdataphoto[newPhotoIndex];
 
-      // envois des differente information en BDD 
+      // sending to bdd
       fetch('https://backend-share-act.vercel.app//users/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -116,23 +100,21 @@ export default function HomeScreen({ navigation }) {
           dispatch(updateToken(data.token))
           dispatch(updateImage(selectedPhoto))
         });
-// remplis les reducers 
       navigation.navigate("TabNavigator", { screen: "Map" });
 
     } else {
       setConnectionError(!connectionError)
     }
   }
-// affiche de calandrier
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
-  //masque le calandrier
+  
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
 
-  // quand on ferme le calandrier recupere la date et la transforme en age
   const handleConfirm = (date) => {
     const seleteddate = date
     const calculateAge = (date) => {
@@ -141,8 +123,8 @@ export default function HomeScreen({ navigation }) {
       return Math.abs(ageDate.getUTCFullYear() - 1970);
     };
     const ageadd = calculateAge(seleteddate);
-    dispatch(updateAge(ageadd)) // une fois l'age calculé le reducer et rempli
-    setDateOfBirth(date)// la date brute et save dans l etat pour l envoyé en BDD  au moment du fetch
+    dispatch(updateAge(ageadd))
+    setDateOfBirth(date)
     setAge(ageadd)
     setageaddinput(true)
     hideDatePicker();
@@ -151,33 +133,25 @@ export default function HomeScreen({ navigation }) {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Text style={styles.title}>Inscription</Text>
-
       <TextInput placeholder="Prénom:" onChangeText={(value) => setFirstname(value)} value={firstname} style={styles.input} />
       <TextInput placeholder="Pseudo:" onChangeText={(value) => setUsername(value)} value={username} style={styles.input} />
       <TextInput placeholder="Email:" onChangeText={(value) => setEmail(value)} keyboardType="email-address" value={email} style={styles.input} />
       <View style={styles.inputContainer}>
         <TextInput placeholder="Password" onChangeText={(value) => setMdp(value)} value={mdp} style={styles.inputPassword} secureTextEntry={showPassword} />
-
       </View>
-
       <View style={styles.inputContainer}>
         <TextInput placeholder="Confirmer le mot de passe" onChangeText={(value) => setMdp2(value)}
           value={mdp2} style={styles.inputPassword} secureTextEntry={showPassword} />
-
         <TouchableOpacity
           onPress={() => setShowPassword(!showPassword)}
           activeOpacity={0.8}
-          style={styles.iconButton}
-        >
+          style={styles.iconButton}>
           <FontAwesome5 name={showPassword ? "eye" : "eye-slash"} size={20} color="#474CCC" /> 
         </TouchableOpacity>
       </View>
-
-
       <View style={styles.genderContainer}>
         <TouchableOpacity onPress={() => setGender('Homme')} style={[styles.genderButton, gender === 'Homme' && styles.genderButtonSelected]}>
           <Text style={styles.genderButtonText}>Homme</Text>
-
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setGender('Femme')} style={[styles.genderButton, gender === 'Femme' && styles.genderButtonSelected]}>
           <Text style={styles.genderButtonText}>Femme</Text>
@@ -186,29 +160,21 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.genderButtonText}>Autre</Text>
         </TouchableOpacity>
       </View>
-
-
-
-
-
       <View style={styles.containercalandarm}>
         <TouchableOpacity onPress={showDatePicker} style={styles.buttoncalandarm}>
           {ageaddinput ? <Text style={styles.buttonTextcalandarm}>Vous avez {user.age} ans</Text> : <Text style={styles.buttonTextcalandarm}>Date de naissance : </Text>}
         </TouchableOpacity>
-
         <Modal
           animationType="slide"
           transparent={true}
           visible={isDatePickerVisible}
-          onRequestClose={hideDatePicker}
-        >
+          onRequestClose={hideDatePicker}>
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
             mode="date"
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}
-            locale="fr_FR"
-          />
+            locale="fr_FR"/>
         </Modal>
       </View>
 
@@ -330,7 +296,6 @@ const styles = StyleSheet.create({
     color: '#474CCC',
   },
 
-  // Avatar
   avatarContainer: {
     flexDirection: 'row',
     marginTop: 25,
@@ -343,12 +308,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
 
-
-  avatarButton: {
-    // borderBottomColor: 'red',
-    // borderWidth: 2,
-    // borderRadius: 100,
-  },
   photoAvatar: {
     width: 100,
     height: 100,
@@ -379,6 +338,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     height: 30,
   },
-
-
 });

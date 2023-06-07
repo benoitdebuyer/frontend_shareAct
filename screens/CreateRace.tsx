@@ -3,12 +3,11 @@ import { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector} from 'react-redux';
-import RNPickerSelect from 'react-native-picker-select'; // boite de selection à choix multiple
-import DateTimePickerModal from "react-native-modal-datetime-picker"; // modal avec le calendrier
+import RNPickerSelect from 'react-native-picker-select';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
 const BACKEND_ADDRESS = 'https://backend-share-act.vercel.app/';
-// const BACKEND_ADDRESS = 'http://10.6.23.18:3000';
 
 export default function CreateRace() {
   const user = useSelector((state) => state.user.value);
@@ -24,13 +23,10 @@ export default function CreateRace() {
   const [dateInput, setDateInput] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-
-  // Description
   const handleDescriptionChange = (text) => {
     setDescription(text);
   };
 
-  // Pour la sélection de la date et de l'heure
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -43,24 +39,20 @@ export default function CreateRace() {
     setDateInput(true)
   };
 
-  // Durée
   const handleDurationChange = (text) => {
     setDuration(text.replace(/[^0-9]/g, '').slice(0, 3));
   };
 
-  // Distance
   const handleDistanceChange = (text) => {
     setDistance(text.replace(/[^0-9]/g, '').slice(0, 2));
   };
 
-  // Bouton de validation créer ma course
   const handleCreate = () => {
     const date = new Date(dateRace);
     const durationNumber = Number(duration);
     const distanceNumber = Number(distance);
     const nbrParticipantsNumber = Number(nbrParticipants);
     const data = { token: user.token, description: description, date: date, address: race.newAddress, latitude: race.newracelat, longitude: race.newracelon, duration: durationNumber, distance: distanceNumber, level: level, maxParticipants: nbrParticipantsNumber };
-    //console.log('verification de la date qui sera envoyé au back et presente ',data);
 
     fetch(`${BACKEND_ADDRESS}/races`, {
       method: 'POST',
@@ -202,7 +194,7 @@ const styles = StyleSheet.create({
     color: '#474CCC',
     textAlign: 'center',
   },
-  // Description
+
   textInput: {
     justifyContent: 'center',
     alignContent: 'center',
@@ -218,7 +210,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 15,
   },
-  // Adresse du parcours
+ 
   titleAddress: {
     marginTop: 20,
     textAlign: 'center',
@@ -237,7 +229,7 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
     fontSize: 16,
   },
-  // Durée et distance
+
   inputView: {
     flexDirection: "row",
     marginTop: 10,
@@ -259,7 +251,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingBottom: 6,
   },
-  // Niveau et Nombre de participants
+
   selectView: {
     marginTop: 20,
     borderWidth: 1,
@@ -268,14 +260,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 15,
   },
-  // Date et heure
+
   buttonDateText: {
     color: 'black',
     textAlign: 'center',
     height: 18,
   },
 
-  // Bouton créer ma course
   button: {
     width: '70%',
     alignItems: 'center',
@@ -295,7 +286,6 @@ const styles = StyleSheet.create({
 
 })
 
-// Pour les sélections "niveau" et "nombre maximum de participants"
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 16,
